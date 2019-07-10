@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textViewRound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="15"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewPlayer1Score"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="-20"
+        app:layout_constraintStart_toEndOf="@+id/textViewRound"
+        app:layout_constraintTop_toTopOf="@+id/textViewRound" />
+
+    <TextView
+        android:id="@+id/textViewPlayer1Guess"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="10"
+        app:layout_constraintStart_toEndOf="@+id/textViewPlayer1Score"
+        app:layout_constraintTop_toTopOf="@+id/textViewPlayer1Score" />
+
+    <TextView
+        android:id="@+id/textViewPlayer2Score"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="-20"
+        app:layout_constraintStart_toEndOf="@+id/textViewPlayer1Guess"
+        app:layout_constraintTop_toTopOf="@+id/textViewPlayer1Guess" />
+
+    <TextView
+        android:id="@+id/textViewPlayer2Guess"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="10"
+        app:layout_constraintStart_toEndOf="@+id/textViewPlayer2Score"
+        app:layout_constraintTop_toTopOf="@+id/textViewPlayer2Score" />
+
+    <TextView
+        android:id="@+id/textViewPlayer3Score"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="-20"
+        app:layout_constraintStart_toEndOf="@+id/textViewPlayer2Guess"
+        app:layout_constraintTop_toTopOf="@+id/textViewPlayer2Guess" />
+
+    <TextView
+        android:id="@+id/textViewPlayer3Guess"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="10"
+        app:layout_constraintStart_toEndOf="@+id/textViewPlayer3Score"
+        app:layout_constraintTop_toTopOf="@+id/textViewPlayer3Score" />
+
+    <TextView
+        android:id="@+id/textViewPlayer4Score"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="-20"
+        app:layout_constraintStart_toEndOf="@+id/textViewPlayer3Guess"
+        app:layout_constraintTop_toTopOf="@+id/textViewPlayer3Guess" />
+
+    <TextView
+        android:id="@+id/textViewPlayer4Guess"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="10"
+        app:layout_constraintStart_toEndOf="@+id/textViewPlayer4Score"
+        app:layout_constraintTop_toTopOf="@+id/textViewPlayer4Score" />
+
+    <TextView
+        android:id="@+id/textViewPlayer5Score"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="-20"
+        app:layout_constraintStart_toEndOf="@+id/textViewPlayer4Guess"
+        app:layout_constraintTop_toTopOf="@+id/textViewPlayer4Guess" />
+
+    <TextView
+        android:id="@+id/textViewPlayer5Guess"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="10"
+        app:layout_constraintStart_toEndOf="@+id/textViewPlayer5Score"
+        app:layout_constraintTop_toTopOf="@+id/textViewPlayer5Score" />
+
+    <TextView
+        android:id="@+id/textViewPlayer6Score"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="-20"
+        app:layout_constraintStart_toEndOf="@+id/textViewPlayer5Guess"
+        app:layout_constraintTop_toTopOf="@+id/textViewPlayer5Guess" />
+
+    <TextView
+        android:id="@+id/textViewPlayer6Guess"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="10"
+        app:layout_constraintStart_toEndOf="@+id/textViewPlayer6Score"
+        app:layout_constraintTop_toTopOf="@+id/textViewPlayer6Score" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

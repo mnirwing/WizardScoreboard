@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Wizard Scoreboard</string>
+  <string name="buttonGameBid">Bid</string>
+  <string name="buttonGameTricks">Tricks</string>
+</resources>
