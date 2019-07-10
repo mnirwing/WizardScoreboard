@@ -35,7 +35,7 @@ public class DataHolder {
     }
 
     public void addGame(Game game) {
-        this.games.add(game);
+        this.getGames().add(game);
     }
 
     public List<Player> getPlayers() {
@@ -46,7 +46,7 @@ public class DataHolder {
     }
 
     public void addPlayer(Player player) {
-        this.players.add(player);
+        this.getPlayers().add(player);
     }
 
 //    public static ArrayList<Question> getActiveQuestions() {

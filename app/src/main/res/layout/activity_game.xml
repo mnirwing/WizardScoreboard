@@ -17,7 +17,7 @@
       app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/textViewGamePlayer4"
-      tools:listitem="@layout/layout_game_listitem"/>
+      tools:listitem="@layout/layout_game_6player_listitem"/>
     <TextView
       android:id="@+id/textViewGamePlayer1"
       android:layout_width="wrap_content"

@@ -9,7 +9,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.mnirwing.wizardscoreboard.R;
+import com.mnirwing.wizardscoreboard.data.Game;
+import com.mnirwing.wizardscoreboard.data.Move;
 import com.mnirwing.wizardscoreboard.data.Player;
+import com.mnirwing.wizardscoreboard.data.Round;
+
 
 public class GameActivity extends AppCompatActivity {
 
@@ -27,6 +31,7 @@ public class GameActivity extends AppCompatActivity {
 
 
   private Player[] playersInGame;
+  private Game game;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,7 @@ public class GameActivity extends AppCompatActivity {
 
     Intent intent = getIntent();
     playersInGame = (Player[]) intent.getExtras().get("players");
+    game = (Game) intent.getExtras().get("game");
 
     textViewGamePlayer1 = findViewById(R.id.textViewGamePlayer1);
     textViewGamePlayer2 = findViewById(R.id.textViewGamePlayer2);
@@ -68,9 +74,28 @@ public class GameActivity extends AppCompatActivity {
 
     GameAdapter adapter = new GameAdapter(playersInGame);
     recyclerView.setAdapter(adapter);
+
+    // add a dialog to set the player bids
+    buttonGameBid.setOnClickListener(view -> {
+        createMoves();
+    });
+
+    // add a dialog to set the player tricks
+    buttonGameTricks.setOnClickListener(view -> {
+      Move move1 = new Move(playersInGame[0].getId(), game.getId(), (int) (Math.random() + 1) );
+      Move move2 = new Move(playersInGame[1].getId(), game.getId(), (int) (Math.random() + 1) );
+      Move move3 = new Move(playersInGame[2].getId(), game.getId(), (int) (Math.random() + 1) );
+      Move move4 = new Move(playersInGame[3].getId(), game.getId(), (int) (Math.random() + 1) );
+      Move move5 = new Move(playersInGame[4].getId(), game.getId(), (int) (Math.random() + 1) );
+      Move move6 = new Move(playersInGame[5].getId(), game.getId(), (int) (Math.random() + 1) );
+      Round round = new Round();
+      round.addMove(move1, move2, move3, move4, move5, move6);
+      game.addRound(round);
+      adapter.addRound(round);
+    });
   }
 
+  private void createMoves() {
 
-  private void getPlayersInGame() {
   }
 }

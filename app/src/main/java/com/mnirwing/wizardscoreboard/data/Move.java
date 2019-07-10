@@ -1,27 +1,26 @@
 package com.mnirwing.wizardscoreboard.data;
 
+import java.util.UUID;
+
 public class Move {
 
-  private int id;
+  private UUID id;
 
-  private int playerId;
+  private UUID playerId;
 
-  private int gameId;
+  private UUID gameId;
 
   private int guess;
 
   private int score;
 
-  private int round;
-
-  public Move(int playerId, int gameId, int guess, int round) {
+  public Move(UUID playerId, UUID gameId, int guess) {
     this.playerId = playerId;
     this.gameId = gameId;
-    this.round = round;
     this.guess = guess;
   }
 
-  public void setId(int id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -29,15 +28,15 @@ public class Move {
     this.score = score;
   }
 
-  public int getId() {
+  public UUID getId() {
     return id;
   }
 
-  public int getPlayerId() {
+  public UUID getPlayerId() {
     return playerId;
   }
 
-  public int getGameId() {
+  public UUID getGameId() {
     return gameId;
   }
 
@@ -47,9 +46,5 @@ public class Move {
 
   public int getScore() {
     return score;
-  }
-
-  public int getRound() {
-    return round;
   }
 }

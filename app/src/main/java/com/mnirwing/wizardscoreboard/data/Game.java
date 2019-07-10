@@ -1,11 +1,14 @@
 package com.mnirwing.wizardscoreboard.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-public class Game {
+public class Game implements Serializable {
 
   private UUID id;
 
@@ -18,7 +21,10 @@ public class Game {
 
   private Date createdAt;
 
-  private List<Move> moves = new ArrayList<>();
+  private boolean isFinished;
+  private boolean isCurrentGame;
+
+  private List<Round> rounds = new ArrayList<>();
 
   public Game(UUID player1Id, UUID player2Id, UUID player3Id, UUID player4Id, UUID player5Id,
       UUID player6Id) {
@@ -29,6 +35,8 @@ public class Game {
     this.player4Id = player4Id;
     this.player5Id = player5Id;
     this.player6Id = player6Id;
+    this.isFinished = false;
+    this.isCurrentGame = false;
   }
 
   public UUID getId() {
@@ -69,5 +77,31 @@ public class Game {
 
   public void setCreatedAt(Date createdAt) {
     this.createdAt = createdAt;
+  }
+
+  public void addRound(Move...moves) {
+    Round round = new Round();
+    round.addMove(moves);
+    this.rounds.add(round);
+  }
+
+  public void addRound(Round round) {
+    this.rounds.add(round);
+  }
+
+  public boolean isFinished() {
+    return isFinished;
+  }
+
+  public boolean isCurrentGame() {
+    return isCurrentGame;
+  }
+
+  public void setFinished(boolean isFinished) {
+    this.isFinished = isFinished;
+  }
+
+  public void setCurrentGame(boolean isCurrentGame) {
+    this.isCurrentGame = isCurrentGame;
   }
 }
