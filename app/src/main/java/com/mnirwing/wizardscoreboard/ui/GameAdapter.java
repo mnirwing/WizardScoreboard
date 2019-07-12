@@ -50,6 +50,12 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
         holder.textViewPlayer4Guess.setText("" + currentRound.getMoves().get(3).getGuess());
         holder.textViewPlayer5Guess.setText("" + currentRound.getMoves().get(4).getGuess());
         holder.textViewPlayer6Guess.setText("" + currentRound.getMoves().get(5).getGuess());
+        holder.textViewPlayer1Score.setText("" + currentRound.getMoves().get(0).getScore());
+        holder.textViewPlayer2Score.setText("" + currentRound.getMoves().get(1).getScore());
+        holder.textViewPlayer3Score.setText("" + currentRound.getMoves().get(2).getScore());
+        holder.textViewPlayer4Score.setText("" + currentRound.getMoves().get(3).getScore());
+        holder.textViewPlayer5Score.setText("" + currentRound.getMoves().get(4).getScore());
+        holder.textViewPlayer6Score.setText("" + currentRound.getMoves().get(5).getScore());
     }
 
     @Override
@@ -58,8 +64,17 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
     }
 
     public void addRound(Round round) {
+        Log.d(TAG, "addRound: " + round);
         this.rounds.add(round);
-        notifyDataSetChanged();
+        notifyItemInserted(rounds.size() - 1);
+    }
+
+    public void updateCurrentRound(Round updatedRound) {
+        Log.d(TAG, "updateCurrentRound: " + updatedRound);
+        this.rounds.remove(rounds.size() - 1);
+        this.rounds.add(updatedRound);
+        notifyItemChanged(rounds.size() - 1);
+        //notifyDataSetChanged();
     }
 
     class GameHolder extends RecyclerView.ViewHolder {

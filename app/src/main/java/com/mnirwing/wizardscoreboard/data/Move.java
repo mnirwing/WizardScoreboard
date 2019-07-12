@@ -47,4 +47,14 @@ public class Move {
   public int getScore() {
     return score;
   }
+
+  @Override
+  public String toString() {
+    return "Move{" +
+            ", pId=" + playerId +
+            ", gId=" + gameId +
+            ", " + guess +
+            "/ " + score +
+            '}';
+  }
 }

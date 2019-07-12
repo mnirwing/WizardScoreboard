@@ -3,9 +3,7 @@ package com.mnirwing.wizardscoreboard.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class Game implements Serializable {
@@ -81,7 +79,7 @@ public class Game implements Serializable {
 
   public void addRound(Move...moves) {
     Round round = new Round();
-    round.addMove(moves);
+    round.addMoves(moves);
     this.rounds.add(round);
   }
 
