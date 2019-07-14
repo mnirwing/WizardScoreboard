@@ -2,6 +2,7 @@ package com.mnirwing.wizardscoreboard.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -45,6 +46,10 @@ public class Game implements Serializable {
     this.id = id;
   }
 
+  public List<UUID> getPlayerIds() {
+    return Arrays.asList(player1Id, player2Id, player3Id, player4Id, player5Id, player6Id);
+  }
+
   public UUID getPlayer1Id() {
     return player1Id;
   }
@@ -81,6 +86,14 @@ public class Game implements Serializable {
     Round round = new Round();
     round.addMoves(moves);
     this.rounds.add(round);
+  }
+
+  public Round getCurrentRound() {
+    return this.rounds.get(rounds.size() - 1);
+  }
+
+  public List<Round> getRounds() {
+    return rounds;
   }
 
   public void addRound(Round round) {

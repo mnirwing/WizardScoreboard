@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         data = DataHolder.getInstance();
         if (!data.isLoaded()) {
             data.load(this);
-            if(DataHolder.getInstance().getPlayers().isEmpty()) {
+            if(data.getPlayers() != null && data.getPlayers().isEmpty()) {
                 loadSampleData();
             }
             data.setInitialLoad(true);

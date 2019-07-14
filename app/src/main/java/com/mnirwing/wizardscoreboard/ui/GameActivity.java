@@ -2,6 +2,7 @@ package com.mnirwing.wizardscoreboard.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,10 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mnirwing.wizardscoreboard.R;
+import com.mnirwing.wizardscoreboard.data.DataHolder;
 import com.mnirwing.wizardscoreboard.data.Game;
 import com.mnirwing.wizardscoreboard.data.Move;
 import com.mnirwing.wizardscoreboard.data.Player;
 import com.mnirwing.wizardscoreboard.data.Round;
+import java.util.List;
 
 
 public class GameActivity extends AppCompatActivity {
@@ -32,18 +35,20 @@ public class GameActivity extends AppCompatActivity {
     private Button buttonGameTricks;
 
 
-    private Player[] playersInGame;
+    private List<Player> playersInGame;
     private Game game;
     private Round currentRound;
+
+    private DataHolder data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        data  = DataHolder.getInstance();
 
-        Intent intent = getIntent();
-        playersInGame = (Player[]) intent.getExtras().get("players");
-        game = (Game) intent.getExtras().get("game");
+        game = data.getCurrentGame();
+        playersInGame = data.getPlayersById(game.getPlayerIds());
 
         textViewGamePlayer1 = findViewById(R.id.textViewGamePlayer1);
         textViewGamePlayer2 = findViewById(R.id.textViewGamePlayer2);
@@ -55,20 +60,20 @@ public class GameActivity extends AppCompatActivity {
         buttonGameBid = findViewById(R.id.buttonGameBid);
         buttonGameTricks = findViewById(R.id.buttonGameTricks);
 
-        textViewGamePlayer1.setText(playersInGame[0].getName());
-        textViewGamePlayer2.setText(playersInGame[1].getName());
-        textViewGamePlayer3.setText(playersInGame[2].getName());
-        textViewGamePlayer4.setText(playersInGame[3].getName());
+        textViewGamePlayer1.setText(playersInGame.get(0).getName());
+        textViewGamePlayer2.setText(playersInGame.get(1).getName());
+        textViewGamePlayer3.setText(playersInGame.get(2).getName());
+        textViewGamePlayer4.setText(playersInGame.get(3).getName());
 
-        if (playersInGame.length < 5) {
+        if (playersInGame.size() < 5) {
             textViewGamePlayer5.setVisibility(View.GONE);
             textViewGamePlayer6.setVisibility(View.GONE);
-        } else if (playersInGame.length == 5) {
+        } else if (playersInGame.size() == 5) {
             textViewGamePlayer6.setVisibility(View.GONE);
-            textViewGamePlayer5.setText(playersInGame[4].getName());
-        } else if (playersInGame.length == 6) {
-            textViewGamePlayer5.setText(playersInGame[4].getName());
-            textViewGamePlayer6.setText(playersInGame[5].getName());
+            textViewGamePlayer5.setText(playersInGame.get(4).getName());
+        } else if (playersInGame.size() == 6) {
+            textViewGamePlayer5.setText(playersInGame.get(4).getName());
+            textViewGamePlayer6.setText(playersInGame.get(5).getName());
         }
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_game);
@@ -88,20 +93,16 @@ public class GameActivity extends AppCompatActivity {
 
         // add a dialog to set the player tricks
         buttonGameTricks.setOnClickListener(view -> {
-            Move move1 = new Move(playersInGame[0].getId(), game.getId(), (int) (Math.random() * 4));
-            Move move2 = new Move(playersInGame[1].getId(), game.getId(), (int) (Math.random() * 4));
-            Move move3 = new Move(playersInGame[2].getId(), game.getId(), (int) (Math.random() * 4));
-            Move move4 = new Move(playersInGame[3].getId(), game.getId(), (int) (Math.random() * 4));
-            Move move5 = new Move(playersInGame[4].getId(), game.getId(), (int) (Math.random() * 4));
-            Move move6 = new Move(playersInGame[5].getId(), game.getId(), (int) (Math.random() * 4));
+            Move move1 = new Move(playersInGame.get(0).getId(), game.getId(), (int) (Math.random() * 4));
+            Move move2 = new Move(playersInGame.get(1).getId(), game.getId(), (int) (Math.random() * 4));
+            Move move3 = new Move(playersInGame.get(2).getId(), game.getId(), (int) (Math.random() * 4));
+            Move move4 = new Move(playersInGame.get(3).getId(), game.getId(), (int) (Math.random() * 4));
+            Move move5 = new Move(playersInGame.get(4).getId(), game.getId(), (int) (Math.random() * 4));
+            Move move6 = new Move(playersInGame.get(5).getId(), game.getId(), (int) (Math.random() * 4));
             currentRound = new Round();
             currentRound.addMoves(move1, move2, move3, move4, move5, move6);
             game.addRound(currentRound);
-            adapter.addRound(currentRound);
+            adapter.notifyRoundAdded();
         });
-    }
-
-    private void createMoves() {
-
     }
 }

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mnirwing.wizardscoreboard.R;
+import com.mnirwing.wizardscoreboard.data.DataHolder;
 import com.mnirwing.wizardscoreboard.data.Move;
 import com.mnirwing.wizardscoreboard.data.Player;
 import com.mnirwing.wizardscoreboard.data.Round;
@@ -22,17 +23,20 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
     private static final String TAG = "GameAdapter";
 
 
-    private Player[] playersInGame;
-    private List<Round> rounds = new ArrayList<>();
+    private List<Player> playersInGame;
+    private List<Round> rounds;
 
-    public GameAdapter(Player[] players) {
+    private DataHolder data = DataHolder.getInstance();
+
+    public GameAdapter(List<Player> players) {
         this.playersInGame = players;
+        this.rounds = data.getCurrentGame().getRounds();
     }
 
     @NonNull
     @Override
     public GameHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreateViewHolder: Players:  " + playersInGame.length);
+        Log.d(TAG, "onCreateViewHolder: Players:  " + playersInGame.size());
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_game_6player_listitem, parent, false);
         return new GameHolder(itemView);
@@ -63,9 +67,9 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
         return rounds.size();
     }
 
-    public void addRound(Round round) {
-        Log.d(TAG, "addRound: " + round);
-        this.rounds.add(round);
+    public void notifyRoundAdded() {
+        Log.d(TAG, "notifyRoundAdded: ");
+        rounds.add(data.getCurrentGame().getCurrentRound());
         notifyItemInserted(rounds.size() - 1);
     }
 
@@ -74,7 +78,6 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
         this.rounds.remove(rounds.size() - 1);
         this.rounds.add(updatedRound);
         notifyItemChanged(rounds.size() - 1);
-        //notifyDataSetChanged();
     }
 
     class GameHolder extends RecyclerView.ViewHolder {
