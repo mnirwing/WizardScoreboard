@@ -108,11 +108,14 @@ public class Game implements Serializable {
     }
 
     private void calculateTotalScores(int calculateRoundStartIndex) {
-        if (this.rounds.size() <= 1) {
+        if (this.rounds.size() == 0) {
             return;
         }
 
         if (calculateRoundStartIndex == 0) {
+            for (Move move : rounds.get(0).getMoves()) {
+                move.setTotalScore(move.getScore());
+            }
             calculateRoundStartIndex = 1;
         }
 
@@ -130,10 +133,10 @@ public class Game implements Serializable {
      * Updates the total score of every round.
      */
     public void calculateAllTotalScores() {
-        calculateTotalScores(1);
+        calculateTotalScores(0);
     }
 
-    public void calculateCurrentRoundScore() {
+    public void calculateCurrentRoundTotalScore() {
         calculateTotalScores(rounds.size() - 1);
     }
 

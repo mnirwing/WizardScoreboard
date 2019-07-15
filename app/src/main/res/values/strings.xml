@@ -4,4 +4,6 @@
   <string name="buttonGameTricks">Tricks</string>
   <string name="okay">OK</string>
   <string name="cancel">Cancel</string>
+  <string name="dialog_tricks_title">Add Tricks</string>
+  <string name="dialog_bid_title">Add Bids</string>
 </resources>

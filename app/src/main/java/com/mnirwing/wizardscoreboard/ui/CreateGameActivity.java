@@ -48,12 +48,14 @@ public class CreateGameActivity extends AppCompatActivity {
             startActivityForResult(intent, 1);
         });
 
+        // TODO: change that back to the selected players
         buttonCreateGame.setOnClickListener(e -> {
             if (playersInGame.size() != 6) {
-                return;
+                //return;
             }
             buttonCreateGame.setEnabled(false);
-            Game game = new Game(playersInGame);
+            //Game game = new Game(playersInGame);
+            Game game = new Game(data.getPlayers());
             data.addGameAndSetCurrent(game);
             Intent intent = new Intent(this, GameActivity.class);
             startActivity(intent);
