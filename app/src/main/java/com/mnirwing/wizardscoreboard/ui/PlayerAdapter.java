@@ -3,6 +3,7 @@ package com.mnirwing.wizardscoreboard.ui;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -18,13 +19,22 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
 
     private List<Player> players;
 
+    private final boolean modeManagePlayers;
+
+    private final OnPlayerListener onPlayerListener;
+
+    public PlayerAdapter(boolean modeManagePlayers, OnPlayerListener onPlayerListener) {
+        this.modeManagePlayers = modeManagePlayers;
+        this.onPlayerListener = onPlayerListener;
+    }
+
     @NonNull
     @Override
     public PlayerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: ");
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_player_listitem, parent, false);
-        return new PlayerHolder(itemView);
+        return new PlayerHolder(itemView, onPlayerListener);
     }
 
     @Override
@@ -44,14 +54,28 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
         notifyDataSetChanged();
     }
 
-    class PlayerHolder extends RecyclerView.ViewHolder{
+    class PlayerHolder extends RecyclerView.ViewHolder implements OnClickListener {
         private TextView textViewPlayerName;
         private TextView textViewPlayerNickname;
 
-        public PlayerHolder(@NonNull View itemView) {
+        private OnPlayerListener onPlayerListener;
+
+        public PlayerHolder(@NonNull View itemView, OnPlayerListener onPlayerListener) {
             super(itemView);
             textViewPlayerName = itemView.findViewById(R.id.textViewPlayerName);
             textViewPlayerNickname = itemView.findViewById(R.id.textViewPlayerNickname);
+            this.onPlayerListener = onPlayerListener;
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onPlayerListener.onPlayerClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnPlayerListener {
+
+        void onPlayerClick(int position);
     }
 }

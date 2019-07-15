@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         buttonManagePlayers.setOnClickListener(e -> {
             Intent intent = new Intent(this, ManagePlayersActivity.class);
+            intent.putExtra("modeManagePlayers", true);
             this.startActivity(intent);
         });
 

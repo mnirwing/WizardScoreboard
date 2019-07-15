@@ -20,16 +20,28 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <ListView
-        android:id="@+id/listViewCreateGamePlayers"
-        android:layout_width="395dp"
-        android:layout_height="270dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:divider="#f00"
-        android:dividerHeight="1dp"
-        />
+      android:id="@+id/listViewCreateGamePlayers"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:layout_marginBottom="8dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      android:divider="#f00"
+      android:dividerHeight="1dp"
+      app:layout_constraintBottom_toTopOf="@+id/buttonCreateGame"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/buttonAddPlayer"/>
+    <Button
+      android:id="@+id/buttonAddPlayer"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      android:text="Add Player"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

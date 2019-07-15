@@ -41,6 +41,18 @@ public class Game implements Serializable {
         this.isCurrentGame = false;
     }
 
+    public Game(List<Player> players) {
+        this.id = UUID.randomUUID();
+        this.player1Id = players.get(0).getId();
+        this.player2Id = players.get(1).getId();
+        this.player3Id = players.get(2).getId();
+        this.player4Id = players.get(3).getId();
+        this.player5Id = players.get(4).getId();
+        this.player6Id = players.get(5).getId();
+        this.isFinished = false;
+        this.isCurrentGame = false;
+    }
+
     public UUID getId() {
         return id;
     }

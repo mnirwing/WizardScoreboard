@@ -47,7 +47,7 @@ public class DataHolder {
         return null;
     }
 
-    public void addGame(Game game) {
+    public void addGameAndSetCurrent(Game game) {
         if (games == null) {
             games = new ArrayList<>();
         }
