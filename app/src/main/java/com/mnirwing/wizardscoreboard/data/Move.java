@@ -14,6 +14,8 @@ public class Move {
 
   private int score;
 
+  private int totalScore;
+
   public Move(UUID playerId, UUID gameId, int guess) {
     this.playerId = playerId;
     this.gameId = gameId;
@@ -46,6 +48,14 @@ public class Move {
 
   public int getScore() {
     return score;
+  }
+
+  public int getTotalScore() {
+    return totalScore;
+  }
+
+  public void setTotalScore(int totalScore) {
+    this.totalScore = totalScore;
   }
 
   @Override

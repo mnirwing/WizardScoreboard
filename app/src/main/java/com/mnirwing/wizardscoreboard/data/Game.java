@@ -1,5 +1,6 @@
 package com.mnirwing.wizardscoreboard.data;
 
+import android.util.Log;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,110 +10,142 @@ import java.util.UUID;
 
 public class Game implements Serializable {
 
-  private UUID id;
+    private static final String TAG = "Game";
 
-  private UUID player1Id;
-  private UUID player2Id;
-  private UUID player3Id;
-  private UUID player4Id;
-  private UUID player5Id;
-  private UUID player6Id;
+    private UUID id;
 
-  private Date createdAt;
+    private UUID player1Id;
+    private UUID player2Id;
+    private UUID player3Id;
+    private UUID player4Id;
+    private UUID player5Id;
+    private UUID player6Id;
 
-  private boolean isFinished;
-  private boolean isCurrentGame;
+    private Date createdAt;
 
-  private List<Round> rounds = new ArrayList<>();
+    private boolean isFinished;
+    private boolean isCurrentGame;
 
-  public Game(UUID player1Id, UUID player2Id, UUID player3Id, UUID player4Id, UUID player5Id,
-      UUID player6Id) {
-    this.id = UUID.randomUUID();
-    this.player1Id = player1Id;
-    this.player2Id = player2Id;
-    this.player3Id = player3Id;
-    this.player4Id = player4Id;
-    this.player5Id = player5Id;
-    this.player6Id = player6Id;
-    this.isFinished = false;
-    this.isCurrentGame = false;
-  }
+    private List<Round> rounds = new ArrayList<>();
 
-  public UUID getId() {
-    return id;
-  }
+    public Game(UUID player1Id, UUID player2Id, UUID player3Id, UUID player4Id, UUID player5Id,
+            UUID player6Id) {
+        this.id = UUID.randomUUID();
+        this.player1Id = player1Id;
+        this.player2Id = player2Id;
+        this.player3Id = player3Id;
+        this.player4Id = player4Id;
+        this.player5Id = player5Id;
+        this.player6Id = player6Id;
+        this.isFinished = false;
+        this.isCurrentGame = false;
+    }
 
-  public void setId(UUID id) {
-    this.id = id;
-  }
+    public UUID getId() {
+        return id;
+    }
 
-  public List<UUID> getPlayerIds() {
-    return Arrays.asList(player1Id, player2Id, player3Id, player4Id, player5Id, player6Id);
-  }
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
-  public UUID getPlayer1Id() {
-    return player1Id;
-  }
+    public List<UUID> getPlayerIds() {
+        return Arrays.asList(player1Id, player2Id, player3Id, player4Id, player5Id, player6Id);
+    }
 
-  public UUID getPlayer2Id() {
-    return player2Id;
-  }
+    public UUID getPlayer1Id() {
+        return player1Id;
+    }
 
-  public UUID getPlayer3Id() {
-    return player3Id;
-  }
+    public UUID getPlayer2Id() {
+        return player2Id;
+    }
 
-  public UUID getPlayer4Id() {
-    return player4Id;
-  }
+    public UUID getPlayer3Id() {
+        return player3Id;
+    }
 
-  public UUID getPlayer5Id() {
-    return player5Id;
-  }
+    public UUID getPlayer4Id() {
+        return player4Id;
+    }
 
-  public UUID getPlayer6Id() {
-    return player6Id;
-  }
+    public UUID getPlayer5Id() {
+        return player5Id;
+    }
 
-  public Date getCreatedAt() {
-    return createdAt;
-  }
+    public UUID getPlayer6Id() {
+        return player6Id;
+    }
 
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-  public void addRound(Move...moves) {
-    Round round = new Round();
-    round.addMoves(moves);
-    this.rounds.add(round);
-  }
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-  public Round getCurrentRound() {
-    return this.rounds.get(rounds.size() - 1);
-  }
+    public void addRound(Move... moves) {
+        Round round = new Round();
+        round.addMoves(moves);
+        this.rounds.add(round);
+    }
 
-  public List<Round> getRounds() {
-    return rounds;
-  }
+    public Round getCurrentRound() {
+        return this.rounds.get(rounds.size() - 1);
+    }
 
-  public void addRound(Round round) {
-    this.rounds.add(round);
-  }
+    private void calculateTotalScores(int calculateRoundStartIndex) {
+        if (this.rounds.size() <= 1) {
+            return;
+        }
 
-  public boolean isFinished() {
-    return isFinished;
-  }
+        if (calculateRoundStartIndex == 0) {
+            calculateRoundStartIndex = 1;
+        }
 
-  public boolean isCurrentGame() {
-    return isCurrentGame;
-  }
+        for (int i = calculateRoundStartIndex; i < rounds.size(); i++) {
+            for (int j = 0; j < rounds.get(i).getMoves().size(); j++) {
+                int previousRoundTotalScore = rounds.get(i - 1).getMoves().get(j).getTotalScore();
+                int currentRoundScore = rounds.get(i).getMoves().get(j).getScore();
+                rounds.get(i).getMoves().get(j)
+                        .setTotalScore(previousRoundTotalScore + currentRoundScore);
+            }
+        }
+    }
 
-  public void setFinished(boolean isFinished) {
-    this.isFinished = isFinished;
-  }
+    /**
+     * Updates the total score of every round.
+     */
+    public void calculateAllTotalScores() {
+        calculateTotalScores(1);
+    }
 
-  public void setCurrentGame(boolean isCurrentGame) {
-    this.isCurrentGame = isCurrentGame;
-  }
+    public void calculateCurrentRoundScore() {
+        calculateTotalScores(rounds.size() - 1);
+    }
+
+    public List<Round> getRounds() {
+        return rounds;
+    }
+
+    public void addRound(Round round) {
+        this.rounds.add(round);
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public boolean isCurrentGame() {
+        return isCurrentGame;
+    }
+
+    public void setFinished(boolean isFinished) {
+        this.isFinished = isFinished;
+    }
+
+    public void setCurrentGame(boolean isCurrentGame) {
+        this.isCurrentGame = isCurrentGame;
+    }
 }

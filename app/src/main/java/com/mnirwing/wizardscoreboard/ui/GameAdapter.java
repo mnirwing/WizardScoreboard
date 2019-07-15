@@ -44,22 +44,24 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull GameHolder holder, int position) {
-        //if(holder instanceof GameHolder6Player)
+        Log.d(TAG, "onBindViewHolder: Pos: " + position);
 
         Round currentRound = rounds.get(position);
-        holder.textViewRound.setText("" + position + 1);
+        holder.textViewRound.setText(Integer.toString(position + 1));
+
         holder.textViewPlayer1Guess.setText("" + currentRound.getMoves().get(0).getGuess());
         holder.textViewPlayer2Guess.setText("" + currentRound.getMoves().get(1).getGuess());
         holder.textViewPlayer3Guess.setText("" + currentRound.getMoves().get(2).getGuess());
         holder.textViewPlayer4Guess.setText("" + currentRound.getMoves().get(3).getGuess());
         holder.textViewPlayer5Guess.setText("" + currentRound.getMoves().get(4).getGuess());
         holder.textViewPlayer6Guess.setText("" + currentRound.getMoves().get(5).getGuess());
-        holder.textViewPlayer1Score.setText("" + currentRound.getMoves().get(0).getScore());
-        holder.textViewPlayer2Score.setText("" + currentRound.getMoves().get(1).getScore());
-        holder.textViewPlayer3Score.setText("" + currentRound.getMoves().get(2).getScore());
-        holder.textViewPlayer4Score.setText("" + currentRound.getMoves().get(3).getScore());
-        holder.textViewPlayer5Score.setText("" + currentRound.getMoves().get(4).getScore());
-        holder.textViewPlayer6Score.setText("" + currentRound.getMoves().get(5).getScore());
+
+        holder.textViewPlayer1Score.setText("" + currentRound.getMoves().get(0).getTotalScore());
+        holder.textViewPlayer2Score.setText("" + currentRound.getMoves().get(1).getTotalScore());
+        holder.textViewPlayer3Score.setText("" + currentRound.getMoves().get(2).getTotalScore());
+        holder.textViewPlayer4Score.setText("" + currentRound.getMoves().get(3).getTotalScore());
+        holder.textViewPlayer5Score.setText("" + currentRound.getMoves().get(4).getTotalScore());
+        holder.textViewPlayer6Score.setText("" + currentRound.getMoves().get(5).getTotalScore());
     }
 
     @Override
@@ -67,17 +69,14 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
         return rounds.size();
     }
 
-    public void notifyRoundAdded() {
-        Log.d(TAG, "notifyRoundAdded: ");
-        rounds.add(data.getCurrentGame().getCurrentRound());
-        notifyItemInserted(rounds.size() - 1);
+    public void updateCurrentRound() {
+        Log.d(TAG, "updateCurrentRound: Pos: " + (rounds.size() - 1));
+        notifyItemChanged(rounds.size() - 1);
     }
 
-    public void updateCurrentRound(Round updatedRound) {
-        Log.d(TAG, "updateCurrentRound: " + updatedRound);
-        this.rounds.remove(rounds.size() - 1);
-        this.rounds.add(updatedRound);
-        notifyItemChanged(rounds.size() - 1);
+    public void notifyRoundAdded() {
+        Log.d(TAG, "notifyRoundAdded: Size:" + (rounds.size() - 1));
+        notifyItemInserted(rounds.size() - 1);
     }
 
     class GameHolder extends RecyclerView.ViewHolder {
