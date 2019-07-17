@@ -69,8 +69,8 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
         return rounds.size();
     }
 
-    public void updateCurrentRound() {
-        Log.d(TAG, "updateCurrentRound: Pos: " + (rounds.size() - 1));
+    public void notifyCurrentRoundUpdated() {
+        Log.d(TAG, "notifyCurrentRoundUpdated: Pos: " + (rounds.size() - 1));
         notifyItemChanged(rounds.size() - 1);
     }
 

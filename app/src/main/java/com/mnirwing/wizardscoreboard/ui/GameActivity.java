@@ -1,6 +1,7 @@
 package com.mnirwing.wizardscoreboard.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -50,31 +51,8 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         game = data.getCurrentGame();
         playersInGame = data.getPlayersById(game.getPlayerIds());
 
-        textViewGamePlayer1 = findViewById(R.id.textViewGamePlayer1);
-        textViewGamePlayer2 = findViewById(R.id.textViewGamePlayer2);
-        textViewGamePlayer3 = findViewById(R.id.textViewGamePlayer3);
-        textViewGamePlayer4 = findViewById(R.id.textViewGamePlayer4);
-        textViewGamePlayer5 = findViewById(R.id.textViewGamePlayer5);
-        textViewGamePlayer6 = findViewById(R.id.textViewGamePlayer6);
-
-        buttonGameBid = findViewById(R.id.buttonGameBid);
-        buttonGameTricks = findViewById(R.id.buttonGameTricks);
-
-        textViewGamePlayer1.setText(playersInGame.get(0).getName());
-        textViewGamePlayer2.setText(playersInGame.get(1).getName());
-        textViewGamePlayer3.setText(playersInGame.get(2).getName());
-        textViewGamePlayer4.setText(playersInGame.get(3).getName());
-
-        if (playersInGame.size() < 5) {
-            textViewGamePlayer5.setVisibility(View.GONE);
-            textViewGamePlayer6.setVisibility(View.GONE);
-        } else if (playersInGame.size() == 5) {
-            textViewGamePlayer6.setVisibility(View.GONE);
-            textViewGamePlayer5.setText(playersInGame.get(4).getName());
-        } else if (playersInGame.size() == 6) {
-            textViewGamePlayer5.setText(playersInGame.get(4).getName());
-            textViewGamePlayer6.setText(playersInGame.get(5).getName());
-        }
+        initialiseTextFields();
+        setTextFieldPlayerNames();
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_game);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -84,6 +62,10 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
                 DividerItemDecoration.VERTICAL));
+
+        if (game.getRounds().size() == 0 || game.getRounds() == null) {
+            addEmptyRound();
+        }
 
         buttonGameBid.setOnClickListener(view -> {
             BidOrTrickDialog bidOrTrickDialog = new BidOrTrickDialog(true, playersInGame);
@@ -98,39 +80,64 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
 
     @Override
     public void applyBidsOrTricks(boolean modeIsBid, List<Integer> values) {
+        Log.d(TAG, "applyBidsOrTricks: Bidmode: " + modeIsBid + " Values: " + values.toString());
         if (modeIsBid) {
-            Move move1 = new Move(playersInGame.get(0).getId(), game.getId(),
-                    values.get(0));
-            Move move2 = new Move(playersInGame.get(1).getId(), game.getId(),
-                    values.get(1));
-            Move move3 = new Move(playersInGame.get(2).getId(), game.getId(),
-                    values.get(2));
-            Move move4 = new Move(playersInGame.get(3).getId(), game.getId(),
-                    values.get(3));
-            Move move5 = new Move(playersInGame.get(4).getId(), game.getId(),
-                    values.get(4));
-            Move move6 = new Move(playersInGame.get(5).getId(), game.getId(),
-                    values.get(5));
-            Round currentRound = new Round();
-            currentRound.addMoves(move1, move2, move3, move4, move5, move6);
-            data.getCurrentGame().addRound(currentRound);
-            adapter.notifyRoundAdded();
+            for (int i = 0; i < game.getCurrentRound().getMoves().size(); i++) {
+                game.getCurrentRound().getMoves().get(i).setGuess(values.get(i));
+            }
+            adapter.notifyCurrentRoundUpdated();
         } else {
             for (int i = 0; i < game.getCurrentRound().getMoves().size(); i++) {
-                Move currentMove = game.getCurrentRound().getMoves().get(i);
-                currentMove.setScore(calculateScore(currentMove.getGuess(), values.get(i)));
+                game.getCurrentRound().getMoves().get(i).calculateScore(values.get(i));
             }
             game.calculateCurrentRoundTotalScore();
-            adapter.updateCurrentRound();
+            adapter.notifyCurrentRoundUpdated();
+            addEmptyRound();
         }
-
     }
 
-    private int calculateScore(int guess, int tricks) {
-        if (guess == tricks) {
-            return tricks * 10 + 20;
-        } else {
-            return Math.abs(guess - tricks) * -10;
+    private void addEmptyRound() {
+        Log.d(TAG, "addEmptyRound: ");
+        Move move1 = new Move(playersInGame.get(0).getId(), game.getId(), 0);
+        Move move2 = new Move(playersInGame.get(1).getId(), game.getId(), 0);
+        Move move3 = new Move(playersInGame.get(2).getId(), game.getId(), 0);
+        Move move4 = new Move(playersInGame.get(3).getId(), game.getId(), 0);
+        Move move5 = new Move(playersInGame.get(4).getId(), game.getId(), 0);
+        Move move6 = new Move(playersInGame.get(5).getId(), game.getId(), 0);
+        Round emptyRound = new Round();
+        emptyRound.addMoves(move1, move2, move3, move4, move5, move6);
+        data.getCurrentGame().addRound(emptyRound);
+        adapter.notifyRoundAdded();
+    }
+
+    private void setTextFieldPlayerNames() {
+        Log.d(TAG, "setTextFieldPlayerNames: ");
+        textViewGamePlayer1.setText(playersInGame.get(0).getName());
+        textViewGamePlayer2.setText(playersInGame.get(1).getName());
+        textViewGamePlayer3.setText(playersInGame.get(2).getName());
+        textViewGamePlayer4.setText(playersInGame.get(3).getName());
+        if (playersInGame.size() < 5) {
+            textViewGamePlayer5.setVisibility(View.GONE);
+            textViewGamePlayer6.setVisibility(View.GONE);
+        } else if (playersInGame.size() == 5) {
+            textViewGamePlayer6.setVisibility(View.GONE);
+            textViewGamePlayer5.setText(playersInGame.get(4).getName());
+        } else if (playersInGame.size() == 6) {
+            textViewGamePlayer5.setText(playersInGame.get(4).getName());
+            textViewGamePlayer6.setText(playersInGame.get(5).getName());
         }
+    }
+
+    private void initialiseTextFields() {
+        Log.d(TAG, "initialiseTextFields: ");
+        textViewGamePlayer1 = findViewById(R.id.textViewGamePlayer1);
+        textViewGamePlayer2 = findViewById(R.id.textViewGamePlayer2);
+        textViewGamePlayer3 = findViewById(R.id.textViewGamePlayer3);
+        textViewGamePlayer4 = findViewById(R.id.textViewGamePlayer4);
+        textViewGamePlayer5 = findViewById(R.id.textViewGamePlayer5);
+        textViewGamePlayer6 = findViewById(R.id.textViewGamePlayer6);
+
+        buttonGameBid = findViewById(R.id.buttonGameBid);
+        buttonGameTricks = findViewById(R.id.buttonGameTricks);
     }
 }

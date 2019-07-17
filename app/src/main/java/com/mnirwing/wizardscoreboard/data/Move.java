@@ -4,67 +4,79 @@ import java.util.UUID;
 
 public class Move {
 
-  private UUID id;
+    private UUID id;
 
-  private UUID playerId;
+    private UUID playerId;
 
-  private UUID gameId;
+    private UUID gameId;
 
-  private int guess;
+    private int guess;
 
-  private int score;
+    private int score;
 
-  private int totalScore;
+    private int totalScore;
 
-  public Move(UUID playerId, UUID gameId, int guess) {
-    this.playerId = playerId;
-    this.gameId = gameId;
-    this.guess = guess;
-  }
+    public Move(UUID playerId, UUID gameId, int guess) {
+        this.playerId = playerId;
+        this.gameId = gameId;
+        this.guess = guess;
+    }
 
-  public void setId(UUID id) {
-    this.id = id;
-  }
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
-  public void setScore(int score) {
-    this.score = score;
-  }
+    public void setScore(int score) {
+        this.score = score;
+    }
 
-  public UUID getId() {
-    return id;
-  }
+    public void calculateScore(int tricks) {
+        if (guess == tricks) {
+            score = tricks * 10 + 20;
+        } else {
+            score = Math.abs(guess - tricks) * -10;
+        }
+    }
 
-  public UUID getPlayerId() {
-    return playerId;
-  }
+    public UUID getId() {
+        return id;
+    }
 
-  public UUID getGameId() {
-    return gameId;
-  }
+    public UUID getPlayerId() {
+        return playerId;
+    }
 
-  public int getGuess() {
-    return guess;
-  }
+    public UUID getGameId() {
+        return gameId;
+    }
 
-  public int getScore() {
-    return score;
-  }
+    public int getGuess() {
+        return guess;
+    }
 
-  public int getTotalScore() {
-    return totalScore;
-  }
+    public void setGuess(int guess) {
+        this.guess = guess;
+    }
 
-  public void setTotalScore(int totalScore) {
-    this.totalScore = totalScore;
-  }
+    public int getScore() {
+        return score;
+    }
 
-  @Override
-  public String toString() {
-    return "Move{" +
-            ", pId=" + playerId +
-            ", gId=" + gameId +
-            ", " + guess +
-            "/ " + score +
-            '}';
-  }
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    @Override
+    public String toString() {
+        return "Move{" +
+                ", pId=" + playerId +
+                ", gId=" + gameId +
+                ", " + guess +
+                "/ " + score +
+                '}';
+    }
 }
