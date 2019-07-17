@@ -6,24 +6,23 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import com.mnirwing.wizardscoreboard.R;
-import com.mnirwing.wizardscoreboard.data.DataHolder;
 import com.mnirwing.wizardscoreboard.data.Player;
+import com.shawnlin.numberpicker.NumberPicker;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BidOrTrickDialog extends DialogFragment {
 
-    private EditText editTextDialogTricks1;
-    private EditText editTextDialogTricks2;
-    private EditText editTextDialogTricks3;
-    private EditText editTextDialogTricks4;
-    private EditText editTextDialogTricks5;
-    private EditText editTextDialogTricks6;
+    private NumberPicker editTextDialogTricks1;
+    private NumberPicker editTextDialogTricks2;
+    private NumberPicker editTextDialogTricks3;
+    private NumberPicker editTextDialogTricks4;
+    private NumberPicker editTextDialogTricks5;
+    private NumberPicker editTextDialogTricks6;
 
     private TextView textViewDialogTricks1;
     private TextView textViewDialogTricks2;
@@ -52,23 +51,23 @@ public class BidOrTrickDialog extends DialogFragment {
                 .setTitle(modeIsBid ? R.string.dialog_bid_title : R.string.dialog_tricks_title)
                 .setPositiveButton(R.string.okay, (dialog, id) -> {
                     values = new ArrayList<>();
-                    values.add(Integer.parseInt(editTextDialogTricks1.getText().toString()));
-                    values.add(Integer.parseInt(editTextDialogTricks2.getText().toString()));
-                    values.add(Integer.parseInt(editTextDialogTricks3.getText().toString()));
-                    values.add(Integer.parseInt(editTextDialogTricks4.getText().toString()));
-                    values.add(Integer.parseInt(editTextDialogTricks5.getText().toString()));
-                    values.add(Integer.parseInt(editTextDialogTricks6.getText().toString()));
+                    values.add(editTextDialogTricks1.getValue());
+                    values.add(editTextDialogTricks2.getValue());
+                    values.add(editTextDialogTricks3.getValue());
+                    values.add(editTextDialogTricks4.getValue());
+                    values.add(editTextDialogTricks5.getValue());
+                    values.add(editTextDialogTricks6.getValue());
                     listener.applyBidsOrTricks(modeIsBid, values);
                 })
                 .setNegativeButton(R.string.cancel,
                         (dialog, id) -> BidOrTrickDialog.this.getDialog().cancel());
 
-        editTextDialogTricks1 = view.findViewById(R.id.editTextDialogTricks1);
-        editTextDialogTricks2 = view.findViewById(R.id.editTextDialogTricks2);
-        editTextDialogTricks3 = view.findViewById(R.id.editTextDialogTricks3);
-        editTextDialogTricks4 = view.findViewById(R.id.editTextDialogTricks4);
-        editTextDialogTricks5 = view.findViewById(R.id.editTextDialogTricks5);
-        editTextDialogTricks6 = view.findViewById(R.id.editTextDialogTricks6);
+        editTextDialogTricks1 = view.findViewById(R.id.numberPickerDialog1);
+        editTextDialogTricks2 = view.findViewById(R.id.numberPickerDialog2);
+        editTextDialogTricks3 = view.findViewById(R.id.numberPickerDialog3);
+        editTextDialogTricks4 = view.findViewById(R.id.numberPickerDialog4);
+        editTextDialogTricks5 = view.findViewById(R.id.numberPickerDialog5);
+        editTextDialogTricks6 = view.findViewById(R.id.numberPickerDialog6);
 
         textViewDialogTricks1 = view.findViewById(R.id.textViewDialogTricks1);
         textViewDialogTricks2 = view.findViewById(R.id.textViewDialogTricks2);
