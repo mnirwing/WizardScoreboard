@@ -20,10 +20,13 @@ import com.mnirwing.wizardscoreboard.data.Move;
 import com.mnirwing.wizardscoreboard.data.Player;
 import com.mnirwing.wizardscoreboard.data.Round;
 import com.mnirwing.wizardscoreboard.ui.BidOrTrickDialog.BidOrTrickDialogListener;
+import com.mnirwing.wizardscoreboard.ui.GameAdapter.OnRoundClickListener;
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class GameActivity extends AppCompatActivity implements BidOrTrickDialogListener {
+public class GameActivity extends AppCompatActivity implements BidOrTrickDialogListener,
+        OnRoundClickListener {
 
     private static final String TAG = "GameActivity";
 
@@ -38,6 +41,8 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     GameAdapter adapter;
 
     private boolean isBiddingPhaseDone;
+    private boolean showTrickDialogAfterBidDialogIsDone;
+    private int editedRoundIndex;
 
     private DataHolder data;
 
@@ -57,7 +62,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        adapter = new GameAdapter(playersInGame, this);
+        adapter = new GameAdapter(playersInGame, this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
                 DividerItemDecoration.VERTICAL));
@@ -67,12 +72,14 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         }
 
         buttonGameBid.setOnClickListener(view -> {
-            BidOrTrickDialog bidOrTrickDialog = new BidOrTrickDialog(true, playersInGame);
+            BidOrTrickDialog bidOrTrickDialog = new BidOrTrickDialog(true,
+                    game.getRounds().size() - 1, playersInGame);
             bidOrTrickDialog.show(getSupportFragmentManager(), "bid dialog");
         });
 
         buttonGameTricks.setOnClickListener(view -> {
-            BidOrTrickDialog bidOrTrickDialog = new BidOrTrickDialog(false, playersInGame);
+            BidOrTrickDialog bidOrTrickDialog = new BidOrTrickDialog(false,
+                    game.getRounds().size() - 1, playersInGame);
             bidOrTrickDialog.show(getSupportFragmentManager(), "trick dialog");
         });
 
@@ -82,24 +89,56 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     }
 
     @Override
-    public void applyBidsOrTricks(boolean modeIsBid, List<Integer> values) {
+    public void applyBidsOrTricks(boolean modeIsBid, int roundIndex, List<Integer> values) {
         if (modeIsBid) {
             isBiddingPhaseDone = true;
             buttonGameTricks.setEnabled(true);
-            for (int i = 0; i < game.getCurrentRound().getMoves().size(); i++) {
-                game.getCurrentRound().getMoves().get(i).setGuess(values.get(i));
+
+            for (int i = 0; i < game.getRounds().get(roundIndex).getMoves().size(); i++) {
+                game.getRounds().get(roundIndex).getMoves().get(i).setGuess(values.get(i));
             }
-            adapter.notifyCurrentRoundGuessUpdated();
+            adapter.notifyRoundGuessUpdated(roundIndex);
+            if (showTrickDialogAfterBidDialogIsDone) {
+                showTrickDialogWithValues(game.getRoundScoreValues(editedRoundIndex),
+                        editedRoundIndex);
+                showTrickDialogAfterBidDialogIsDone = false;
+            }
         } else {
             isBiddingPhaseDone = false;
             buttonGameTricks.setEnabled(false);
-            for (int i = 0; i < game.getCurrentRound().getMoves().size(); i++) {
-                game.getCurrentRound().getMoves().get(i).calculateScore(values.get(i));
+            for (int i = 0; i < game.getRounds().get(roundIndex).getMoves().size(); i++) {
+                game.getRounds().get(roundIndex).getMoves().get(i).calculateScore(values.get(i));
             }
-            game.calculateCurrentRoundTotalScore();
-            adapter.notifyCurrentRoundUpdated();
+            game.calculateTotalScores(roundIndex);
+            adapter.notifyRoundTricksUpdated(roundIndex);
             addEmptyRound();
         }
+    }
+
+    /**
+     * This method gets invoked by the {@link GameAdapter} after a long click on a list item. It
+     * shows the bid dialog and presets values.
+     *
+     * @param position Position of the clicked item.
+     */
+    @Override
+    public boolean onRoundLongClick(int position) {
+        showBidDialogWithValues(game.getRoundGuessValues(position), position);
+        showTrickDialogAfterBidDialogIsDone = true;
+        editedRoundIndex = position;
+        return true;
+    }
+
+    private void showBidDialogWithValues(List<Integer> roundBidValues, int roundIndex) {
+        BidOrTrickDialog bidOrTrickDialog = new BidOrTrickDialog(true, roundIndex, playersInGame,
+                roundBidValues);
+        bidOrTrickDialog.show(getSupportFragmentManager(), "trick dialog");
+    }
+
+    private void showTrickDialogWithValues(List<Integer> roundTricksValues, int roundIndex) {
+        BidOrTrickDialog bidOrTrickDialog = new BidOrTrickDialog(false, roundIndex, playersInGame,
+                roundTricksValues);
+        bidOrTrickDialog.show(getSupportFragmentManager(), "trick dialog");
     }
 
     private void addEmptyRound() {

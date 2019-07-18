@@ -107,7 +107,7 @@ public class Game implements Serializable {
         return this.rounds.get(rounds.size() - 1);
     }
 
-    private void calculateTotalScores(int calculateRoundStartIndex) {
+    public void calculateTotalScores(int calculateRoundStartIndex) {
         if (this.rounds.size() == 0) {
             return;
         }
@@ -142,6 +142,24 @@ public class Game implements Serializable {
 
     public List<Round> getRounds() {
         return rounds;
+    }
+
+    public List<Integer> getRoundGuessValues(int position) {
+        List<Integer> roundGuessValues = new ArrayList<>();
+        Round clickedRound = rounds.get(position);
+        for (Move move : clickedRound.getMoves()) {
+            roundGuessValues.add(move.getGuess());
+        }
+        return roundGuessValues;
+    }
+
+    public List<Integer> getRoundScoreValues(int position) {
+        List<Integer> roundScoreValues = new ArrayList<>();
+        Round clickedRound = rounds.get(position);
+        for (Move move : clickedRound.getMoves()) {
+            roundScoreValues.add(move.getScore());
+        }
+        return roundScoreValues;
     }
 
     public void addRound(Round round) {

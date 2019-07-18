@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -28,11 +29,15 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
 
     private boolean displayGuessesInCurrentRound;
 
+    private OnRoundClickListener onRoundClickListener;
+
     private DataHolder data = DataHolder.getInstance();
 
-    public GameAdapter(List<Player> players, Context context) {
+    public GameAdapter(List<Player> players, Context context,
+            OnRoundClickListener onRoundClickListener) {
         this.context = context;
         this.playersInGame = players;
+        this.onRoundClickListener = onRoundClickListener;
         this.rounds = data.getCurrentGame().getRounds();
     }
 
@@ -42,36 +47,39 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
         Log.d(TAG, "onCreateViewHolder: Players:  " + playersInGame.size());
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_game_6player_listitem, parent, false);
-        return new GameHolder(itemView);
+        return new GameHolder(itemView, onRoundClickListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull GameHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: Pos: " + position);
 
-        Round currentRound = rounds.get(position);
+        Round roundAtPosition = rounds.get(position);
         holder.textViewRound.setText(Integer.toString(position + 1));
 
         for (int i = 0; i < playersInGame.size(); i++) {
             String guessToDisplay =
                     (isPositionCurrentRound(position) && displayGuessesInCurrentRound)
                             || !isPositionCurrentRound(position) ?
-                            Integer.toString(currentRound.getMoves().get(i).getGuess()) : "-";
-            String scoreToDisplay =
-                    !isPositionCurrentRound(position) ?
-                            Integer.toString(currentRound.getMoves().get(i).getTotalScore()) : "-";
+                            Integer.toString(roundAtPosition.getMoves().get(i).getGuess()) : "-";
+            String totalScoreToDisplay = !isPositionCurrentRound(position) ? Integer
+                    .toString(roundAtPosition.getMoves().get(i).getTotalScore()) : "-";
+            //String scoreToDisplay = Integer.toString(currentRound.getMoves().get(i).getTotalScore());
             holder.textViewPlayerGuesses[i].setText(guessToDisplay);
-            holder.textViewPlayerScores[i].setText(scoreToDisplay);
+            holder.textViewPlayerScores[i].setText(totalScoreToDisplay);
+            holder.textViewPlayerScores[i]
+                    .setTextColor(context.getColor(roundAtPosition.getMoves().get(i).getScore() >= 0
+                            ? R.color.colorPositiveScore : R.color.colorNegativeScore));
         }
 
-        holder.itemView.setBackgroundColor(context.getResources().getColor(
+        holder.itemView.setBackgroundColor(context.getColor(
                 position % 2 == 0 ? R.color.colorAlternatingRowNormal
-                        : R.color.colorAlternatingRowHighlight, null));
+                        : R.color.colorAlternatingRowHighlight));
 
     }
 
     private boolean isPositionCurrentRound(int position) {
-        return (position == rounds.size() - 1);
+        return position == (rounds.size() - 1);
     }
 
     @Override
@@ -79,15 +87,14 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
         return rounds.size();
     }
 
-    public void notifyCurrentRoundGuessUpdated() {
+    public void notifyRoundGuessUpdated(int roundIndex) {
         displayGuessesInCurrentRound = true;
-        notifyItemChanged(rounds.size() - 1);
+        notifyItemChanged(roundIndex);
     }
 
-    public void notifyCurrentRoundUpdated() {
-        displayGuessesInCurrentRound = false;
+    public void notifyRoundTricksUpdated(int roundIndex) {
         Log.d(TAG, "notifyCurrentRoundUpdated: Pos: " + (rounds.size() - 1));
-        notifyItemChanged(rounds.size() - 1);
+        notifyItemChanged(roundIndex);
     }
 
     public void notifyRoundAdded() {
@@ -96,15 +103,19 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
         notifyItemInserted(rounds.size() - 1);
     }
 
-    class GameHolder extends RecyclerView.ViewHolder {
+    class GameHolder extends RecyclerView.ViewHolder implements OnLongClickListener {
 
         private TextView textViewRound;
 
         private TextView[] textViewPlayerGuesses;
         private TextView[] textViewPlayerScores;
 
-        public GameHolder(@NonNull View itemView) {
+        private OnRoundClickListener onRoundClickListener;
+
+        public GameHolder(@NonNull View itemView, OnRoundClickListener onRoundClickListener) {
             super(itemView);
+            this.onRoundClickListener = onRoundClickListener;
+            itemView.setOnLongClickListener(this);
             textViewRound = itemView.findViewById(R.id.textViewRound);
             textViewPlayerGuesses = new TextView[playersInGame.size()];
             textViewPlayerScores = new TextView[playersInGame.size()];
@@ -127,5 +138,17 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
             textViewPlayerGuesses[5] = itemView.findViewById(R.id.textViewPlayer6Guess);
             textViewPlayerScores[5] = itemView.findViewById(R.id.textViewPlayer6Score);
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+            Log.d(TAG, "onLongClick: GameAdapter" + getAdapterPosition());
+            onRoundClickListener.onRoundLongClick(getAdapterPosition());
+            return false;
+        }
+    }
+
+    public interface OnRoundClickListener {
+
+        boolean onRoundLongClick(int position);
     }
 }

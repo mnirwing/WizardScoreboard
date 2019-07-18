@@ -35,10 +35,24 @@ public class BidOrTrickDialog extends DialogFragment {
     List<Player> playersInGame;
     private BidOrTrickDialogListener listener;
     private final boolean modeIsBid;
+    private final boolean modeIsEdit;
+    private int roundIndex;
+    private List<Integer> editValues;
 
-    public BidOrTrickDialog(boolean modeIsBid, List<Player> playersInGame) {
+    public BidOrTrickDialog(boolean modeIsBid, int roundIndex, List<Player> playersInGame) {
         this.modeIsBid = modeIsBid;
+        this.roundIndex = roundIndex;
+        this.modeIsEdit = false;
         this.playersInGame = playersInGame;
+    }
+
+    public BidOrTrickDialog(boolean modeIsBid, int roundIndex, List<Player> playersInGame,
+            List<Integer> editValues) {
+        this.modeIsBid = modeIsBid;
+        this.roundIndex = roundIndex;
+        this.modeIsEdit = true;
+        this.playersInGame = playersInGame;
+        this.editValues = editValues;
     }
 
     @Override
@@ -57,7 +71,7 @@ public class BidOrTrickDialog extends DialogFragment {
                     values.add(editTextDialogTricks4.getValue());
                     values.add(editTextDialogTricks5.getValue());
                     values.add(editTextDialogTricks6.getValue());
-                    listener.applyBidsOrTricks(modeIsBid, values);
+                    listener.applyBidsOrTricks(modeIsBid, roundIndex, values);
                 })
                 .setNegativeButton(R.string.cancel,
                         (dialog, id) -> BidOrTrickDialog.this.getDialog().cancel());
@@ -83,6 +97,14 @@ public class BidOrTrickDialog extends DialogFragment {
         textViewDialogTricks5.setText(playersInGame.get(4).getName());
         textViewDialogTricks6.setText(playersInGame.get(5).getName());
 
+        if (editValues != null) {
+            editTextDialogTricks1.setValue(editValues.get(0));
+            editTextDialogTricks2.setValue(editValues.get(1));
+            editTextDialogTricks3.setValue(editValues.get(2));
+            editTextDialogTricks4.setValue(editValues.get(3));
+            editTextDialogTricks5.setValue(editValues.get(4));
+            editTextDialogTricks6.setValue(editValues.get(5));
+        }
         return builder.create();
     }
 
@@ -100,6 +122,6 @@ public class BidOrTrickDialog extends DialogFragment {
 
     public interface BidOrTrickDialogListener {
 
-        void applyBidsOrTricks(boolean modeIsBid, List<Integer> tricks);
+        void applyBidsOrTricks(boolean modeIsBid, int roundIndex, List<Integer> values);
     }
 }

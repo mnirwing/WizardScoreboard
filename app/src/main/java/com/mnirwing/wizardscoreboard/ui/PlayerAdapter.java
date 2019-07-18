@@ -75,7 +75,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
     }
 
     public interface OnPlayerListener {
-
         void onPlayerClick(int position);
     }
 }

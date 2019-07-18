@@ -5,4 +5,6 @@
   <color name="colorAccent">#D81B60</color>
   <color name="colorAlternatingRowHighlight">#eeeeee</color>
   <color name="colorAlternatingRowNormal">#FFFFFF</color>
+  <color name="colorPositiveScore">#1b5e20</color>
+  <color name="colorNegativeScore">#b71c1c</color>
 </resources>
