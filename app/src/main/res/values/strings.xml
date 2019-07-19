@@ -2,8 +2,10 @@
   <string name="app_name">Wizard Scoreboard</string>
   <string name="buttonGameBid">Bid</string>
   <string name="buttonGameTricks">Tricks</string>
+
   <string name="okay">OK</string>
   <string name="cancel">Cancel</string>
+
   <string name="dialog_edit_tricks_title">Edit Tricks</string>
   <string name="dialog_add_tricks_title">Add Tricks</string>
   <string name="dialog_edit_bid_title">Edit Bids</string>
@@ -23,4 +25,9 @@
   <string name="dialog_add_player_title">Add Player</string>
   <string name="dialog_edit_player_title">Edit Player</string>
   <string name="round">Round</string>
+  <string name="new_game">New Game</string>
+  <string name="resume_game">Resume Game</string>
+  <string name="statistics">Statistics</string>
+  <string name="load_game">Load Game</string>
+  <string name="manage_players">Manage Players</string>
 </resources>

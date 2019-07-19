@@ -11,18 +11,18 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent">
     <TextView
-      android:id="@+id/textViewPlayerName"
+      android:id="@+id/textViewGameDate"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       tools:text="Name"
       android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
         <TextView
-          android:id="@+id/textViewPlayerNickname"
+          android:id="@+id/textViewPlayerNames"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           tools:text="Nickname"
-          android:layout_below="@id/textViewPlayerName"/>
+          android:layout_below="@id/textViewGameDate"/>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

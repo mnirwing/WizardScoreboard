@@ -56,6 +56,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
     public void notifyPlayerAdded() {
         notifyItemInserted(players.size() - 1);
     }
+
     class PlayerHolder extends RecyclerView.ViewHolder implements OnClickListener {
         private TextView textViewPlayerName;
         private TextView textViewPlayerNickname;
@@ -64,8 +65,8 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
 
         public PlayerHolder(@NonNull View itemView, OnPlayerListener onPlayerListener) {
             super(itemView);
-            textViewPlayerName = itemView.findViewById(R.id.textViewPlayerName);
-            textViewPlayerNickname = itemView.findViewById(R.id.textViewPlayerNickname);
+            textViewPlayerName = itemView.findViewById(R.id.textViewGameDate);
+            textViewPlayerNickname = itemView.findViewById(R.id.textViewPlayerNames);
             this.onPlayerListener = onPlayerListener;
             itemView.setOnClickListener(this);
         }

@@ -18,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private Button buttonResumeGame;
-
+    private Button buttonNewGame;
+    private Button buttonLoadGame;
     private Button buttonManagePlayers;
 
-    private Button buttonNewGame;
 
     private DataHolder data;
 
@@ -43,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
         buttonResumeGame = findViewById(R.id.buttonResumeGame);
-        buttonManagePlayers = findViewById(R.id.buttonManagePlayers);
         buttonNewGame = findViewById(R.id.buttonNewGame);
+        buttonLoadGame = findViewById(R.id.buttonLoadGame);
+        buttonManagePlayers = findViewById(R.id.buttonManagePlayers);
 
         buttonResumeGame.setOnClickListener(e -> {
             if (data.getCurrentGame() == null) {
@@ -60,9 +61,8 @@ public class MainActivity extends AppCompatActivity {
             this.startActivity(intent);
         });
 
-        buttonManagePlayers.setOnClickListener(e -> {
-            Intent intent = new Intent(this, ManagePlayersActivity.class);
-            intent.putExtra("modeManagePlayers", true);
+        buttonLoadGame.setOnClickListener(e -> {
+            Intent intent = new Intent(this, LoadGamesActivity.class);
             this.startActivity(intent);
         });
 
@@ -70,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, CreateGameActivity.class);
             this.startActivity(intent);
         });
+
+        buttonManagePlayers.setOnClickListener(e -> {
+            Intent intent = new Intent(this, ManagePlayersActivity.class);
+            intent.putExtra("modeManagePlayers", true);
+            this.startActivity(intent);
+        });
+
+
     }
 
     private void loadSampleData() {

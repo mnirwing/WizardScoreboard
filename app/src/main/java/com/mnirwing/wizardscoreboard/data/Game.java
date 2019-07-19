@@ -3,6 +3,7 @@ package com.mnirwing.wizardscoreboard.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +37,7 @@ public class Game implements Serializable {
         this.player4Id = player4Id;
         this.player5Id = player5Id;
         this.player6Id = player6Id;
+        this.createdAt = Calendar.getInstance().getTime();
         this.isFinished = false;
         this.isCurrentGame = false;
     }
@@ -52,6 +54,7 @@ public class Game implements Serializable {
         if (players.size() == 6) {
             this.player6Id = players.get(5).getId();
         }
+        this.createdAt = Calendar.getInstance().getTime();
         this.isFinished = false;
         this.isCurrentGame = false;
     }

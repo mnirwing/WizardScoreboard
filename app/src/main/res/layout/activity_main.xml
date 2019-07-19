@@ -7,14 +7,14 @@
     tools:context=".ui.MainActivity">
 
     <Button
-        android:id="@+id/buttonManagePlayers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Spieler verwalten"
-        app:layout_constraintEnd_toEndOf="@+id/buttonNewGame"
-        app:layout_constraintStart_toStartOf="@+id/buttonNewGame"
-        app:layout_constraintTop_toBottomOf="@+id/buttonNewGame" />
+      android:id="@+id/buttonManagePlayers"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:text="@string/manage_players"
+      app:layout_constraintEnd_toEndOf="@+id/buttonLoadGame"
+      app:layout_constraintStart_toStartOf="@+id/buttonLoadGame"
+      app:layout_constraintTop_toBottomOf="@+id/buttonLoadGame"/>
 
     <Button
         android:id="@+id/buttonResumeGame"
@@ -23,7 +23,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="128dp"
         android:layout_marginEnd="8dp"
-        android:text="Spiel fortsetzen"
+      android:text="@string/resume_game"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Neues Spiel"
+      android:text="@string/new_game"
         app:layout_constraintEnd_toEndOf="@+id/buttonResumeGame"
         app:layout_constraintStart_toStartOf="@+id/buttonResumeGame"
         app:layout_constraintTop_toBottomOf="@+id/buttonResumeGame" />
@@ -43,8 +43,17 @@
         android:layout_width="112dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Statistiken"
+      android:text="@string/statistics"
         app:layout_constraintEnd_toEndOf="@+id/buttonManagePlayers"
         app:layout_constraintStart_toStartOf="@+id/buttonManagePlayers"
         app:layout_constraintTop_toBottomOf="@+id/buttonManagePlayers" />
+  <Button
+    android:id="@+id/buttonLoadGame"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:text="@string/load_game"
+    app:layout_constraintEnd_toEndOf="@+id/buttonNewGame"
+    app:layout_constraintStart_toStartOf="@+id/buttonNewGame"
+    app:layout_constraintTop_toBottomOf="@+id/buttonNewGame"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
