@@ -2,17 +2,14 @@ package com.mnirwing.wizardscoreboard.ui;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.provider.Telephony.TextBasedSmsColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.mnirwing.wizardscoreboard.R;
 import com.mnirwing.wizardscoreboard.data.DataHolder;
 import com.mnirwing.wizardscoreboard.data.Game;
@@ -21,7 +18,6 @@ import com.mnirwing.wizardscoreboard.data.Player;
 import com.mnirwing.wizardscoreboard.data.Round;
 import com.mnirwing.wizardscoreboard.ui.BidOrTrickDialog.BidOrTrickDialogListener;
 import com.mnirwing.wizardscoreboard.ui.GameAdapter.OnRoundClickListener;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -89,8 +85,9 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     }
 
     @Override
-    public void applyBidsOrTricks(boolean modeIsBid, int roundIndex, List<Integer> values) {
-        if (modeIsBid) {
+    public void applyBidsOrTricks(boolean dialogWasInBidMode, boolean dialogWasInEditMode,
+            int roundIndex, List<Integer> values) {
+        if (dialogWasInBidMode) {
             isBiddingPhaseDone = true;
             buttonGameTricks.setEnabled(true);
 
@@ -99,7 +96,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
             }
             adapter.notifyRoundGuessUpdated(roundIndex);
             if (showTrickDialogAfterBidDialogIsDone) {
-                showTrickDialogWithValues(game.getRoundScoreValues(editedRoundIndex),
+                showTrickDialogWithValues(game.getRoundTrickValues(editedRoundIndex),
                         editedRoundIndex);
                 showTrickDialogAfterBidDialogIsDone = false;
             }
@@ -107,11 +104,16 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
             isBiddingPhaseDone = false;
             buttonGameTricks.setEnabled(false);
             for (int i = 0; i < game.getRounds().get(roundIndex).getMoves().size(); i++) {
-                game.getRounds().get(roundIndex).getMoves().get(i).calculateScore(values.get(i));
+                game.getRounds().get(roundIndex).getMoves().get(i)
+                        .setTricksAndCalculateScore(values.get(i));
             }
             game.calculateTotalScores(roundIndex);
-            adapter.notifyRoundTricksUpdated(roundIndex);
-            addEmptyRound();
+            if (!dialogWasInEditMode) {
+                adapter.notifyRoundTricksUpdated(roundIndex);
+                addEmptyRound();
+            } else {
+                adapter.notifyTotalScoresChangedAfterRound(roundIndex);
+            }
         }
     }
 

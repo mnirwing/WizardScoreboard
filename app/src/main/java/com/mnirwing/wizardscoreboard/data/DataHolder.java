@@ -79,7 +79,7 @@ public class DataHolder {
     }
 
     public void addPlayer(Player player) {
-        this.players.add(player);
+        this.getPlayers().add(player);
     }
 
 //    public static ArrayList<Question> getActiveQuestions() {
@@ -127,6 +127,11 @@ public class DataHolder {
         prefsEditor.putString("games", games);
         prefsEditor.putString("players", players);
         prefsEditor.apply();
+    }
+
+    public void deleteAll() {
+        this.games = null;
+        this.players = null;
     }
 
     public String showJson() {

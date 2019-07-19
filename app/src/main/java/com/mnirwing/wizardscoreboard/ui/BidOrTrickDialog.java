@@ -33,23 +33,23 @@ public class BidOrTrickDialog extends DialogFragment {
 
     private List<Player> playersInGame;
     private BidOrTrickDialogListener listener;
-    private final boolean modeIsBid;
-    private final boolean modeIsEdit;
+    private final boolean dialogInBidMode;
+    private final boolean dialogInEditMode;
     private int roundIndex;
     private List<Integer> editValues;
 
-    public BidOrTrickDialog(boolean modeIsBid, int roundIndex, List<Player> playersInGame) {
-        this.modeIsBid = modeIsBid;
+    public BidOrTrickDialog(boolean dialogInBidMode, int roundIndex, List<Player> playersInGame) {
+        this.dialogInBidMode = dialogInBidMode;
         this.roundIndex = roundIndex;
-        this.modeIsEdit = false;
+        this.dialogInEditMode = false;
         this.playersInGame = playersInGame;
     }
 
-    public BidOrTrickDialog(boolean modeIsBid, int roundIndex, List<Player> playersInGame,
+    public BidOrTrickDialog(boolean dialogInBidMode, int roundIndex, List<Player> playersInGame,
             List<Integer> editValues) {
-        this.modeIsBid = modeIsBid;
+        this.dialogInBidMode = dialogInBidMode;
         this.roundIndex = roundIndex;
-        this.modeIsEdit = true;
+        this.dialogInEditMode = true;
         this.playersInGame = playersInGame;
         this.editValues = editValues;
     }
@@ -60,8 +60,17 @@ public class BidOrTrickDialog extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         // Pass null as the parent view because its going in the dialog layout
         View view = inflater.inflate(R.layout.dialog_tricks, null);
+        String title;
+        if (dialogInEditMode) {
+            title = dialogInBidMode ? getString(R.string.dialog_edit_bid_title)
+                    : getString(R.string.dialog_edit_tricks_title);
+            title += " " + getString(R.string.round) + ": " + (roundIndex + 1);
+        } else {
+            title = dialogInBidMode ? getString(R.string.dialog_add_bid_title)
+                    : getString(R.string.dialog_add_tricks_title);
+        }
         builder.setView(view)
-                .setTitle(modeIsBid ? R.string.dialog_bid_title : R.string.dialog_tricks_title)
+                .setTitle(title)
                 .setPositiveButton(android.R.string.yes, (dialog, id) -> {
                     List<Integer> values = new ArrayList<>();
                     values.add(editTextDialogTricks1.getValue());
@@ -70,7 +79,8 @@ public class BidOrTrickDialog extends DialogFragment {
                     values.add(editTextDialogTricks4.getValue());
                     values.add(editTextDialogTricks5.getValue());
                     values.add(editTextDialogTricks6.getValue());
-                    listener.applyBidsOrTricks(modeIsBid, roundIndex, values);
+                    listener.applyBidsOrTricks(dialogInBidMode, dialogInEditMode, roundIndex,
+                            values);
                 })
                 .setNegativeButton(android.R.string.cancel,
                         (dialog, id) -> BidOrTrickDialog.this.getDialog().cancel());
@@ -121,6 +131,7 @@ public class BidOrTrickDialog extends DialogFragment {
 
     public interface BidOrTrickDialogListener {
 
-        void applyBidsOrTricks(boolean modeIsBid, int roundIndex, List<Integer> values);
+        void applyBidsOrTricks(boolean dialogWasInBidMode, boolean dialogWasInEditMode,
+                int roundIndex, List<Integer> values);
     }
 }

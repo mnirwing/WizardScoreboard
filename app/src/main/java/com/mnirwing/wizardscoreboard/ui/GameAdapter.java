@@ -1,22 +1,18 @@
 package com.mnirwing.wizardscoreboard.ui;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.mnirwing.wizardscoreboard.R;
 import com.mnirwing.wizardscoreboard.data.DataHolder;
 import com.mnirwing.wizardscoreboard.data.Player;
 import com.mnirwing.wizardscoreboard.data.Round;
-
 import java.util.List;
 
 public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
@@ -101,6 +97,10 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
         displayGuessesInCurrentRound = false;
         Log.d(TAG, "notifyRoundAdded: Size:" + (rounds.size() - 1));
         notifyItemInserted(rounds.size() - 1);
+    }
+
+    public void notifyTotalScoresChangedAfterRound(int roundIndex) {
+        notifyItemRangeChanged(roundIndex, rounds.size() - roundIndex);
     }
 
     class GameHolder extends RecyclerView.ViewHolder implements OnLongClickListener {

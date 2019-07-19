@@ -1,6 +1,5 @@
 package com.mnirwing.wizardscoreboard.data;
 
-import android.util.Log;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -151,6 +150,15 @@ public class Game implements Serializable {
             roundGuessValues.add(move.getGuess());
         }
         return roundGuessValues;
+    }
+
+    public List<Integer> getRoundTrickValues(int position) {
+        List<Integer> roundTrickValues = new ArrayList<>();
+        Round clickedRound = rounds.get(position);
+        for (Move move : clickedRound.getMoves()) {
+            roundTrickValues.add(move.getTricks());
+        }
+        return roundTrickValues;
     }
 
     public List<Integer> getRoundScoreValues(int position) {

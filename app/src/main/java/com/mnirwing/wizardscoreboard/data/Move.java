@@ -12,6 +12,8 @@ public class Move {
 
     private int guess;
 
+    private int tricks;
+
     private int score;
 
     private int totalScore;
@@ -26,16 +28,17 @@ public class Move {
         this.id = id;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public void calculateScore(int tricks) {
+    public void setTricksAndCalculateScore(int tricks) {
+        this.tricks = tricks;
         if (guess == tricks) {
             score = tricks * 10 + 20;
         } else {
             score = Math.abs(guess - tricks) * -10;
         }
+    }
+
+    public int getTricks() {
+        return tricks;
     }
 
     public UUID getId() {
