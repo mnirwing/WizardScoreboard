@@ -46,8 +46,12 @@ public class Game implements Serializable {
         this.player2Id = players.get(1).getId();
         this.player3Id = players.get(2).getId();
         this.player4Id = players.get(3).getId();
-        this.player5Id = players.get(4).getId();
-        this.player6Id = players.get(5).getId();
+        if (players.size() >= 5) {
+            this.player5Id = players.get(4).getId();
+        }
+        if (players.size() == 6) {
+            this.player6Id = players.get(5).getId();
+        }
         this.isFinished = false;
         this.isCurrentGame = false;
     }

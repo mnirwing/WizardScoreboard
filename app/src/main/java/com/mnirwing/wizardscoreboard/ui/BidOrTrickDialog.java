@@ -17,19 +17,9 @@ import java.util.List;
 
 public class BidOrTrickDialog extends DialogFragment {
 
-    private NumberPicker editTextDialogTricks1;
-    private NumberPicker editTextDialogTricks2;
-    private NumberPicker editTextDialogTricks3;
-    private NumberPicker editTextDialogTricks4;
-    private NumberPicker editTextDialogTricks5;
-    private NumberPicker editTextDialogTricks6;
+    private NumberPicker[] numberPickers = new NumberPicker[6];
 
-    private TextView textViewDialogTricks1;
-    private TextView textViewDialogTricks2;
-    private TextView textViewDialogTricks3;
-    private TextView textViewDialogTricks4;
-    private TextView textViewDialogTricks5;
-    private TextView textViewDialogTricks6;
+    private TextView[] textViewDialogTricks = new TextView[6];
 
     private List<Player> playersInGame;
     private BidOrTrickDialogListener listener;
@@ -58,6 +48,19 @@ public class BidOrTrickDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
+
+//        int layoutId;
+//        switch (playersInGame.size()) {
+//            case 4:
+//                layoutId = R.layout.dialog_tricks;
+//                break;
+//            case 5:
+//                layoutId = R.layout.dialog_tricks;
+//                break;
+//            default:
+//                layoutId = R.layout.dialog_tricks;
+//        }
+
         // Pass null as the parent view because its going in the dialog layout
         View view = inflater.inflate(R.layout.dialog_tricks, null);
         String title;
@@ -73,47 +76,48 @@ public class BidOrTrickDialog extends DialogFragment {
                 .setTitle(title)
                 .setPositiveButton(android.R.string.yes, (dialog, id) -> {
                     List<Integer> values = new ArrayList<>();
-                    values.add(editTextDialogTricks1.getValue());
-                    values.add(editTextDialogTricks2.getValue());
-                    values.add(editTextDialogTricks3.getValue());
-                    values.add(editTextDialogTricks4.getValue());
-                    values.add(editTextDialogTricks5.getValue());
-                    values.add(editTextDialogTricks6.getValue());
+                    for (NumberPicker np : numberPickers) {
+                        values.add(np.getValue());
+                    }
                     listener.applyBidsOrTricks(dialogInBidMode, dialogInEditMode, roundIndex,
                             values);
                 })
                 .setNegativeButton(android.R.string.cancel,
                         (dialog, id) -> BidOrTrickDialog.this.getDialog().cancel());
 
-        editTextDialogTricks1 = view.findViewById(R.id.numberPickerDialog1);
-        editTextDialogTricks2 = view.findViewById(R.id.numberPickerDialog2);
-        editTextDialogTricks3 = view.findViewById(R.id.numberPickerDialog3);
-        editTextDialogTricks4 = view.findViewById(R.id.numberPickerDialog4);
-        editTextDialogTricks5 = view.findViewById(R.id.numberPickerDialog5);
-        editTextDialogTricks6 = view.findViewById(R.id.numberPickerDialog6);
+        numberPickers[0] = view.findViewById(R.id.numberPickerDialog1);
+        numberPickers[1] = view.findViewById(R.id.numberPickerDialog2);
+        numberPickers[2] = view.findViewById(R.id.numberPickerDialog3);
+        numberPickers[3] = view.findViewById(R.id.numberPickerDialog4);
+        numberPickers[4] = view.findViewById(R.id.numberPickerDialog5);
+        numberPickers[5] = view.findViewById(R.id.numberPickerDialog6);
 
-        textViewDialogTricks1 = view.findViewById(R.id.textViewDialogTricks1);
-        textViewDialogTricks2 = view.findViewById(R.id.textViewDialogTricks2);
-        textViewDialogTricks3 = view.findViewById(R.id.textViewDialogTricks3);
-        textViewDialogTricks4 = view.findViewById(R.id.textViewDialogTricks4);
-        textViewDialogTricks5 = view.findViewById(R.id.textViewDialogTricks5);
-        textViewDialogTricks6 = view.findViewById(R.id.textViewDialogTricks6);
+        textViewDialogTricks[0] = view.findViewById(R.id.textViewDialogTricks1);
+        textViewDialogTricks[1] = view.findViewById(R.id.textViewDialogTricks2);
+        textViewDialogTricks[2] = view.findViewById(R.id.textViewDialogTricks3);
+        textViewDialogTricks[3] = view.findViewById(R.id.textViewDialogTricks4);
+        textViewDialogTricks[4] = view.findViewById(R.id.textViewDialogTricks5);
+        textViewDialogTricks[5] = view.findViewById(R.id.textViewDialogTricks6);
 
-        textViewDialogTricks1.setText(playersInGame.get(0).getName());
-        textViewDialogTricks2.setText(playersInGame.get(1).getName());
-        textViewDialogTricks3.setText(playersInGame.get(2).getName());
-        textViewDialogTricks4.setText(playersInGame.get(3).getName());
-        textViewDialogTricks5.setText(playersInGame.get(4).getName());
-        textViewDialogTricks6.setText(playersInGame.get(5).getName());
+        for (int i = 0; i < playersInGame.size(); i++) {
+            textViewDialogTricks[i].setText(playersInGame.get(i).getName());
+        }
 
         if (editValues != null) {
-            editTextDialogTricks1.setValue(editValues.get(0));
-            editTextDialogTricks2.setValue(editValues.get(1));
-            editTextDialogTricks3.setValue(editValues.get(2));
-            editTextDialogTricks4.setValue(editValues.get(3));
-            editTextDialogTricks5.setValue(editValues.get(4));
-            editTextDialogTricks6.setValue(editValues.get(5));
+            for (int i = 0; i < numberPickers.length; i++) {
+                numberPickers[i].setValue(editValues.get(i));
+            }
         }
+
+        if (playersInGame.size() == 4) {
+            numberPickers[4].setVisibility(View.GONE);
+            numberPickers[5].setVisibility(View.GONE);
+        }
+        if (playersInGame.size() == 5) {
+            numberPickers[5].setVisibility(View.GONE);
+        }
+
+
         return builder.create();
     }
 

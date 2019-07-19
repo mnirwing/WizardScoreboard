@@ -80,11 +80,11 @@ public class MainActivity extends AppCompatActivity {
         data.addPlayer(new Player("Dieter", "Dieterchen"));
         data.addPlayer(new Player("Klaus", "Klausi"));
         data.addPlayer(new Player("Annegret", "Anne"));
-        data.addPlayer(new Player("Heribert", "Heri"));
-        data.addPlayer(new Player("Friedhelm", "Friddi"));
+//        data.addPlayer(new Player("Heribert", "Heri"));
+//        data.addPlayer(new Player("Friedhelm", "Friddi"));
 
         Game game = new Game(data.getPlayers());
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 13; i++) {
             Round round = new Round();
             Move move1 = new Move(data.getPlayers().get(0).getId(), game.getId(),
                     (int) (Math.random() * 4));
@@ -94,17 +94,18 @@ public class MainActivity extends AppCompatActivity {
                     (int) (Math.random() * 4));
             Move move4 = new Move(data.getPlayers().get(3).getId(), game.getId(),
                     (int) (Math.random() * 4));
-            Move move5 = new Move(data.getPlayers().get(4).getId(), game.getId(),
-                    (int) (Math.random() * 4));
-            Move move6 = new Move(data.getPlayers().get(5).getId(), game.getId(),
-                    (int) (Math.random() * 4));
+//            Move move5 = new Move(data.getPlayers().get(4).getId(), game.getId(),
+//                    (int) (Math.random() * 4));
+//            Move move6 = new Move(data.getPlayers().get(5).getId(), game.getId(),
+//                    (int) (Math.random() * 4));
             move1.setTricksAndCalculateScore((int) (Math.random() * 4));
             move2.setTricksAndCalculateScore((int) (Math.random() * 4));
             move3.setTricksAndCalculateScore((int) (Math.random() * 4));
             move4.setTricksAndCalculateScore((int) (Math.random() * 4));
-            move5.setTricksAndCalculateScore((int) (Math.random() * 4));
-            move6.setTricksAndCalculateScore((int) (Math.random() * 4));
-            round.addMoves(move1, move2, move3, move4, move5, move6);
+//            move5.setTricksAndCalculateScore((int) (Math.random() * 4));
+//            move6.setTricksAndCalculateScore((int) (Math.random() * 4));
+//            round.addMoves(move1, move2, move3, move4, move5, move6);
+            round.addMoves(move1, move2, move3, move4);
             game.addRound(round);
         }
         game.calculateAllTotalScores();

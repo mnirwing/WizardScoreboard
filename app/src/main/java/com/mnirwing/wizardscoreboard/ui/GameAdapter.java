@@ -41,8 +41,19 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
     @Override
     public GameHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: Players:  " + playersInGame.size());
+        int layoutId;
+        switch (playersInGame.size()) {
+            case 4:
+                layoutId = R.layout.layout_game_4player_listitem;
+                break;
+            case 5:
+                layoutId = R.layout.layout_game_5player_listitem;
+                break;
+            default:
+                layoutId = R.layout.layout_game_6player_listitem;
+        }
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_game_6player_listitem, parent, false);
+                .inflate(layoutId, parent, false);
         return new GameHolder(itemView, onRoundClickListener);
     }
 
@@ -84,6 +95,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
     }
 
     public void notifyRoundGuessUpdated(int roundIndex) {
+        Log.d(TAG, "notifyRoundGuessUpdated: " + roundIndex);
         displayGuessesInCurrentRound = true;
         notifyItemChanged(roundIndex);
     }
@@ -100,7 +112,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
     }
 
     public void notifyTotalScoresChangedAfterRound(int roundIndex) {
-        notifyItemRangeChanged(roundIndex, rounds.size() - roundIndex);
+        notifyItemRangeChanged(roundIndex, rounds.size() - 1 - roundIndex);
     }
 
     class GameHolder extends RecyclerView.ViewHolder implements OnLongClickListener {
@@ -132,11 +144,15 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
             textViewPlayerGuesses[3] = itemView.findViewById(R.id.textViewPlayer4Guess);
             textViewPlayerScores[3] = itemView.findViewById(R.id.textViewPlayer4Score);
 
-            textViewPlayerGuesses[4] = itemView.findViewById(R.id.textViewPlayer5Guess);
-            textViewPlayerScores[4] = itemView.findViewById(R.id.textViewPlayer5Score);
+            if (playersInGame.size() > 4) {
+                textViewPlayerGuesses[4] = itemView.findViewById(R.id.textViewPlayer5Guess);
+                textViewPlayerScores[4] = itemView.findViewById(R.id.textViewPlayer5Score);
+            }
 
-            textViewPlayerGuesses[5] = itemView.findViewById(R.id.textViewPlayer6Guess);
-            textViewPlayerScores[5] = itemView.findViewById(R.id.textViewPlayer6Score);
+            if (playersInGame.size() > 5) {
+                textViewPlayerGuesses[5] = itemView.findViewById(R.id.textViewPlayer6Guess);
+                textViewPlayerScores[5] = itemView.findViewById(R.id.textViewPlayer6Score);
+            }
         }
 
         @Override
