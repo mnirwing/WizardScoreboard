@@ -39,9 +39,9 @@ public class DataHolder {
         if (games == null) {
             games = new ArrayList<>();
         }
-        for (int i = games.size() - 1; i <= 0; i--) {
-            if (games.get(i).isCurrentGame()) {
-                return games.get(i);
+        for (Game game : games) {
+            if (game.isCurrentGame()) {
+                return game;
             }
         }
         return null;

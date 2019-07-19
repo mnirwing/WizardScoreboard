@@ -31,8 +31,7 @@ public class BidOrTrickDialog extends DialogFragment {
     private TextView textViewDialogTricks5;
     private TextView textViewDialogTricks6;
 
-    List<Integer> values;
-    List<Player> playersInGame;
+    private List<Player> playersInGame;
     private BidOrTrickDialogListener listener;
     private final boolean modeIsBid;
     private final boolean modeIsEdit;
@@ -63,8 +62,8 @@ public class BidOrTrickDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_tricks, null);
         builder.setView(view)
                 .setTitle(modeIsBid ? R.string.dialog_bid_title : R.string.dialog_tricks_title)
-                .setPositiveButton(R.string.okay, (dialog, id) -> {
-                    values = new ArrayList<>();
+                .setPositiveButton(android.R.string.yes, (dialog, id) -> {
+                    List<Integer> values = new ArrayList<>();
                     values.add(editTextDialogTricks1.getValue());
                     values.add(editTextDialogTricks2.getValue());
                     values.add(editTextDialogTricks3.getValue());
@@ -73,7 +72,7 @@ public class BidOrTrickDialog extends DialogFragment {
                     values.add(editTextDialogTricks6.getValue());
                     listener.applyBidsOrTricks(modeIsBid, roundIndex, values);
                 })
-                .setNegativeButton(R.string.cancel,
+                .setNegativeButton(android.R.string.cancel,
                         (dialog, id) -> BidOrTrickDialog.this.getDialog().cancel());
 
         editTextDialogTricks1 = view.findViewById(R.id.numberPickerDialog1);

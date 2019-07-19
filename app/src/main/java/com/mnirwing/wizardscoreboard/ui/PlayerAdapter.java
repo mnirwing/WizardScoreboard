@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.mnirwing.wizardscoreboard.R;
 import com.mnirwing.wizardscoreboard.data.Player;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHolder> {
@@ -54,6 +53,9 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
         notifyDataSetChanged();
     }
 
+    public void notifyPlayerAdded() {
+        notifyItemInserted(players.size() - 1);
+    }
     class PlayerHolder extends RecyclerView.ViewHolder implements OnClickListener {
         private TextView textViewPlayerName;
         private TextView textViewPlayerNickname;

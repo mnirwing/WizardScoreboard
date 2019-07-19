@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Wizard Scoreboard</string>
+  <string name="app_name">Wizard Scoreboard</string>
   <string name="buttonGameBid">Bid</string>
   <string name="buttonGameTricks">Tricks</string>
   <string name="okay">OK</string>
@@ -15,4 +15,9 @@
   <string name="roboto_medium">sans-serif-medium</string>
 
   <string name="number_picker_formatter">%02d</string>
+  <string name="title_activity_main2">Main2Activity</string>
+  <string name="player_nickname">Nickname</string>
+  <string name="player_name">Name</string>
+  <string name="dialog_add_player_title">Add Player</string>
+  <string name="dialog_edit_player_title">Edit Player</string>
 </resources>
