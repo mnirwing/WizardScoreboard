@@ -2,6 +2,7 @@ package com.mnirwing.wizardscoreboard.ui;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -9,6 +10,7 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.Guideline;
 import androidx.recyclerview.widget.RecyclerView;
 import com.mnirwing.wizardscoreboard.R;
 import com.mnirwing.wizardscoreboard.data.DataHolder;
@@ -31,7 +33,6 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
     private DataHolder data = DataHolder.getInstance();
 
     private int selectedPosition = RecyclerView.NO_POSITION;
-    private boolean clickedOnce = false;
 
     public GameAdapter(List<Player> players, Context context,
             OnRoundClickListener onRoundClickListener) {
@@ -45,19 +46,11 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
     @Override
     public GameHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: Players:  " + playersInGame.size());
-        int layoutId;
-        switch (playersInGame.size()) {
-            case 4:
-                layoutId = R.layout.layout_game_4player_listitem;
-                break;
-            case 5:
-                layoutId = R.layout.layout_game_5player_listitem;
-                break;
-            default:
-                layoutId = R.layout.layout_game_6player_listitem;
-        }
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(layoutId, parent, false);
+                .inflate(R.layout.layout_game_6player_listitem, parent, false);
+
+        initializeGuidelines(itemView);
+
         return new GameHolder(itemView, onRoundClickListener);
     }
 
@@ -75,7 +68,6 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
                             Integer.toString(roundAtPosition.getMoves().get(i).getGuess()) : "-";
             String totalScoreToDisplay = !isPositionCurrentRound(position) ? Integer
                     .toString(roundAtPosition.getMoves().get(i).getTotalScore()) : "-";
-            //String scoreToDisplay = Integer.toString(currentRound.getMoves().get(i).getTotalScore());
             holder.textViewPlayerGuesses[i].setText(guessToDisplay);
             holder.textViewPlayerScores[i].setText(totalScoreToDisplay);
             holder.textViewPlayerScores[i]
@@ -140,8 +132,8 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
             itemView.setOnLongClickListener(this);
             itemView.setOnClickListener(this);
             textViewRound = itemView.findViewById(R.id.textViewRound);
-            textViewPlayerGuesses = new TextView[playersInGame.size()];
-            textViewPlayerScores = new TextView[playersInGame.size()];
+            textViewPlayerGuesses = new TextView[6];
+            textViewPlayerScores = new TextView[6];
 
             textViewPlayerGuesses[0] = itemView.findViewById(R.id.textViewPlayer1Guess);
             textViewPlayerScores[0] = itemView.findViewById(R.id.textViewPlayer1Score);
@@ -155,14 +147,21 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
             textViewPlayerGuesses[3] = itemView.findViewById(R.id.textViewPlayer4Guess);
             textViewPlayerScores[3] = itemView.findViewById(R.id.textViewPlayer4Score);
 
-            if (playersInGame.size() > 4) {
-                textViewPlayerGuesses[4] = itemView.findViewById(R.id.textViewPlayer5Guess);
-                textViewPlayerScores[4] = itemView.findViewById(R.id.textViewPlayer5Score);
-            }
+            textViewPlayerGuesses[4] = itemView.findViewById(R.id.textViewPlayer5Guess);
+            textViewPlayerScores[4] = itemView.findViewById(R.id.textViewPlayer5Score);
 
-            if (playersInGame.size() > 5) {
-                textViewPlayerGuesses[5] = itemView.findViewById(R.id.textViewPlayer6Guess);
-                textViewPlayerScores[5] = itemView.findViewById(R.id.textViewPlayer6Score);
+            textViewPlayerGuesses[5] = itemView.findViewById(R.id.textViewPlayer6Guess);
+            textViewPlayerScores[5] = itemView.findViewById(R.id.textViewPlayer6Score);
+
+            if (playersInGame.size() == 4) {
+                textViewPlayerGuesses[4].setVisibility(View.GONE);
+                textViewPlayerScores[4].setVisibility(View.GONE);
+                textViewPlayerGuesses[5].setVisibility(View.GONE);
+                textViewPlayerScores[5].setVisibility(View.GONE);
+            }
+            if (playersInGame.size() == 5) {
+                textViewPlayerGuesses[5].setVisibility(View.GONE);
+                textViewPlayerScores[5].setVisibility(View.GONE);
             }
         }
 
@@ -200,5 +199,73 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
         boolean onRoundLongClick(int position);
 
         boolean onRoundClick(int position, boolean selected);
+
+    }
+
+    private void initializeGuidelines(View itemView) {
+        Guideline[] guidelines = new Guideline[12];
+        guidelines[0] = itemView.findViewById(R.id.guideline_adapter_01);
+        guidelines[1] = itemView.findViewById(R.id.guideline_adapter_02);
+        guidelines[2] = itemView.findViewById(R.id.guideline_adapter_03);
+        guidelines[3] = itemView.findViewById(R.id.guideline_adapter_04);
+        guidelines[4] = itemView.findViewById(R.id.guideline_adapter_05);
+        guidelines[5] = itemView.findViewById(R.id.guideline_adapter_06);
+        guidelines[6] = itemView.findViewById(R.id.guideline_adapter_07);
+        guidelines[7] = itemView.findViewById(R.id.guideline_adapter_08);
+        guidelines[8] = itemView.findViewById(R.id.guideline_adapter_09);
+        guidelines[9] = itemView.findViewById(R.id.guideline_adapter_10);
+        guidelines[10] = itemView.findViewById(R.id.guideline_adapter_11);
+        guidelines[11] = itemView.findViewById(R.id.guideline_adapter_12);
+        TypedValue outValue = new TypedValue();
+        switch (playersInGame.size()) {
+            case 4:
+                context.getResources().getValue(R.fraction.guideline_4_player_01, outValue, true);
+                guidelines[0].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_4_player_02, outValue, true);
+                guidelines[1].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_4_player_03, outValue, true);
+                guidelines[2].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_4_player_04, outValue, true);
+                guidelines[3].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_4_player_05, outValue, true);
+                guidelines[4].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_4_player_06, outValue, true);
+                guidelines[5].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_4_player_07, outValue, true);
+                guidelines[6].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_4_player_08, outValue, true);
+                guidelines[7].setGuidelinePercent(outValue.getFloat());
+                guidelines[8].setVisibility(View.GONE);
+                guidelines[9].setVisibility(View.GONE);
+                guidelines[10].setVisibility(View.GONE);
+                guidelines[11].setVisibility(View.GONE);
+                break;
+            case 5:
+                context.getResources().getValue(R.fraction.guideline_5_player_01, outValue, true);
+                guidelines[0].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_5_player_02, outValue, true);
+                guidelines[1].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_5_player_03, outValue, true);
+                guidelines[2].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_5_player_04, outValue, true);
+                guidelines[3].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_5_player_05, outValue, true);
+                guidelines[4].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_5_player_06, outValue, true);
+                guidelines[5].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_5_player_07, outValue, true);
+                guidelines[6].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_5_player_08, outValue, true);
+                guidelines[7].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_5_player_09, outValue, true);
+                guidelines[8].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_5_player_10, outValue, true);
+                guidelines[9].setGuidelinePercent(outValue.getFloat());
+                guidelines[10].setVisibility(View.GONE);
+                guidelines[11].setVisibility(View.GONE);
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -68,6 +68,12 @@ public class Game implements Serializable {
     }
 
     public List<UUID> getPlayerIds() {
+        if (player5Id == null) {
+            return Arrays.asList(player1Id, player2Id, player3Id, player4Id);
+        }
+        if (player6Id == null) {
+            return Arrays.asList(player1Id, player2Id, player3Id, player4Id, player5Id);
+        }
         return Arrays.asList(player1Id, player2Id, player3Id, player4Id, player5Id, player6Id);
     }
 

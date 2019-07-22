@@ -38,9 +38,10 @@ public class CreateGameActivity extends AppCompatActivity {
         buttonCreateGame = findViewById(R.id.buttonCreateGame);
         buttonAddPlayer = findViewById(R.id.buttonAddPlayer);
         listViewCreateGame = findViewById(R.id.listViewCreateGamePlayers);
+
+        buttonCreateGame.setEnabled(enoughPlayersAdded());
         adapter = new ArrayAdapter<>(this, R.layout.layout_listview, getPlayerNames());
         listViewCreateGame.setAdapter(adapter);
-//        intent.putExtra("managePlayersMode", false);
 
         buttonAddPlayer.setOnClickListener(e -> {
             Intent intent = new Intent(this, ManagePlayersActivity.class);
@@ -49,11 +50,10 @@ public class CreateGameActivity extends AppCompatActivity {
         });
 
         buttonCreateGame.setOnClickListener(e -> {
-            if (playersInGame.size() < 4 || playersInGame.size() > 6) {
+            if (!enoughPlayersAdded()) {
                 Toast.makeText(this, getString(R.string.player_amount), Toast.LENGTH_SHORT).show();
                 return;
             }
-            buttonCreateGame.setEnabled(false);
             Game game = new Game(playersInGame);
             data.addGameAndSetCurrent(game);
             Intent intent = new Intent(this, GameActivity.class);
@@ -64,13 +64,14 @@ public class CreateGameActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) {
+            return;
+        }
         int playerPosition = (int) data.getExtras().get("position");
         this.playersInGame.add(this.data.getPlayers().get(playerPosition));
-        Log.d(TAG, "onActivityResult: playersInGame: " + playersInGame);
         adapter.clear();
         adapter.addAll(getPlayerNames());
-        //adapter.notifyDataSetChanged();
-        Log.d(TAG, "onActivityResult: AdapterCount: " + adapter.getCount());
+        buttonCreateGame.setEnabled(enoughPlayersAdded());
     }
 
     private List<String> getPlayerNames() {
@@ -83,5 +84,9 @@ public class CreateGameActivity extends AppCompatActivity {
             playerNames.add(player.getName());
         }
         return playerNames;
+    }
+
+    private boolean enoughPlayersAdded() {
+        return playersInGame.size() >= 4 && playersInGame.size() <= 6;
     }
 }

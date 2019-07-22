@@ -5,309 +5,304 @@
   android:layout_width="match_parent"
   android:layout_height="wrap_content">
 
-    <TextView
-      android:id="@+id/textViewRound"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="4dp"
-      android:text="15"
-      android:textAlignment="center"
-      app:layout_constraintEnd_toStartOf="@+id/guideline01"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"/>
+  <TextView
+    android:id="@+id/textViewRound"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:textAlignment="center"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_01"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="15"/>
 
   <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/guideline01"
+    android:id="@+id/guideline_adapter_01"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layout_constraintGuide_percent="0.07"/>
+    app:layout_constraintGuide_percent="@fraction/guideline_6_player_01"/>
 
-    <View
-      android:id="@+id/view01"
-      android:layout_width="2dp"
-      android:layout_height="0dp"
-      android:background="@android:color/black"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/guideline01"
-      app:layout_constraintTop_toTopOf="parent"/>
+  <View
+    android:id="@+id/view01"
+    android:layout_width="2dp"
+    android:layout_height="0dp"
+    android:background="@android:color/black"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_01"
+    app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-      android:id="@+id/textViewPlayer1Score"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="-20"
-      android:textAlignment="center"
-      app:layout_constraintEnd_toStartOf="@+id/guideline02"
-      app:layout_constraintStart_toStartOf="@+id/guideline01"
-      app:layout_constraintTop_toTopOf="@+id/textViewRound"/>
+  <TextView
+    android:id="@+id/textViewPlayer1Score"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAlignment="center"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_02"
+    app:layout_constraintStart_toStartOf="@+id/guideline_adapter_01"
+    app:layout_constraintTop_toTopOf="@+id/textViewRound"
+    tools:text="-20"/>
 
-    <View
-      android:id="@+id/view02"
-      android:layout_width="2dp"
-      android:layout_height="0dp"
-      android:background="@android:color/darker_gray"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/guideline02"
-      app:layout_constraintTop_toTopOf="parent"/>
+  <View
+    android:id="@+id/view02"
+    android:layout_width="2dp"
+    android:layout_height="0dp"
+    android:background="@android:color/darker_gray"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_02"
+    app:layout_constraintTop_toTopOf="parent"/>
 
   <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/guideline02"
+    android:id="@+id/guideline_adapter_02"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layout_constraintGuide_percent="0.17"/>
+    app:layout_constraintGuide_percent="@fraction/guideline_6_player_02"/>
 
-    <TextView
-      android:id="@+id/textViewPlayer1Guess"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="10"
-      android:textAlignment="textEnd"
-      app:layout_constraintEnd_toStartOf="@+id/guideline03"
-      app:layout_constraintStart_toStartOf="@+id/guideline02"
-      app:layout_constraintTop_toTopOf="@+id/textViewPlayer1Score"/>
+  <TextView
+    android:id="@+id/textViewPlayer1Guess"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAlignment="textEnd"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_03"
+    app:layout_constraintStart_toStartOf="@+id/guideline_adapter_02"
+    app:layout_constraintTop_toTopOf="@+id/textViewPlayer1Score"
+    tools:text="10"/>
 
   <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/guideline03"
+    android:id="@+id/guideline_adapter_03"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layout_constraintGuide_percent="0.225"/>
-    <View
-      android:id="@+id/view03"
-      android:layout_width="2dp"
-      android:layout_height="0dp"
-      android:background="@android:color/black"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/guideline03"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.0"/>
+    app:layout_constraintGuide_percent="@fraction/guideline_6_player_03"/>
+  <View
+    android:id="@+id/view03"
+    android:layout_width="2dp"
+    android:layout_height="0dp"
+    android:background="@android:color/black"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_03"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.0"/>
 
-    <TextView
-      android:id="@+id/textViewPlayer2Score"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="-20"
-      app:layout_constraintEnd_toStartOf="@+id/guideline04"
-      app:layout_constraintStart_toStartOf="@+id/guideline03"
-      app:layout_constraintTop_toTopOf="@+id/textViewPlayer1Guess"/>
+  <TextView
+    android:id="@+id/textViewPlayer2Score"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_04"
+    app:layout_constraintStart_toStartOf="@+id/guideline_adapter_03"
+    app:layout_constraintTop_toTopOf="@+id/textViewPlayer1Guess"
+    tools:text="-20"/>
 
   <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/guideline04"
+    android:id="@+id/guideline_adapter_04"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layout_constraintGuide_percent="0.325"/>
-    <View
-      android:id="@+id/view04"
-      android:layout_width="2dp"
-      android:layout_height="0dp"
-      android:background="@android:color/darker_gray"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/guideline04"
-      app:layout_constraintTop_toTopOf="parent"/>
-    <TextView
-      android:id="@+id/textViewPlayer2Guess"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="10"
-      app:layout_constraintEnd_toStartOf="@+id/guideline05"
-      app:layout_constraintStart_toStartOf="@+id/guideline04"
-      app:layout_constraintTop_toTopOf="@+id/textViewPlayer2Score"/>
+    app:layout_constraintGuide_percent="@fraction/guideline_6_player_04"/>
+  <View
+    android:id="@+id/view04"
+    android:layout_width="2dp"
+    android:layout_height="0dp"
+    android:background="@android:color/darker_gray"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_04"
+    app:layout_constraintTop_toTopOf="parent"/>
+  <TextView
+    android:id="@+id/textViewPlayer2Guess"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_05"
+    app:layout_constraintStart_toStartOf="@+id/guideline_adapter_04"
+    app:layout_constraintTop_toTopOf="@+id/textViewPlayer2Score"
+    tools:text="10"/>
 
   <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/guideline05"
+    android:id="@+id/guideline_adapter_05"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layout_constraintGuide_percent="0.38"/>
+    app:layout_constraintGuide_percent="@fraction/guideline_6_player_05"/>
 
-    <View
-      android:id="@+id/view05"
-      android:layout_width="2dp"
-      android:layout_height="0dp"
-      android:background="@android:color/black"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/guideline05"
-      app:layout_constraintTop_toTopOf="parent"/>
+  <View
+    android:id="@+id/view05"
+    android:layout_width="2dp"
+    android:layout_height="0dp"
+    android:background="@android:color/black"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_05"
+    app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-      android:id="@+id/textViewPlayer3Score"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="-20"
-      app:layout_constraintEnd_toStartOf="@+id/guideline06"
-      app:layout_constraintStart_toStartOf="@+id/guideline05"
-      app:layout_constraintTop_toTopOf="@+id/textViewPlayer2Guess"/>
+  <TextView
+    android:id="@+id/textViewPlayer3Score"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_06"
+    app:layout_constraintStart_toStartOf="@+id/guideline_adapter_05"
+    app:layout_constraintTop_toTopOf="@+id/textViewPlayer2Guess"
+    tools:text="-20"/>
 
   <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/guideline06"
+    android:id="@+id/guideline_adapter_06"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layout_constraintGuide_percent="0.48"/>
+    app:layout_constraintGuide_percent="@fraction/guideline_6_player_06"/>
 
-    <View
-      android:id="@+id/view06"
-      android:layout_width="2dp"
-      android:layout_height="0dp"
-      android:background="@android:color/darker_gray"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/guideline06"
-      app:layout_constraintTop_toTopOf="parent"/>
-    <TextView
-      android:id="@+id/textViewPlayer3Guess"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="10"
-      app:layout_constraintEnd_toStartOf="@id/guideline07"
-      app:layout_constraintStart_toStartOf="@+id/guideline06"
-      app:layout_constraintTop_toTopOf="@+id/textViewPlayer3Score"/>
+  <View
+    android:id="@+id/view06"
+    android:layout_width="2dp"
+    android:layout_height="0dp"
+    android:background="@android:color/darker_gray"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_06"
+    app:layout_constraintTop_toTopOf="parent"/>
+  <TextView
+    android:id="@+id/textViewPlayer3Guess"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toStartOf="@id/guideline_adapter_07"
+    app:layout_constraintStart_toStartOf="@+id/guideline_adapter_06"
+    app:layout_constraintTop_toTopOf="@+id/textViewPlayer3Score"
+    tools:text="10"/>
 
   <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/guideline07"
+    android:id="@+id/guideline_adapter_07"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layout_constraintGuide_percent="0.535"/>
+    app:layout_constraintGuide_percent="@fraction/guideline_6_player_07"/>
 
-    <View
-      android:id="@+id/view07"
-      android:layout_width="2dp"
-      android:layout_height="0dp"
-      android:background="@android:color/black"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/guideline07"
-      app:layout_constraintTop_toTopOf="parent"/>
+  <View
+    android:id="@+id/view07"
+    style="@style/divider_line.thick"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_07"
+    app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-      android:id="@+id/textViewPlayer4Score"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="-20"
-      app:layout_constraintEnd_toStartOf="@+id/guideline08"
-      app:layout_constraintStart_toStartOf="@+id/guideline07"
-      app:layout_constraintTop_toTopOf="@+id/textViewPlayer3Guess"/>
+  <TextView
+    android:id="@+id/textViewPlayer4Score"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_08"
+    app:layout_constraintStart_toStartOf="@+id/guideline_adapter_07"
+    app:layout_constraintTop_toTopOf="@+id/textViewPlayer3Guess"
+    tools:text="-20"/>
 
-    <View
-      android:id="@+id/view08"
-      android:layout_width="2dp"
-      android:layout_height="0dp"
-      android:background="@android:color/darker_gray"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/guideline08"
-      app:layout_constraintTop_toTopOf="parent"/>
+  <View
+    android:id="@+id/view08"
+    style="@style/divider_line.thin"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_08"
+    app:layout_constraintTop_toTopOf="parent"/>
 
   <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/guideline08"
+    android:id="@+id/guideline_adapter_08"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layout_constraintGuide_percent="0.635"/>
-    <TextView
-      android:id="@+id/textViewPlayer4Guess"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="10"
-      app:layout_constraintEnd_toStartOf="@+id/guideline09"
-      app:layout_constraintStart_toStartOf="@+id/guideline08"
-      app:layout_constraintTop_toTopOf="@+id/textViewPlayer4Score"/>
+    app:layout_constraintGuide_percent="@fraction/guideline_6_player_08"/>
+  <TextView
+    android:id="@+id/textViewPlayer4Guess"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_09"
+    app:layout_constraintStart_toStartOf="@+id/guideline_adapter_08"
+    app:layout_constraintTop_toTopOf="@+id/textViewPlayer4Score"
+    tools:text="10"/>
 
-    <View
-      android:id="@+id/view09"
-      android:layout_width="2dp"
-      android:layout_height="0dp"
-      android:background="@android:color/black"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/guideline09"
-      app:layout_constraintTop_toTopOf="parent"/>
+  <View
+    android:id="@+id/view09"
+    style="@style/divider_line.thick"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_09"
+    app:layout_constraintTop_toTopOf="parent"/>
 
   <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/guideline09"
+    android:id="@+id/guideline_adapter_09"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layout_constraintGuide_percent="0.69"/>
-    <TextView
-      android:id="@+id/textViewPlayer5Score"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="-20"
-      app:layout_constraintEnd_toStartOf="@+id/guideline10"
-      app:layout_constraintStart_toStartOf="@+id/guideline09"
-      app:layout_constraintTop_toTopOf="@+id/textViewPlayer4Guess"/>
+    app:layout_constraintGuide_percent="@fraction/guideline_6_player_09"/>
+  <TextView
+    android:id="@+id/textViewPlayer5Score"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_10"
+    app:layout_constraintStart_toStartOf="@+id/guideline_adapter_09"
+    app:layout_constraintTop_toTopOf="@+id/textViewPlayer4Guess"
+    tools:text="-20"/>
 
-    <View
-      android:id="@+id/view10"
-      android:layout_width="2dp"
-      android:layout_height="0dp"
-      android:background="@android:color/darker_gray"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/guideline10"
-      app:layout_constraintTop_toTopOf="parent"/>
+  <View
+    android:id="@+id/view10"
+    style="@style/divider_line.thin"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_10"
+    app:layout_constraintTop_toTopOf="parent"/>
 
   <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/guideline10"
+    android:id="@+id/guideline_adapter_10"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layout_constraintGuide_percent="0.79"/>
-    <TextView
-      android:id="@+id/textViewPlayer5Guess"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="10"
-      app:layout_constraintEnd_toStartOf="@+id/guideline11"
-      app:layout_constraintStart_toStartOf="@+id/guideline10"
-      app:layout_constraintTop_toTopOf="@+id/textViewPlayer5Score"/>
+    app:layout_constraintGuide_percent="@fraction/guideline_6_player_10"/>
+  <TextView
+    android:id="@+id/textViewPlayer5Guess"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_11"
+    app:layout_constraintStart_toStartOf="@+id/guideline_adapter_10"
+    app:layout_constraintTop_toTopOf="@+id/textViewPlayer5Score"
+    tools:text="10"/>
 
-    <View
-      android:id="@+id/view11"
-      android:layout_width="2dp"
-      android:layout_height="0dp"
-      android:background="@android:color/black"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/guideline11"
-      app:layout_constraintTop_toTopOf="parent"/>
+  <View
+    android:id="@+id/view11"
+    style="@style/divider_line.thick"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_11"
+    app:layout_constraintTop_toTopOf="parent"/>
 
   <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/guideline11"
+    android:id="@+id/guideline_adapter_11"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layout_constraintGuide_percent="0.845"/>
-    <TextView
-      android:id="@+id/textViewPlayer6Score"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="-20"
-      app:layout_constraintEnd_toStartOf="@+id/guideline12"
-      app:layout_constraintStart_toStartOf="@+id/guideline11"
-      app:layout_constraintTop_toTopOf="@+id/textViewPlayer5Guess"/>
+    app:layout_constraintGuide_percent="@fraction/guideline_6_player_11"/>
+  <TextView
+    android:id="@+id/textViewPlayer6Score"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_12"
+    app:layout_constraintStart_toStartOf="@+id/guideline_adapter_11"
+    app:layout_constraintTop_toTopOf="@+id/textViewPlayer5Guess"
+    tools:text="-20"/>
 
-    <View
-      android:id="@+id/view12"
-      android:layout_width="2dp"
-      android:layout_height="0dp"
-      android:background="@android:color/darker_gray"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/guideline12"
-      app:layout_constraintTop_toTopOf="parent"/>
+  <View
+    android:id="@+id/view12"
+    style="@style/divider_line.thin"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_adapter_12"
+    app:layout_constraintTop_toTopOf="parent"/>
 
   <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/guideline12"
+    android:id="@+id/guideline_adapter_12"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layout_constraintGuide_percent="0.945"/>
-    <TextView
-      android:id="@+id/textViewPlayer6Guess"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="10"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="@+id/guideline12"
-      app:layout_constraintTop_toTopOf="@+id/textViewPlayer6Score"/>
+    app:layout_constraintGuide_percent="@fraction/guideline_6_player_12"/>
+  <TextView
+    android:id="@+id/textViewPlayer6Guess"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="@+id/guideline_adapter_12"
+    app:layout_constraintTop_toTopOf="@+id/textViewPlayer6Score"
+    tools:text="10"/>
+
+  <View
+    android:id="@+id/view13"
+    style="@style/divider_line.thick.horizontal"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/textViewRound"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

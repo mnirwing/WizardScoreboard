@@ -77,9 +77,11 @@ public class DataHolder {
             players = new ArrayList<>();
         }
         List<Player> playersById = new ArrayList<>();
-        for (Player player : players) {
-            if (playerIds.contains(player.getId())) {
-                playersById.add(player);
+        for (int i = 0; i < playerIds.size(); i++) {
+            for (int j = 0; j < players.size(); j++) {
+                if (playerIds.get(i).equals(players.get(j).getId())) {
+                    playersById.add(players.get(j));
+                }
             }
         }
         return playersById;

@@ -3,13 +3,15 @@ package com.mnirwing.wizardscoreboard.ui;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.constraintlayout.widget.Guideline;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.mnirwing.wizardscoreboard.R;
@@ -64,8 +66,6 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
 
         adapter = new GameAdapter(playersInGame, this, this);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
-                DividerItemDecoration.VERTICAL));
 
         if (game.getRounds().size() == 0 || game.getRounds() == null) {
             addEmptyRound();
@@ -215,17 +215,54 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     }
 
     private void initialiseTextFields() {
+        Guideline[] guidelines = new Guideline[6];
+        guidelines[0] = findViewById(R.id.guideline_game_01);
+        guidelines[1] = findViewById(R.id.guideline_game_02);
+        guidelines[2] = findViewById(R.id.guideline_game_03);
+        guidelines[3] = findViewById(R.id.guideline_game_04);
+        guidelines[4] = findViewById(R.id.guideline_game_05);
+        guidelines[5] = findViewById(R.id.guideline_game_06);
+
         Log.d(TAG, "initialiseTextFields: ");
-        textViewGamePlayers = new TextView[playersInGame.size()];
+        textViewGamePlayers = new TextView[6];
         textViewGamePlayers[0] = findViewById(R.id.textViewGamePlayer1);
         textViewGamePlayers[1] = findViewById(R.id.textViewGamePlayer2);
         textViewGamePlayers[2] = findViewById(R.id.textViewGamePlayer3);
         textViewGamePlayers[3] = findViewById(R.id.textViewGamePlayer4);
-        if (playersInGame.size() >= 5) {
-            textViewGamePlayers[4] = findViewById(R.id.textViewGamePlayer5);
+        textViewGamePlayers[4] = findViewById(R.id.textViewGamePlayer5);
+        textViewGamePlayers[5] = findViewById(R.id.textViewGamePlayer6);
+
+        if (playersInGame.size() == 5) {
+            textViewGamePlayers[5].setVisibility(View.GONE);
+            TypedValue outValue = new TypedValue();
+            getResources().getValue(R.fraction.guideline_5_player_01, outValue, true);
+            guidelines[0].setGuidelinePercent(outValue.getFloat());
+            getResources().getValue(R.fraction.guideline_5_player_03, outValue, true);
+            guidelines[1].setGuidelinePercent(outValue.getFloat());
+            getResources().getValue(R.fraction.guideline_5_player_05, outValue, true);
+            guidelines[2].setGuidelinePercent(outValue.getFloat());
+            getResources().getValue(R.fraction.guideline_5_player_07, outValue, true);
+            guidelines[3].setGuidelinePercent(outValue.getFloat());
+            getResources().getValue(R.fraction.guideline_5_player_09, outValue, true);
+            guidelines[4].setGuidelinePercent(outValue.getFloat());
+
+            guidelines[5].setVisibility(View.GONE);
         }
-        if (playersInGame.size() == 6) {
-            textViewGamePlayers[5] = findViewById(R.id.textViewGamePlayer6);
+        if (playersInGame.size() == 4) {
+            textViewGamePlayers[4].setVisibility(View.GONE);
+            textViewGamePlayers[5].setVisibility(View.GONE);
+            TypedValue outValue = new TypedValue();
+            getResources().getValue(R.fraction.guideline_4_player_01, outValue, true);
+            guidelines[0].setGuidelinePercent(outValue.getFloat());
+            getResources().getValue(R.fraction.guideline_4_player_03, outValue, true);
+            guidelines[1].setGuidelinePercent(outValue.getFloat());
+            getResources().getValue(R.fraction.guideline_4_player_05, outValue, true);
+            guidelines[2].setGuidelinePercent(outValue.getFloat());
+            getResources().getValue(R.fraction.guideline_4_player_07, outValue, true);
+            guidelines[3].setGuidelinePercent(outValue.getFloat());
+
+            guidelines[4].setVisibility(View.GONE);
+            guidelines[5].setVisibility(View.GONE);
         }
 
         buttonGameBid = findViewById(R.id.buttonGameBid);

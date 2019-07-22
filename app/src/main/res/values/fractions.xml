@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <fraction name="guideline_6_player_12">0.945</fraction>
+  <fraction name="guideline_6_player_11">0.845</fraction>
+  <fraction name="guideline_6_player_10">0.79</fraction>
+  <fraction name="guideline_6_player_09">0.69</fraction>
+  <fraction name="guideline_6_player_08">0.635</fraction>
+  <fraction name="guideline_6_player_07">0.535</fraction>
+  <fraction name="guideline_6_player_06">0.48</fraction>
+  <fraction name="guideline_6_player_05">0.38</fraction>
+  <fraction name="guideline_6_player_04">0.325</fraction>
+  <fraction name="guideline_6_player_03">0.225</fraction>
+  <fraction name="guideline_6_player_02">0.17</fraction>
+  <fraction name="guideline_6_player_01">0.07</fraction>
+
+  <fraction name="guideline_5_player_10">0.934</fraction>
+  <fraction name="guideline_5_player_09">0.814</fraction>
+  <fraction name="guideline_5_player_08">0.748</fraction>
+  <fraction name="guideline_5_player_07">0.628</fraction>
+  <fraction name="guideline_5_player_06">0.562</fraction>
+  <fraction name="guideline_5_player_05">0.442</fraction>
+  <fraction name="guideline_5_player_04">0.376</fraction>
+  <fraction name="guideline_5_player_03">0.256</fraction>
+  <fraction name="guideline_5_player_02">0.19</fraction>
+  <fraction name="guideline_5_player_01">0.07</fraction>
+
+  <fraction name="guideline_4_player_08">0.9175</fraction>
+  <fraction name="guideline_4_player_07">0.7675</fraction>
+  <fraction name="guideline_4_player_06">0.685</fraction>
+  <fraction name="guideline_4_player_05">0.535</fraction>
+  <fraction name="guideline_4_player_04">0.4525</fraction>
+  <fraction name="guideline_4_player_03">0.3025</fraction>
+  <fraction name="guideline_4_player_02">0.22</fraction>
+  <fraction name="guideline_4_player_01">0.07</fraction>
+</resources>
