@@ -47,7 +47,7 @@ public class DataHolder {
         return null;
     }
 
-    public void addGameAndSetCurrent(Game game) {
+    public void setAllGamesOldExcept(Game game) {
         if (games == null) {
             games = new ArrayList<>();
         }
@@ -55,7 +55,14 @@ public class DataHolder {
             oldGame.setCurrentGame(false);
         }
         game.setCurrentGame(true);
+    }
+
+    public void addGameAndSetCurrent(Game game) {
+        if (games == null) {
+            games = new ArrayList<>();
+        }
         this.games.add(game);
+        setAllGamesOldExcept(game);
     }
 
     public List<Player> getPlayers() {
@@ -81,42 +88,6 @@ public class DataHolder {
     public void addPlayer(Player player) {
         this.getPlayers().add(player);
     }
-
-//    public static ArrayList<Question> getActiveQuestions() {
-//        ArrayList<Question> activeQuestions = new ArrayList<>();
-//        for (int i = 0; i < topicList.size(); i++) {
-//            if (topicList.get(i).isSelected()) {
-//                for (int y = 0; y < topicList.get(i).getQuestions().size(); y++) {
-//                    if (topicList.get(i).getQuestions().get(y).isActive()) {
-//                        activeQuestions.add(topicList.get(i).getQuestions().get(y));
-//                    }
-//                }
-//            }
-//        }
-//        return activeQuestions;
-//    }
-
-//    public static boolean readyForReset() {
-//        for (int i = 0; i < topicList.size(); i++) {
-//            if (topicList.get(i).isSelected() && (topicList.get(i).getQuestions().size() > 0)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//
-//    public boolean readyForShuffle() {
-//        for (int i = 0; i < topicList.size(); i++) {
-//            if (topicList.get(i).isSelected()) {
-//                for (int y = 0; y < topicList.get(i).getQuestions().size(); y++) {
-//                    if (topicList.get(i).getQuestions().get(y).isActive()) {
-//                        return true;
-//                    }
-//                }
-//            }
-//        }
-//        return false;
-//    }
 
     public void save(Context mContext) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.mnirwing.wizardscoreboard.R;
@@ -13,7 +14,6 @@ import com.mnirwing.wizardscoreboard.data.DataHolder;
 import com.mnirwing.wizardscoreboard.data.Game;
 import com.mnirwing.wizardscoreboard.data.Player;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CreateGameActivity extends AppCompatActivity {
@@ -48,14 +48,13 @@ public class CreateGameActivity extends AppCompatActivity {
             startActivityForResult(intent, 1);
         });
 
-        // TODO: change that back to the selected players
         buttonCreateGame.setOnClickListener(e -> {
-            if (playersInGame.size() != 6) {
-                //return;
+            if (playersInGame.size() < 4 || playersInGame.size() > 6) {
+                Toast.makeText(this, getString(R.string.player_amount), Toast.LENGTH_SHORT).show();
+                return;
             }
             buttonCreateGame.setEnabled(false);
-            //Game game = new Game(playersInGame);
-            Game game = new Game(data.getPlayers());
+            Game game = new Game(playersInGame);
             data.addGameAndSetCurrent(game);
             Intent intent = new Intent(this, GameActivity.class);
             startActivity(intent);

@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import androidx.appcompat.app.AlertDialog;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.mnirwing.wizardscoreboard.R;
 import com.mnirwing.wizardscoreboard.data.DataHolder;
@@ -31,16 +31,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         data = DataHolder.getInstance();
 
-        loadSampleData();
-
-        //only load data if no players or games exist
-//        if (!data.isLoaded()) {
-//            data.load(this);
-//            if (data.getPlayers().isEmpty() || data.getGames().isEmpty()) {
-//                loadSampleData();
-//            }
-//            data.setInitialLoad(true);
-//        }
+        // only load data if no players or games exist
+        if (!data.isLoaded()) {
+            data.load(this);
+            if (data.getPlayers().isEmpty() || data.getGames().isEmpty()) {
+                loadSampleData();
+            }
+            data.setInitialLoad(true);
+        }
 
         buttonResumeGame = findViewById(R.id.buttonResumeGame);
         buttonNewGame = findViewById(R.id.buttonNewGame);
@@ -49,20 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
         buttonResumeGame.setOnClickListener(e -> {
             if (data.getCurrentGame() == null) {
-                new AlertDialog.Builder(this)
-                        .setTitle("Delete entry")
-                        .setMessage("Are you sure you want to delete this entry?")
-                        .setPositiveButton(android.R.string.yes, null)
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+                Toast.makeText(this, getString(R.string.no_game_found), Toast.LENGTH_SHORT).show();
             }
             Intent intent = new Intent(this, GameActivity.class);
             this.startActivity(intent);
         });
 
         buttonLoadGame.setOnClickListener(e -> {
-            Intent intent = new Intent(this, LoadGamesActivity.class);
+            Intent intent = new Intent(this, LoadGameActivity.class);
             this.startActivity(intent);
         });
 

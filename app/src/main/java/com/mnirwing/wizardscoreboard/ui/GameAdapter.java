@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -28,6 +29,9 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
     private OnRoundClickListener onRoundClickListener;
 
     private DataHolder data = DataHolder.getInstance();
+
+    private int selectedPosition = RecyclerView.NO_POSITION;
+    private boolean clickedOnce = false;
 
     public GameAdapter(List<Player> players, Context context,
             OnRoundClickListener onRoundClickListener) {
@@ -79,10 +83,15 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
                             ? R.color.colorPositiveScore : R.color.colorNegativeScore));
         }
 
-        holder.itemView.setBackgroundColor(context.getColor(
-                position % 2 == 0 ? R.color.colorAlternatingRowNormal
-                        : R.color.colorAlternatingRowHighlight));
-
+        if (selectedPosition != position) {
+            holder.itemView
+                    .setBackgroundColor(context.getColor(
+                            position % 2 == 0 ? R.color.colorAlternatingRowNormal
+                                    : R.color.colorAlternatingRowHighlight));
+        } else {
+            holder.itemView
+                    .setBackgroundColor(context.getColor(R.color.colorHighlightedRow));
+        }
     }
 
     private boolean isPositionCurrentRound(int position) {
@@ -115,7 +124,8 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
         notifyItemRangeChanged(roundIndex, rounds.size() - 1 - roundIndex);
     }
 
-    class GameHolder extends RecyclerView.ViewHolder implements OnLongClickListener {
+    class GameHolder extends RecyclerView.ViewHolder implements OnClickListener,
+            OnLongClickListener {
 
         private TextView textViewRound;
 
@@ -128,6 +138,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
             super(itemView);
             this.onRoundClickListener = onRoundClickListener;
             itemView.setOnLongClickListener(this);
+            itemView.setOnClickListener(this);
             textViewRound = itemView.findViewById(R.id.textViewRound);
             textViewPlayerGuesses = new TextView[playersInGame.size()];
             textViewPlayerScores = new TextView[playersInGame.size()];
@@ -156,6 +167,27 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
         }
 
         @Override
+        public void onClick(View v) {
+            if (getAdapterPosition() == RecyclerView.NO_POSITION) {
+                return;
+            }
+
+            int oldPosition = selectedPosition;
+            // Updating old as well as new positions
+            notifyItemChanged(oldPosition);
+
+            selectedPosition = getAdapterPosition();
+            if (oldPosition == selectedPosition) {
+                selectedPosition = RecyclerView.NO_POSITION;
+                notifyItemChanged(selectedPosition);
+                onRoundClickListener.onRoundClick(selectedPosition, false);
+            } else {
+                notifyItemChanged(selectedPosition);
+                onRoundClickListener.onRoundClick(selectedPosition, true);
+            }
+        }
+
+        @Override
         public boolean onLongClick(View v) {
             Log.d(TAG, "onLongClick: GameAdapter" + getAdapterPosition());
             onRoundClickListener.onRoundLongClick(getAdapterPosition());
@@ -166,5 +198,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
     public interface OnRoundClickListener {
 
         boolean onRoundLongClick(int position);
+
+        boolean onRoundClick(int position, boolean selected);
     }
 }

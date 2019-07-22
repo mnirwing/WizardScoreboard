@@ -13,7 +13,7 @@
       android:name=".ui.CreateGameActivity"
       android:parentActivityName=".ui.MainActivity"/>
     <activity
-      android:name=".ui.LoadGamesActivity"
+      android:name=".ui.LoadGameActivity"
       android:parentActivityName=".ui.MainActivity"/>
     <activity android:name=".ui.MainActivity">
       <intent-filter>
@@ -22,8 +22,12 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-    <activity android:name=".ui.ManagePlayersActivity"/>
-    <activity android:name=".ui.GameActivity"/>
+    <activity
+      android:name=".ui.ManagePlayersActivity"
+      android:parentActivityName=".ui.MainActivity"/>
+    <activity
+      android:name=".ui.GameActivity"
+      android:parentActivityName=".ui.MainActivity"/>
   </application>
 
 </manifest>

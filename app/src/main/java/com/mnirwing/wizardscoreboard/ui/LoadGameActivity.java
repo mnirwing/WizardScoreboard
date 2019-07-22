@@ -1,5 +1,6 @@
 package com.mnirwing.wizardscoreboard.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,9 +10,9 @@ import com.mnirwing.wizardscoreboard.R;
 import com.mnirwing.wizardscoreboard.data.DataHolder;
 import com.mnirwing.wizardscoreboard.ui.LoadGameAdapter.OnGameListener;
 
-public class LoadGamesActivity extends AppCompatActivity implements OnGameListener {
+public class LoadGameActivity extends AppCompatActivity implements OnGameListener {
 
-    private static final String TAG = "LoadGamesActivity";
+    private static final String TAG = "LoadGameActivity";
     private DataHolder data;
     LoadGameAdapter adapter;
 
@@ -34,5 +35,8 @@ public class LoadGamesActivity extends AppCompatActivity implements OnGameListen
 
     @Override
     public void onGameClick(int position) {
+        data.setAllGamesOldExcept(data.getGames().get(position));
+        Intent intent = new Intent(this, GameActivity.class);
+        this.startActivity(intent);
     }
 }

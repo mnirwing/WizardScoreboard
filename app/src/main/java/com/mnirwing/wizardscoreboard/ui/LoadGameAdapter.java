@@ -43,16 +43,12 @@ public class LoadGameAdapter extends RecyclerView.Adapter<LoadGameAdapter.GameHo
     @Override
     public void onBindViewHolder(@NonNull GameHolder holder, int position) {
         Game current = games.get(position);
-        StringBuilder sb = new StringBuilder();
         List<Player> players = new ArrayList<>(data.getPlayersById(current.getPlayerIds()));
-        for (Player player : players) {
-            sb.append(player.getName()).append(", ");
-        }
         holder.textViewGameDate
                 .setText(DateFormat.getDateInstance().format(current.getCreatedAt()));
-        holder.textViewPlayerNames.setText(sb);
+        holder.textViewPlayerNames.setText(getStringOfPlayerNames(players));
         holder.textViewCurrentRound
-                .setText(context.getString(R.string.round) + " " + current.getRounds().size());
+                .setText(context.getString(R.string.round_number, current.getRounds().size()));
     }
 
     @Override
@@ -90,5 +86,13 @@ public class LoadGameAdapter extends RecyclerView.Adapter<LoadGameAdapter.GameHo
     public interface OnGameListener {
 
         void onGameClick(int position);
+    }
+
+    private String getStringOfPlayerNames(List<Player> players) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < players.size(); i++) {
+            sb.append(players.get(i).getName()).append(i < players.size() - 1 ? ", " : "");
+        }
+        return sb.toString();
     }
 }

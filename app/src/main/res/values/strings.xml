@@ -25,9 +25,13 @@
   <string name="dialog_add_player_title">Add Player</string>
   <string name="dialog_edit_player_title">Edit Player</string>
   <string name="round">Round</string>
+  <string name="round_number">Round: %1$d</string>
   <string name="new_game">New Game</string>
   <string name="resume_game">Resume Game</string>
   <string name="statistics">Statistics</string>
   <string name="load_game">Load Game</string>
   <string name="manage_players">Manage Players</string>
+  <string name="player_amount">Please select 4 to 6 players.</string>
+  <string name="no_game_found">No game found!</string>
+  <string name="edit">Edit</string>
 </resources>

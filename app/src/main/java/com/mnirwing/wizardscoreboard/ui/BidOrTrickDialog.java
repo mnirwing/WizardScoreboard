@@ -17,6 +17,8 @@ import java.util.List;
 
 public class BidOrTrickDialog extends DialogFragment {
 
+    private static final String TAG = "BidOrTrickDialog";
+
     private NumberPicker[] numberPickers = new NumberPicker[6];
 
     private TextView[] textViewDialogTricks = new TextView[6];
@@ -104,7 +106,7 @@ public class BidOrTrickDialog extends DialogFragment {
         }
 
         if (editValues != null) {
-            for (int i = 0; i < numberPickers.length; i++) {
+            for (int i = 0; i < editValues.size(); i++) {
                 numberPickers[i].setValue(editValues.get(i));
             }
         }

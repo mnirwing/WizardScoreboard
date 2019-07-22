@@ -3,6 +3,9 @@ package com.mnirwing.wizardscoreboard.ui;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +27,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         OnRoundClickListener {
 
     private static final String TAG = "GameActivity";
+    private MenuItem editAction;
 
     private TextView[] textViewGamePlayers;
 
@@ -38,6 +42,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     private boolean isBiddingPhaseDone;
     private boolean showTrickDialogAfterBidDialogIsDone;
     private int editedRoundIndex;
+    private int currentlyHighlightedRound = -1;
 
     private DataHolder data;
 
@@ -84,6 +89,59 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_game, menu);
+        editAction = menu.getItem(0);
+        editAction.setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_edit) {
+            if (currentlyHighlightedRound == -1) {
+                return true;
+            }
+            showBidDialogWithValues(game.getRoundGuessValues(currentlyHighlightedRound),
+                    currentlyHighlightedRound);
+            showTrickDialogAfterBidDialogIsDone = true;
+            editedRoundIndex = currentlyHighlightedRound;
+        } else {
+            Log.d(TAG, "onOptionsItemSelected: not found");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onRoundClick(int position, boolean selected) {
+        if (position != game.getRounds().size() - 1 && selected) {
+            currentlyHighlightedRound = position;
+        } else {
+            currentlyHighlightedRound = -1;
+        }
+        editAction.setVisible(selected);
+        return false;
+    }
+
+    /**
+     * This method gets invoked by the {@link GameAdapter} after a long click on a list item. It
+     * shows the bid dialog and presets values.
+     *
+     * @param position Position of the clicked item.
+     */
+    @Override
+    public boolean onRoundLongClick(int position) {
+        if ((game.getRounds().size() - 1) == position) {
+            return true;
+        }
+        showBidDialogWithValues(game.getRoundGuessValues(position), position);
+        showTrickDialogAfterBidDialogIsDone = true;
+        editedRoundIndex = position;
+        return true;
+    }
+
+    @Override
     public void applyBidsOrTricks(boolean dialogWasInBidMode, boolean dialogWasInEditMode,
             int roundIndex, List<Integer> values) {
         if (dialogWasInBidMode) {
@@ -114,20 +172,6 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
                 adapter.notifyTotalScoresChangedAfterRound(roundIndex);
             }
         }
-    }
-
-    /**
-     * This method gets invoked by the {@link GameAdapter} after a long click on a list item. It
-     * shows the bid dialog and presets values.
-     *
-     * @param position Position of the clicked item.
-     */
-    @Override
-    public boolean onRoundLongClick(int position) {
-        showBidDialogWithValues(game.getRoundGuessValues(position), position);
-        showTrickDialogAfterBidDialogIsDone = true;
-        editedRoundIndex = position;
-        return true;
     }
 
     private void showBidDialogWithValues(List<Integer> roundBidValues, int roundIndex) {
