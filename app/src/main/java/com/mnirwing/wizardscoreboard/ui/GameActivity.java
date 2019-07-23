@@ -10,10 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.Guideline;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.mnirwing.wizardscoreboard.R;
 import com.mnirwing.wizardscoreboard.data.DataHolder;
 import com.mnirwing.wizardscoreboard.data.Game;
@@ -22,6 +24,7 @@ import com.mnirwing.wizardscoreboard.data.Player;
 import com.mnirwing.wizardscoreboard.data.Round;
 import com.mnirwing.wizardscoreboard.ui.BidOrTrickDialog.BidOrTrickDialogListener;
 import com.mnirwing.wizardscoreboard.ui.GameAdapter.OnRoundClickListener;
+
 import java.util.List;
 
 
@@ -86,6 +89,8 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         if (!isBiddingPhaseDone) {
             buttonGameTricks.setEnabled(false);
         }
+
+        highlightCurrentTurnPlayerName();
     }
 
     @Override
@@ -99,17 +104,13 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_edit) {
-            if (currentlyHighlightedRound == -1) {
-                return true;
-            }
-            showBidDialogWithValues(game.getRoundGuessValues(currentlyHighlightedRound),
-                    currentlyHighlightedRound);
-            showTrickDialogAfterBidDialogIsDone = true;
-            editedRoundIndex = currentlyHighlightedRound;
-        } else {
-            Log.d(TAG, "onOptionsItemSelected: not found");
+        if (item.getItemId() != R.id.action_edit || currentlyHighlightedRound == -1) {
+            return true;
         }
+        showBidDialogWithValues(game.getRoundGuessValues(currentlyHighlightedRound),
+                currentlyHighlightedRound);
+        showTrickDialogAfterBidDialogIsDone = true;
+        editedRoundIndex = currentlyHighlightedRound;
         return true;
     }
 
@@ -143,7 +144,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
 
     @Override
     public void applyBidsOrTricks(boolean dialogWasInBidMode, boolean dialogWasInEditMode,
-            int roundIndex, List<Integer> values) {
+                                  int roundIndex, List<Integer> values) {
         if (dialogWasInBidMode) {
             isBiddingPhaseDone = true;
             buttonGameTricks.setEnabled(true);
@@ -187,7 +188,6 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     }
 
     private void addEmptyRound() {
-        Log.d(TAG, "addEmptyRound: ");
         Round emptyRound = new Round();
         for (int i = 0; i < playersInGame.size(); i++) {
             emptyRound.addMoves(new Move(playersInGame.get(0).getId(), game.getId(), 0));
@@ -200,7 +200,6 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     private void highlightCurrentTurnPlayerName() {
         int indexToHighlight =
                 (data.getCurrentGame().getRounds().size() - 1) % playersInGame.size();
-        Log.d(TAG, "highlightCurrentTurnPlayerName index: " + indexToHighlight);
         for (int i = 0; i < playersInGame.size(); i++) {
             textViewGamePlayers[i].setTypeface(null,
                     i == indexToHighlight ? Typeface.BOLD : Typeface.NORMAL);
@@ -208,7 +207,6 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     }
 
     private void setTextFieldPlayerNames() {
-        Log.d(TAG, "setTextFieldPlayerNames: ");
         for (int i = 0; i < playersInGame.size(); i++) {
             textViewGamePlayers[i].setText(playersInGame.get(i).getName());
         }
@@ -231,7 +229,6 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         dividerLines[4] = findViewById(R.id.divider_line_game_05);
         dividerLines[5] = findViewById(R.id.divider_line_game_06);
 
-        Log.d(TAG, "initialiseTextFields: ");
         textViewGamePlayers = new TextView[6];
         textViewGamePlayers[0] = findViewById(R.id.textViewGamePlayer1);
         textViewGamePlayers[1] = findViewById(R.id.textViewGamePlayer2);
