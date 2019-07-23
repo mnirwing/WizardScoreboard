@@ -32,12 +32,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         data = DataHolder.getInstance();
 
-        // only load data if no players or games exist
         if (!data.isLoaded()) {
             data.load(this);
-            if (data.getPlayers().isEmpty() || data.getGames().isEmpty()) {
-                loadSampleData();
-            }
+//            if (data.getPlayers().isEmpty() || data.getGames().isEmpty()) {
+//                loadSampleData();
+//            }
             data.setInitialLoad(true);
         }
 
