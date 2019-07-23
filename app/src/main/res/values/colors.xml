@@ -4,7 +4,6 @@
   <color name="colorRedPrimaryLight">#ff5530</color>
   <color name="colorRedPrimaryDark">#8d0000</color>
   <color name="colorRedAccent">#D81B60</color>
-  <color name="colorHighlightedRow">#757575</color>
   <color name="colorAlternatingRowHighlight">#E0E0E0</color>
   <color name="colorAlternatingRowNormal">#FFFFFF</color>
   <color name="colorPositiveScore">#1b5e20</color>

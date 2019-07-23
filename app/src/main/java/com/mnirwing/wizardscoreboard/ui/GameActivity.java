@@ -223,6 +223,14 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         guidelines[4] = findViewById(R.id.guideline_game_05);
         guidelines[5] = findViewById(R.id.guideline_game_06);
 
+        View[] dividerLines = new View[6];
+        dividerLines[0] = findViewById(R.id.divider_line_game_01);
+        dividerLines[1] = findViewById(R.id.divider_line_game_02);
+        dividerLines[2] = findViewById(R.id.divider_line_game_03);
+        dividerLines[3] = findViewById(R.id.divider_line_game_04);
+        dividerLines[4] = findViewById(R.id.divider_line_game_05);
+        dividerLines[5] = findViewById(R.id.divider_line_game_06);
+
         Log.d(TAG, "initialiseTextFields: ");
         textViewGamePlayers = new TextView[6];
         textViewGamePlayers[0] = findViewById(R.id.textViewGamePlayer1);
@@ -245,8 +253,8 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
             guidelines[3].setGuidelinePercent(outValue.getFloat());
             getResources().getValue(R.fraction.guideline_5_player_09, outValue, true);
             guidelines[4].setGuidelinePercent(outValue.getFloat());
-
-            guidelines[5].setVisibility(View.GONE);
+            guidelines[5].setGuidelinePercent(1);
+            dividerLines[5].setVisibility(View.GONE);
         }
         if (playersInGame.size() == 4) {
             textViewGamePlayers[4].setVisibility(View.GONE);
@@ -261,8 +269,11 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
             getResources().getValue(R.fraction.guideline_4_player_07, outValue, true);
             guidelines[3].setGuidelinePercent(outValue.getFloat());
 
-            guidelines[4].setVisibility(View.GONE);
+            guidelines[4].setGuidelinePercent(1);
             guidelines[5].setVisibility(View.GONE);
+
+            dividerLines[4].setVisibility(View.GONE);
+            dividerLines[5].setVisibility(View.GONE);
         }
 
         buttonGameBid = findViewById(R.id.buttonGameBid);

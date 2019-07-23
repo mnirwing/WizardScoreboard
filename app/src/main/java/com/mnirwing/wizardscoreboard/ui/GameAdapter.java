@@ -1,6 +1,7 @@
 package com.mnirwing.wizardscoreboard.ui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -73,6 +74,12 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
             holder.textViewPlayerScores[i]
                     .setTextColor(context.getColor(roundAtPosition.getMoves().get(i).getScore() >= 0
                             ? R.color.colorPositiveScore : R.color.colorNegativeScore));
+            if(selectedPosition == position){
+                holder.textViewRound.setTextColor(Color.BLACK);
+                holder.textViewPlayerScores[i].setTextColor(Color.BLACK);
+                holder.textViewPlayerGuesses[i].setTextColor(Color.BLACK);
+            }
+
         }
 
         if (selectedPosition != position) {
@@ -82,7 +89,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
                                     : R.color.colorAlternatingRowHighlight));
         } else {
             holder.itemView
-                    .setBackgroundColor(context.getColor(R.color.colorHighlightedRow));
+                    .setBackgroundColor(context.getColor(R.color.colorRedPrimaryLight));
         }
     }
 
@@ -204,6 +211,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
 
     private void initializeGuidelines(View itemView) {
         Guideline[] guidelines = new Guideline[12];
+        View[] dividerLines = new View[12];
         guidelines[0] = itemView.findViewById(R.id.guideline_adapter_01);
         guidelines[1] = itemView.findViewById(R.id.guideline_adapter_02);
         guidelines[2] = itemView.findViewById(R.id.guideline_adapter_03);
@@ -216,6 +224,20 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
         guidelines[9] = itemView.findViewById(R.id.guideline_adapter_10);
         guidelines[10] = itemView.findViewById(R.id.guideline_adapter_11);
         guidelines[11] = itemView.findViewById(R.id.guideline_adapter_12);
+
+        dividerLines[0] = itemView.findViewById(R.id.view01);
+        dividerLines[1] = itemView.findViewById(R.id.view02);
+        dividerLines[2] = itemView.findViewById(R.id.view03);
+        dividerLines[3] = itemView.findViewById(R.id.view04);
+        dividerLines[4] = itemView.findViewById(R.id.view05);
+        dividerLines[5] = itemView.findViewById(R.id.view06);
+        dividerLines[6] = itemView.findViewById(R.id.view07);
+        dividerLines[7] = itemView.findViewById(R.id.view08);
+        dividerLines[8] = itemView.findViewById(R.id.view09);
+        dividerLines[9] = itemView.findViewById(R.id.view10);
+        dividerLines[10] = itemView.findViewById(R.id.view11);
+        dividerLines[11] = itemView.findViewById(R.id.view12);
+
         TypedValue outValue = new TypedValue();
         switch (playersInGame.size()) {
             case 4:
@@ -235,10 +257,15 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
                 guidelines[6].setGuidelinePercent(outValue.getFloat());
                 context.getResources().getValue(R.fraction.guideline_4_player_08, outValue, true);
                 guidelines[7].setGuidelinePercent(outValue.getFloat());
-                guidelines[8].setVisibility(View.GONE);
+                guidelines[8].setGuidelinePercent(1);
                 guidelines[9].setVisibility(View.GONE);
                 guidelines[10].setVisibility(View.GONE);
                 guidelines[11].setVisibility(View.GONE);
+
+                dividerLines[8].setVisibility(View.GONE);
+                dividerLines[9].setVisibility(View.GONE);
+                dividerLines[10].setVisibility(View.GONE);
+                dividerLines[11].setVisibility(View.GONE);
                 break;
             case 5:
                 context.getResources().getValue(R.fraction.guideline_5_player_01, outValue, true);
@@ -261,8 +288,11 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
                 guidelines[8].setGuidelinePercent(outValue.getFloat());
                 context.getResources().getValue(R.fraction.guideline_5_player_10, outValue, true);
                 guidelines[9].setGuidelinePercent(outValue.getFloat());
-                guidelines[10].setVisibility(View.GONE);
+                guidelines[10].setGuidelinePercent(1);
                 guidelines[11].setVisibility(View.GONE);
+
+                dividerLines[10].setVisibility(View.GONE);
+                dividerLines[11].setVisibility(View.GONE);
                 break;
             default:
                 break;
