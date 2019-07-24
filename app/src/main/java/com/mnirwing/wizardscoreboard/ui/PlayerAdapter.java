@@ -6,10 +6,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.mnirwing.wizardscoreboard.R;
 import com.mnirwing.wizardscoreboard.data.Player;
+
 import java.util.List;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHolder> {
@@ -39,7 +42,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
     @Override
     public void onBindViewHolder(@NonNull PlayerHolder holder, int position) {
         Player currentPlayer = players.get(position);
-        holder.textViewPlayerName.setText(currentPlayer.getName()) ;
+        holder.textViewPlayerName.setText(currentPlayer.getName());
         holder.textViewPlayerNickname.setText(currentPlayer.getNickname());
     }
 
@@ -57,7 +60,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
         notifyItemInserted(players.size() - 1);
     }
 
-    class PlayerHolder extends RecyclerView.ViewHolder implements OnClickListener {
+    class PlayerHolder extends RecyclerView.ViewHolder implements OnClickListener, View.OnLongClickListener {
         private TextView textViewPlayerName;
         private TextView textViewPlayerNickname;
 
@@ -69,15 +72,24 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
             textViewPlayerNickname = itemView.findViewById(R.id.textViewPlayerNames);
             this.onPlayerListener = onPlayerListener;
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             onPlayerListener.onPlayerClick(getAdapterPosition());
         }
+
+        @Override
+        public boolean onLongClick(View view) {
+            onPlayerListener.onPlayerLongClick(getAdapterPosition());
+            return false;
+        }
     }
 
     public interface OnPlayerListener {
         void onPlayerClick(int position);
+
+        boolean onPlayerLongClick(int position);
     }
 }

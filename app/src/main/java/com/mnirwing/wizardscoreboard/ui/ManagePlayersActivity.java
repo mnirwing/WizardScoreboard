@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mnirwing.wizardscoreboard.R;
 import com.mnirwing.wizardscoreboard.data.DataHolder;
@@ -22,6 +24,7 @@ public class ManagePlayersActivity extends AppCompatActivity implements OnPlayer
     private DataHolder data;
     PlayerAdapter adapter;
 
+    private int positionOfPlayerLongClicked;
     private boolean modeManagePlayers;
 
     @Override
@@ -29,6 +32,7 @@ public class ManagePlayersActivity extends AppCompatActivity implements OnPlayer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_players);
         Log.d(TAG, "onCreate: ");
+        positionOfPlayerLongClicked = -1;
 
         Intent intent = getIntent();
         modeManagePlayers = (boolean) intent.getExtras().get("modeManagePlayers");
@@ -67,12 +71,31 @@ public class ManagePlayersActivity extends AppCompatActivity implements OnPlayer
         }
     }
 
+    @Override
+    public boolean onPlayerLongClick(int position) {
+        positionOfPlayerLongClicked = position;
+        AddOrEditPlayerDialog dialog = new AddOrEditPlayerDialog(data.getPlayers().get(position).getName(), data.getPlayers().get(position).getNickname());
+        dialog.show(getSupportFragmentManager(), "edit player dialog");
+        return false;
+    }
+
     /**
      * This method gets called from the dialog if a player was added.
      */
     @Override
-    public void applyPlayerData(String name, String nickname) {
-        data.addPlayer(new Player(name, nickname));
+    public void applyPlayerData(String name, String nickname, boolean editMode) {
+        if((name == null && nickname == null))
+            return;
+        if((name.isEmpty() && nickname.isEmpty()))
+            return;
+        if(editMode){
+            data.getPlayers().get(positionOfPlayerLongClicked).setName(name);
+            data.getPlayers().get(positionOfPlayerLongClicked).setNickname(nickname);
+
+        }
+        else {
+            data.addPlayer(new Player(name, nickname));
+        }
         adapter.notifyPlayerAdded();
     }
 }

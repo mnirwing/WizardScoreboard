@@ -20,12 +20,15 @@ public class AddOrEditPlayerDialog extends DialogFragment {
     private String name;
     private String nickname;
 
+    private boolean editMode;
+
     public AddOrEditPlayerDialog() {
     }
 
     public AddOrEditPlayerDialog(String name, String nickname) {
         this.name = name;
         this.nickname = nickname;
+        editMode = true;
     }
 
     @Override
@@ -40,7 +43,7 @@ public class AddOrEditPlayerDialog extends DialogFragment {
                 .setPositiveButton(android.R.string.yes, (dialog, id) -> {
                     name = editTextDialogAddPlayerName.getText().toString();
                     nickname = editTextDialogAddPlayerNickname.getText().toString();
-                    listener.applyPlayerData(name, nickname);
+                    listener.applyPlayerData(name, nickname, editMode);
                 })
                 .setNegativeButton(android.R.string.cancel, null);
 
@@ -68,6 +71,6 @@ public class AddOrEditPlayerDialog extends DialogFragment {
 
     public interface AddOrEditPlayerDialogListener {
 
-        void applyPlayerData(String name, String nickname);
+        void applyPlayerData(String name, String nickname, boolean editMode);
     }
 }
