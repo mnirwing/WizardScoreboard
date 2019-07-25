@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mnirwing.wizardscoreboard.R;
 import com.mnirwing.wizardscoreboard.data.DataHolder;
@@ -91,11 +89,12 @@ public class ManagePlayersActivity extends AppCompatActivity implements OnPlayer
         if(editMode){
             data.getPlayers().get(positionOfPlayerLongClicked).setName(name);
             data.getPlayers().get(positionOfPlayerLongClicked).setNickname(nickname);
-
+            adapter.notifyItemChanged(positionOfPlayerLongClicked);
+            positionOfPlayerLongClicked = -1;
         }
         else {
             data.addPlayer(new Player(name, nickname));
+            adapter.notifyPlayerAdded();
         }
-        adapter.notifyPlayerAdded();
     }
 }
