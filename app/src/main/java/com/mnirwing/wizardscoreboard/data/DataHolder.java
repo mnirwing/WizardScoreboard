@@ -65,6 +65,16 @@ public class DataHolder {
         setAllGamesOldExcept(game);
     }
 
+    public void deleteGamesWherePlayerIsInvolved(Player involvedPlayer) {
+        for (int i = 0; i < games.size(); i++) {
+            if (games.get(i).getPlayerIds().contains(involvedPlayer.getId())) {
+                this.games.remove(i);
+                i--;
+            }
+        }
+        players.remove(involvedPlayer);
+    }
+
     public List<Player> getPlayers() {
         if (players == null) {
             players = new ArrayList<>();

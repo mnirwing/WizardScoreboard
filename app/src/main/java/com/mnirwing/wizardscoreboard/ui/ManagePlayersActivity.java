@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +25,8 @@ public class ManagePlayersActivity extends AppCompatActivity implements OnPlayer
 
     private DataHolder data;
     PlayerAdapter adapter;
+    private MenuItem deleteAction;
+    private int currentlyHighlightedRound = -1;
 
     private int positionOfPlayerLongClicked;
     private boolean modeManagePlayers;
@@ -41,7 +47,7 @@ public class ManagePlayersActivity extends AppCompatActivity implements OnPlayer
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        adapter = new PlayerAdapter(modeManagePlayers, this);
+        adapter = new PlayerAdapter(this, modeManagePlayers, this);
         recyclerView.setAdapter(adapter);
         adapter.setPlayers(data.getPlayers());
 
@@ -52,6 +58,34 @@ public class ManagePlayersActivity extends AppCompatActivity implements OnPlayer
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_players, menu);
+        deleteAction = menu.getItem(0);
+        deleteAction.setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() != R.id.action_delete || currentlyHighlightedRound == -1) {
+            return true;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.dialog_delete_player)
+                .setPositiveButton(R.string.okay, (dialog, id) -> {
+                    data.deleteGamesWherePlayerIsInvolved(
+                            data.getPlayers().get(currentlyHighlightedRound));
+                    adapter.notifyItemRemoved(currentlyHighlightedRound);
+                })
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {
+                    // User cancelled the dialog
+                });
+        builder.create().show();
+        return true;
+    }
+
     /**
      * This method gets called when a player is clicked on if this activity is used to add players
      * to a game.
@@ -59,13 +93,20 @@ public class ManagePlayersActivity extends AppCompatActivity implements OnPlayer
      * @param position The position of the item that was clicked on.
      */
     @Override
-    public void onPlayerClick(int position) {
+    public void onPlayerClick(int position, boolean selected) {
         Log.d(TAG, "onPlayerClick: " + position);
         if (!modeManagePlayers) {
             Intent returnIntent = new Intent();
             returnIntent.putExtra("position", position);
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
+        } else {
+            if (selected) {
+                currentlyHighlightedRound = position;
+            } else {
+                currentlyHighlightedRound = -1;
+            }
+            deleteAction.setVisible(selected);
         }
     }
 

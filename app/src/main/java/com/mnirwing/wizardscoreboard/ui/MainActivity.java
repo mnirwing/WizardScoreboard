@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         cardViewResumeGame.setOnClickListener(e -> {
             if (data.getCurrentGame() == null) {
                 Toast.makeText(this, getString(R.string.no_game_found), Toast.LENGTH_SHORT).show();
+                return;
             }
             Intent intent = new Intent(this, GameActivity.class);
             this.startActivity(intent);

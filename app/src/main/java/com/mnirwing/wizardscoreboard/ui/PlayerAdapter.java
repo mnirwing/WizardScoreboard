@@ -1,23 +1,23 @@
 package com.mnirwing.wizardscoreboard.ui;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.mnirwing.wizardscoreboard.R;
 import com.mnirwing.wizardscoreboard.data.Player;
-
 import java.util.List;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHolder> {
 
     private static final String TAG = "PlayerAdapter";
+
+    private Context context;
 
     private List<Player> players;
 
@@ -25,7 +25,11 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
 
     private final OnPlayerListener onPlayerListener;
 
-    public PlayerAdapter(boolean modeManagePlayers, OnPlayerListener onPlayerListener) {
+    private int selectedPosition = RecyclerView.NO_POSITION;
+
+    public PlayerAdapter(Context context, boolean modeManagePlayers,
+            OnPlayerListener onPlayerListener) {
+        this.context = context;
         this.modeManagePlayers = modeManagePlayers;
         this.onPlayerListener = onPlayerListener;
     }
@@ -44,6 +48,14 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
         Player currentPlayer = players.get(position);
         holder.textViewPlayerName.setText(currentPlayer.getName());
         holder.textViewPlayerNickname.setText(currentPlayer.getNickname());
+
+        if (selectedPosition != position) {
+            holder.itemView
+                    .setBackgroundColor(context.getColor(R.color.colorAlternatingRowNormal));
+        } else {
+            holder.itemView
+                    .setBackgroundColor(context.getColor(R.color.colorRedPrimaryLight));
+        }
     }
 
     @Override
@@ -77,7 +89,23 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
 
         @Override
         public void onClick(View v) {
-            onPlayerListener.onPlayerClick(getAdapterPosition());
+            if (getAdapterPosition() == RecyclerView.NO_POSITION) {
+                return;
+            }
+
+            int oldPosition = selectedPosition;
+            // Updating old as well as new positions
+            notifyItemChanged(oldPosition);
+
+            selectedPosition = getAdapterPosition();
+            if (oldPosition == selectedPosition) {
+                selectedPosition = RecyclerView.NO_POSITION;
+                notifyItemChanged(selectedPosition);
+                onPlayerListener.onPlayerClick(selectedPosition, false);
+            } else {
+                notifyItemChanged(selectedPosition);
+                onPlayerListener.onPlayerClick(selectedPosition, true);
+            }
         }
 
         @Override
@@ -88,7 +116,8 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
     }
 
     public interface OnPlayerListener {
-        void onPlayerClick(int position);
+
+        void onPlayerClick(int position, boolean selected);
 
         boolean onPlayerLongClick(int position);
     }

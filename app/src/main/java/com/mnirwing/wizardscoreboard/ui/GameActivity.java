@@ -1,8 +1,8 @@
 package com.mnirwing.wizardscoreboard.ui;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,12 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.Guideline;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.mnirwing.wizardscoreboard.R;
 import com.mnirwing.wizardscoreboard.data.DataHolder;
 import com.mnirwing.wizardscoreboard.data.Game;
@@ -24,7 +22,6 @@ import com.mnirwing.wizardscoreboard.data.Player;
 import com.mnirwing.wizardscoreboard.data.Round;
 import com.mnirwing.wizardscoreboard.ui.BidOrTrickDialog.BidOrTrickDialogListener;
 import com.mnirwing.wizardscoreboard.ui.GameAdapter.OnRoundClickListener;
-
 import java.util.List;
 
 
@@ -58,6 +55,10 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         data = DataHolder.getInstance();
 
         game = data.getCurrentGame();
+        if (game.getPlayerIds() == null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            this.startActivity(intent);
+        }
         playersInGame = data.getPlayersById(game.getPlayerIds());
 
         initialiseTextFields();
@@ -169,6 +170,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
             if (!dialogWasInEditMode) {
                 adapter.notifyRoundTricksUpdated(roundIndex);
                 addEmptyRound();
+                saveGame();
             } else {
                 adapter.notifyTotalScoresChangedAfterRound(roundIndex);
             }
@@ -195,6 +197,10 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         data.getCurrentGame().addRound(emptyRound);
         adapter.notifyRoundAdded();
         highlightCurrentTurnPlayerName();
+    }
+
+    private void saveGame() {
+        data.save(this);
     }
 
     private void highlightCurrentTurnPlayerName() {
