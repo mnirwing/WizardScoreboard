@@ -20,6 +20,7 @@ public class LoadGameActivity extends AppCompatActivity implements OnGameListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_game);
+        getSupportActionBar().setTitle(getString(R.string.load_game));
         Log.d(TAG, "onCreate: ");
 
         data = DataHolder.getInstance();

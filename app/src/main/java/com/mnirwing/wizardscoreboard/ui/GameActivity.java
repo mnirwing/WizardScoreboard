@@ -82,9 +82,8 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         });
 
         buttonGameTricks.setOnClickListener(view -> {
-            BidOrTrickDialog bidOrTrickDialog = new BidOrTrickDialog(false,
-                    game.getRounds().size() - 1, playersInGame);
-            bidOrTrickDialog.show(getSupportFragmentManager(), "trick dialog");
+            showTrickDialogWithValues(false, game.getRoundBidValues(game.getRounds().size() - 1),
+                    game.getRounds().size() - 1);
         });
 
         if (!isBiddingPhaseDone) {
@@ -108,7 +107,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         if (item.getItemId() != R.id.action_edit || currentlyHighlightedRound == -1) {
             return true;
         }
-        showBidDialogWithValues(game.getRoundGuessValues(currentlyHighlightedRound),
+        showBidDialogWithValues(game.getRoundBidValues(currentlyHighlightedRound),
                 currentlyHighlightedRound);
         showTrickDialogAfterBidDialogIsDone = true;
         editedRoundIndex = currentlyHighlightedRound;
@@ -137,7 +136,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         if ((game.getRounds().size() - 1) == position) {
             return true;
         }
-        showBidDialogWithValues(game.getRoundGuessValues(position), position);
+        showBidDialogWithValues(game.getRoundBidValues(position), position);
         showTrickDialogAfterBidDialogIsDone = true;
         editedRoundIndex = position;
         return true;
@@ -145,7 +144,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
 
     @Override
     public void applyBidsOrTricks(boolean dialogWasInBidMode, boolean dialogWasInEditMode,
-                                  int roundIndex, List<Integer> values) {
+            int roundIndex, List<Integer> values) {
         if (dialogWasInBidMode) {
             isBiddingPhaseDone = true;
             buttonGameTricks.setEnabled(true);
@@ -155,7 +154,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
             }
             adapter.notifyRoundGuessUpdated(roundIndex);
             if (showTrickDialogAfterBidDialogIsDone) {
-                showTrickDialogWithValues(game.getRoundTrickValues(editedRoundIndex),
+                showTrickDialogWithValues(true, game.getRoundTrickValues(editedRoundIndex),
                         editedRoundIndex);
                 showTrickDialogAfterBidDialogIsDone = false;
             }
@@ -178,13 +177,16 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     }
 
     private void showBidDialogWithValues(List<Integer> roundBidValues, int roundIndex) {
-        BidOrTrickDialog bidOrTrickDialog = new BidOrTrickDialog(true, roundIndex, playersInGame,
+        BidOrTrickDialog bidOrTrickDialog = new BidOrTrickDialog(true, true, roundIndex,
+                playersInGame,
                 roundBidValues);
         bidOrTrickDialog.show(getSupportFragmentManager(), "trick dialog");
     }
 
-    private void showTrickDialogWithValues(List<Integer> roundTricksValues, int roundIndex) {
-        BidOrTrickDialog bidOrTrickDialog = new BidOrTrickDialog(false, roundIndex, playersInGame,
+    private void showTrickDialogWithValues(boolean dialogInEditMode,
+            List<Integer> roundTricksValues, int roundIndex) {
+        BidOrTrickDialog bidOrTrickDialog = new BidOrTrickDialog(false, dialogInEditMode,
+                roundIndex, playersInGame,
                 roundTricksValues);
         bidOrTrickDialog.show(getSupportFragmentManager(), "trick dialog");
     }
@@ -219,6 +221,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     }
 
     private void initialiseTextFields() {
+        // the guidelines used to align the player names
         Guideline[] guidelines = new Guideline[6];
         guidelines[0] = findViewById(R.id.guideline_game_01);
         guidelines[1] = findViewById(R.id.guideline_game_02);
@@ -227,6 +230,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         guidelines[4] = findViewById(R.id.guideline_game_05);
         guidelines[5] = findViewById(R.id.guideline_game_06);
 
+        // the black lines that are drawn at the guidelines to visually separate the player names
         View[] dividerLines = new View[6];
         dividerLines[0] = findViewById(R.id.divider_line_game_01);
         dividerLines[1] = findViewById(R.id.divider_line_game_02);
@@ -275,6 +279,26 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
             guidelines[4].setGuidelinePercent(1);
             guidelines[5].setVisibility(View.GONE);
 
+            dividerLines[4].setVisibility(View.GONE);
+            dividerLines[5].setVisibility(View.GONE);
+        }
+        if (playersInGame.size() == 3) {
+            textViewGamePlayers[3].setVisibility(View.GONE);
+            textViewGamePlayers[4].setVisibility(View.GONE);
+            textViewGamePlayers[5].setVisibility(View.GONE);
+            TypedValue outValue = new TypedValue();
+            getResources().getValue(R.fraction.guideline_3_player_01, outValue, true);
+            guidelines[0].setGuidelinePercent(outValue.getFloat());
+            getResources().getValue(R.fraction.guideline_3_player_03, outValue, true);
+            guidelines[1].setGuidelinePercent(outValue.getFloat());
+            getResources().getValue(R.fraction.guideline_3_player_05, outValue, true);
+            guidelines[2].setGuidelinePercent(outValue.getFloat());
+
+            guidelines[3].setGuidelinePercent(1);
+            guidelines[4].setVisibility(View.GONE);
+            guidelines[5].setVisibility(View.GONE);
+
+            dividerLines[3].setVisibility(View.GONE);
             dividerLines[4].setVisibility(View.GONE);
             dividerLines[5].setVisibility(View.GONE);
         }

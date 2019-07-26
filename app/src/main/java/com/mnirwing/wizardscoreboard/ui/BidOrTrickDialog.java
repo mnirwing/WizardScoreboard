@@ -37,11 +37,12 @@ public class BidOrTrickDialog extends DialogFragment {
         this.playersInGame = playersInGame;
     }
 
-    public BidOrTrickDialog(boolean dialogInBidMode, int roundIndex, List<Player> playersInGame,
+    public BidOrTrickDialog(boolean dialogInBidMode, boolean dialogInEditMode, int roundIndex,
+            List<Player> playersInGame,
             List<Integer> editValues) {
         this.dialogInBidMode = dialogInBidMode;
         this.roundIndex = roundIndex;
-        this.dialogInEditMode = true;
+        this.dialogInEditMode = dialogInEditMode;
         this.playersInGame = playersInGame;
         this.editValues = editValues;
     }
@@ -50,18 +51,6 @@ public class BidOrTrickDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-
-//        int layoutId;
-//        switch (playersInGame.size()) {
-//            case 4:
-//                layoutId = R.layout.dialog_tricks;
-//                break;
-//            case 5:
-//                layoutId = R.layout.dialog_tricks;
-//                break;
-//            default:
-//                layoutId = R.layout.dialog_tricks;
-//        }
 
         // Pass null as the parent view because its going in the dialog layout
         View view = inflater.inflate(R.layout.dialog_tricks, null);
@@ -110,7 +99,11 @@ public class BidOrTrickDialog extends DialogFragment {
                 numberPickers[i].setValue(editValues.get(i));
             }
         }
-
+        if (playersInGame.size() == 3) {
+            numberPickers[3].setVisibility(View.GONE);
+            numberPickers[4].setVisibility(View.GONE);
+            numberPickers[5].setVisibility(View.GONE);
+        }
         if (playersInGame.size() == 4) {
             numberPickers[4].setVisibility(View.GONE);
             numberPickers[5].setVisibility(View.GONE);
@@ -118,8 +111,6 @@ public class BidOrTrickDialog extends DialogFragment {
         if (playersInGame.size() == 5) {
             numberPickers[5].setVisibility(View.GONE);
         }
-
-
         return builder.create();
     }
 

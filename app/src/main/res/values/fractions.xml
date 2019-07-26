@@ -32,4 +32,11 @@
   <fraction name="guideline_4_player_03">0.3025</fraction>
   <fraction name="guideline_4_player_02">0.22</fraction>
   <fraction name="guideline_4_player_01">0.07</fraction>
+
+  <fraction name="guideline_3_player_06">0.89</fraction>
+  <fraction name="guideline_3_player_05">0.69</fraction>
+  <fraction name="guideline_3_player_04">0.58</fraction>
+  <fraction name="guideline_3_player_03">0.38</fraction>
+  <fraction name="guideline_3_player_02">0.27</fraction>
+  <fraction name="guideline_3_player_01">0.07</fraction>
 </resources>

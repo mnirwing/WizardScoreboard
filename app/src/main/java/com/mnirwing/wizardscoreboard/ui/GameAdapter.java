@@ -240,6 +240,35 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
 
         TypedValue outValue = new TypedValue();
         switch (playersInGame.size()) {
+            case 3:
+                context.getResources().getValue(R.fraction.guideline_3_player_01, outValue, true);
+                guidelines[0].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_3_player_02, outValue, true);
+                guidelines[1].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_3_player_03, outValue, true);
+                guidelines[2].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_3_player_04, outValue, true);
+                guidelines[3].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_3_player_05, outValue, true);
+                guidelines[4].setGuidelinePercent(outValue.getFloat());
+                context.getResources().getValue(R.fraction.guideline_3_player_06, outValue, true);
+                guidelines[5].setGuidelinePercent(outValue.getFloat());
+
+                guidelines[6].setGuidelinePercent(1);
+                guidelines[7].setVisibility(View.GONE);
+                guidelines[8].setVisibility(View.GONE);
+                guidelines[9].setVisibility(View.GONE);
+                guidelines[9].setVisibility(View.GONE);
+                guidelines[10].setVisibility(View.GONE);
+                guidelines[11].setVisibility(View.GONE);
+
+                dividerLines[6].setVisibility(View.GONE);
+                dividerLines[7].setVisibility(View.GONE);
+                dividerLines[8].setVisibility(View.GONE);
+                dividerLines[9].setVisibility(View.GONE);
+                dividerLines[10].setVisibility(View.GONE);
+                dividerLines[11].setVisibility(View.GONE);
+                break;
             case 4:
                 context.getResources().getValue(R.fraction.guideline_4_player_01, outValue, true);
                 guidelines[0].setGuidelinePercent(outValue.getFloat());

@@ -35,6 +35,7 @@ public class ManagePlayersActivity extends AppCompatActivity implements OnPlayer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_players);
+        getSupportActionBar().setTitle(getString(R.string.manage_players));
         Log.d(TAG, "onCreate: ");
         positionOfPlayerLongClicked = -1;
 

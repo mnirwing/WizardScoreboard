@@ -33,6 +33,7 @@ public class CreateGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creategame);
+        getSupportActionBar().setTitle(getString(R.string.create_game));
         data = DataHolder.getInstance();
 
         buttonCreateGame = findViewById(R.id.buttonCreateGame);
@@ -87,6 +88,6 @@ public class CreateGameActivity extends AppCompatActivity {
     }
 
     private boolean enoughPlayersAdded() {
-        return playersInGame.size() >= 4 && playersInGame.size() <= 6;
+        return playersInGame.size() >= 3 && playersInGame.size() <= 6;
     }
 }

@@ -47,7 +47,9 @@ public class Game implements Serializable {
         this.player1Id = players.get(0).getId();
         this.player2Id = players.get(1).getId();
         this.player3Id = players.get(2).getId();
-        this.player4Id = players.get(3).getId();
+        if (players.size() >= 4) {
+            this.player4Id = players.get(3).getId();
+        }
         if (players.size() >= 5) {
             this.player5Id = players.get(4).getId();
         }
@@ -68,6 +70,9 @@ public class Game implements Serializable {
     }
 
     public List<UUID> getPlayerIds() {
+        if (player4Id == null) {
+            return Arrays.asList(player1Id, player2Id, player3Id);
+        }
         if (player5Id == null) {
             return Arrays.asList(player1Id, player2Id, player3Id, player4Id);
         }
@@ -156,7 +161,7 @@ public class Game implements Serializable {
         return rounds;
     }
 
-    public List<Integer> getRoundGuessValues(int position) {
+    public List<Integer> getRoundBidValues(int position) {
         List<Integer> roundGuessValues = new ArrayList<>();
         Round clickedRound = rounds.get(position);
         for (Move move : clickedRound.getMoves()) {

@@ -31,8 +31,9 @@
   <string name="statistics">Statistics</string>
   <string name="load_game">Load Game</string>
   <string name="manage_players">Manage Players</string>
-  <string name="player_amount">Please select 4 to 6 players.</string>
+  <string name="player_amount">Please select 3 to 6 players.</string>
   <string name="no_game_found">No game found!</string>
   <string name="edit">Edit</string>
   <string name="dialog_delete_player">If the player is deleted, all games in which he is involved will also be deleted. Are you sure?</string>
+  <string name="create_game">Create Game</string>
 </resources>
