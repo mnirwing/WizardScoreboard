@@ -34,6 +34,6 @@
   <string name="player_amount">Please select 3 to 6 players.</string>
   <string name="no_game_found">No game found!</string>
   <string name="edit">Edit</string>
-  <string name="dialog_delete_player">If the player is deleted, all games in which he is involved will also be deleted. Are you sure?</string>
+  <string name="dialog_delete_player">The players statistics and the current game will be deleted if the player is involved. Are you sure?</string>
   <string name="create_game">Create Game</string>
 </resources>

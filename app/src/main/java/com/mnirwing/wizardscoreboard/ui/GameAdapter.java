@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.Guideline;
 import androidx.recyclerview.widget.RecyclerView;
 import com.mnirwing.wizardscoreboard.R;
-import com.mnirwing.wizardscoreboard.data.DataHolder;
 import com.mnirwing.wizardscoreboard.data.Player;
 import com.mnirwing.wizardscoreboard.data.Round;
 import java.util.List;
@@ -31,16 +30,14 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
 
     private OnRoundClickListener onRoundClickListener;
 
-    private DataHolder data = DataHolder.getInstance();
-
     private int selectedPosition = RecyclerView.NO_POSITION;
 
     public GameAdapter(List<Player> players, Context context,
-            OnRoundClickListener onRoundClickListener) {
+            OnRoundClickListener onRoundClickListener, List<Round> rounds) {
         this.context = context;
         this.playersInGame = players;
         this.onRoundClickListener = onRoundClickListener;
-        this.rounds = data.getCurrentGame().getRounds();
+        this.rounds = rounds;
     }
 
     @NonNull

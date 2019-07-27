@@ -14,7 +14,7 @@ public class DataHolder {
 
     private static DataHolder instance;
 
-    private List<Game> games = new ArrayList<>();
+    private Game game;
     private List<Player> players = new ArrayList<>();
     private static boolean initialLoad;
 
@@ -28,51 +28,12 @@ public class DataHolder {
         return instance;
     }
 
-    public List<Game> getGames() {
-        if (games == null) {
-            games = new ArrayList<>();
-        }
-        return games;
+    public Game getGame() {
+        return game;
     }
 
-    public Game getCurrentGame() {
-        if (games == null) {
-            games = new ArrayList<>();
-        }
-        for (Game game : games) {
-            if (game.isCurrentGame()) {
-                return game;
-            }
-        }
-        return null;
-    }
-
-    public void setAllGamesOldExcept(Game game) {
-        if (games == null) {
-            games = new ArrayList<>();
-        }
-        for (Game oldGame : games) {
-            oldGame.setCurrentGame(false);
-        }
-        game.setCurrentGame(true);
-    }
-
-    public void addGameAndSetCurrent(Game game) {
-        if (games == null) {
-            games = new ArrayList<>();
-        }
-        this.games.add(game);
-        setAllGamesOldExcept(game);
-    }
-
-    public void deleteGamesWherePlayerIsInvolved(Player involvedPlayer) {
-        for (int i = 0; i < games.size(); i++) {
-            if (games.get(i).getPlayerIds().contains(involvedPlayer.getId())) {
-                this.games.remove(i);
-                i--;
-            }
-        }
-        players.remove(involvedPlayer);
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     public List<Player> getPlayers() {
@@ -101,37 +62,42 @@ public class DataHolder {
         this.getPlayers().add(player);
     }
 
+    public void deleteGameIfPlayerIsInvolved(Player involvedPlayer) {
+        if (game.getPlayerIds().contains(involvedPlayer.getId())) {
+            this.game = null;
+        }
+        players.remove(involvedPlayer);
+    }
+
     public void save(Context mContext) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
         Gson gson = new Gson();
-        String games = gson.toJson(this.games);
-        String players = gson.toJson(this.players);
-        prefsEditor.putString("games", games);
-        prefsEditor.putString("players", players);
+        prefsEditor.putString("game", gson.toJson(this.game));
+        prefsEditor.putString("players", gson.toJson(this.players));
         prefsEditor.apply();
     }
 
     public void deleteAll() {
-        this.games = null;
+        this.game = null;
         this.players = null;
     }
 
     public String showJson() {
         Gson gson = new Gson();
-        return gson.toJson(games);
+        return gson.toJson(game);
     }
 
     public void load(Context mContext) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         Gson gson = new Gson();
-        String gamesJson = appSharedPrefs.getString("games", "");
-        Type type = new TypeToken<ArrayList<Game>>() {
+        String gameJson = appSharedPrefs.getString("game", "");
+        Type type = new TypeToken<Game>() {
         }.getType();
         String playersJson = appSharedPrefs.getString("players", "");
         Type type2 = new TypeToken<ArrayList<Player>>() {
         }.getType();
-        this.games = gson.fromJson(gamesJson, type);
+        this.game = gson.fromJson(gameJson, type);
         this.players = gson.fromJson(playersJson, type2);
     }
 

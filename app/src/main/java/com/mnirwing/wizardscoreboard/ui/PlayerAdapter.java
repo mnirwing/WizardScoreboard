@@ -28,10 +28,12 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
     private int selectedPosition = RecyclerView.NO_POSITION;
 
     public PlayerAdapter(Context context, boolean modeManagePlayers,
-            OnPlayerListener onPlayerListener) {
+            OnPlayerListener onPlayerListener, List<Player> players) {
         this.context = context;
         this.modeManagePlayers = modeManagePlayers;
         this.onPlayerListener = onPlayerListener;
+        this.players = players;
+
     }
 
     @NonNull
@@ -61,11 +63,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerHold
     @Override
     public int getItemCount() {
         return players.size();
-    }
-
-    public void setPlayers(List<Player> players) {
-        this.players = players;
-        notifyDataSetChanged();
     }
 
     public void notifyPlayerAdded() {

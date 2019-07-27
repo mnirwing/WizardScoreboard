@@ -48,9 +48,8 @@ public class ManagePlayersActivity extends AppCompatActivity implements OnPlayer
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        adapter = new PlayerAdapter(this, modeManagePlayers, this);
+        adapter = new PlayerAdapter(this, modeManagePlayers, this, data.getPlayers());
         recyclerView.setAdapter(adapter);
-        adapter.setPlayers(data.getPlayers());
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
@@ -76,7 +75,7 @@ public class ManagePlayersActivity extends AppCompatActivity implements OnPlayer
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.dialog_delete_player)
                 .setPositiveButton(R.string.okay, (dialog, id) -> {
-                    data.deleteGamesWherePlayerIsInvolved(
+                    data.deleteGameIfPlayerIsInvolved(
                             data.getPlayers().get(currentlyHighlightedRound));
                     adapter.notifyItemRemoved(currentlyHighlightedRound);
                 })

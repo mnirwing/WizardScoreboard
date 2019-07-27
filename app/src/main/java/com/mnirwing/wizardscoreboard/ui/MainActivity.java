@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     private CardView cardViewNewGame;
     private CardView cardViewResumeGame;
-    private CardView cardViewLoadGame;
     private CardView cardViewManagePlayers;
     private CardView cardViewStatistics;
 
@@ -41,22 +40,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         cardViewNewGame = findViewById(R.id.cardViewNewGame);
-        cardViewLoadGame = findViewById(R.id.cardViewLoadGame);
         cardViewResumeGame = findViewById(R.id.cardViewResumeGame);
         cardViewManagePlayers = findViewById(R.id.cardViewManagePlayers);
         cardViewStatistics = findViewById(R.id.cardViewStatistics);
 
         cardViewResumeGame.setOnClickListener(e -> {
-            if (data.getCurrentGame() == null) {
+            if (data.getGame() == null) {
                 Toast.makeText(this, getString(R.string.no_game_found), Toast.LENGTH_SHORT).show();
                 return;
             }
             Intent intent = new Intent(this, GameActivity.class);
-            this.startActivity(intent);
-        });
-
-        cardViewLoadGame.setOnClickListener(e -> {
-            Intent intent = new Intent(this, LoadGameActivity.class);
             this.startActivity(intent);
         });
 
@@ -109,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             game.addRound(round);
         }
         game.calculateAllTotalScores();
-        data.addGameAndSetCurrent(game);
+        data.setGame(game);
     }
 
     @Override

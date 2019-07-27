@@ -39,7 +39,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     private List<Player> playersInGame;
     private Game game;
 
-    GameAdapter adapter;
+    private GameAdapter adapter;
 
     private boolean isBiddingPhaseDone;
     private boolean showTrickDialogAfterBidDialogIsDone;
@@ -54,7 +54,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         setContentView(R.layout.activity_game);
         data = DataHolder.getInstance();
 
-        game = data.getCurrentGame();
+        game = data.getGame();
         if (game.getPlayerIds() == null) {
             Intent intent = new Intent(this, MainActivity.class);
             this.startActivity(intent);
@@ -68,7 +68,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        adapter = new GameAdapter(playersInGame, this, this);
+        adapter = new GameAdapter(playersInGame, this, this, game.getRounds());
         recyclerView.setAdapter(adapter);
 
         if (game.getRounds().size() == 0 || game.getRounds() == null) {
@@ -196,7 +196,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         for (int i = 0; i < playersInGame.size(); i++) {
             emptyRound.addMoves(new Move(playersInGame.get(0).getId(), game.getId(), 0));
         }
-        data.getCurrentGame().addRound(emptyRound);
+        data.getGame().addRound(emptyRound);
         adapter.notifyRoundAdded();
         highlightCurrentTurnPlayerName();
     }
@@ -207,7 +207,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
 
     private void highlightCurrentTurnPlayerName() {
         int indexToHighlight =
-                (data.getCurrentGame().getRounds().size() - 1) % playersInGame.size();
+                (data.getGame().getRounds().size() - 1) % playersInGame.size();
         for (int i = 0; i < playersInGame.size(); i++) {
             textViewGamePlayers[i].setTypeface(null,
                     i == indexToHighlight ? Typeface.BOLD : Typeface.NORMAL);

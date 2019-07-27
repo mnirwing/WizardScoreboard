@@ -13,9 +13,6 @@
       android:name=".ui.CreateGameActivity"
       android:parentActivityName=".ui.MainActivity"/>
     <activity
-      android:name=".ui.LoadGameActivity"
-      android:parentActivityName=".ui.MainActivity"/>
-    <activity
       android:name=".ui.MainActivity"
       android:theme="@style/Theme.Red.NoActionBar">
       <intent-filter>

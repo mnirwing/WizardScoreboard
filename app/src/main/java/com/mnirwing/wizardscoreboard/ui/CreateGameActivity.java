@@ -56,7 +56,7 @@ public class CreateGameActivity extends AppCompatActivity {
                 return;
             }
             Game game = new Game(playersInGame);
-            data.addGameAndSetCurrent(game);
+            data.setGame(game);
             Intent intent = new Intent(this, GameActivity.class);
             startActivity(intent);
         });
