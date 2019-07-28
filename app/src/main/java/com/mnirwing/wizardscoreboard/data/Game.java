@@ -21,44 +21,36 @@ public class Game implements Serializable {
     private UUID player5Id;
     private UUID player6Id;
 
+    private static final int ROUNDS_TO_PLAY_WITH_3_PLAYERS = 20;
+    private static final int ROUNDS_TO_PLAY_WITH_4_PLAYERS = 15;
+    private static final int ROUNDS_TO_PLAY_WITH_5_PLAYERS = 12;
+    private static final int ROUNDS_TO_PLAY_WITH_6_PLAYERS = 10;
+
     private Date createdAt;
 
-    private boolean isFinished;
-    private boolean isCurrentGame;
+    private int numberOfPlayers;
 
     private List<Round> rounds = new ArrayList<>();
-
-    public Game(UUID player1Id, UUID player2Id, UUID player3Id, UUID player4Id, UUID player5Id,
-            UUID player6Id) {
-        this.id = UUID.randomUUID();
-        this.player1Id = player1Id;
-        this.player2Id = player2Id;
-        this.player3Id = player3Id;
-        this.player4Id = player4Id;
-        this.player5Id = player5Id;
-        this.player6Id = player6Id;
-        this.createdAt = Calendar.getInstance().getTime();
-        this.isFinished = false;
-        this.isCurrentGame = false;
-    }
 
     public Game(List<Player> players) {
         this.id = UUID.randomUUID();
         this.player1Id = players.get(0).getId();
         this.player2Id = players.get(1).getId();
         this.player3Id = players.get(2).getId();
+        this.numberOfPlayers = 3;
         if (players.size() >= 4) {
             this.player4Id = players.get(3).getId();
+            this.numberOfPlayers = 4;
         }
         if (players.size() >= 5) {
             this.player5Id = players.get(4).getId();
+            this.numberOfPlayers = 5;
         }
         if (players.size() == 6) {
             this.player6Id = players.get(5).getId();
+            this.numberOfPlayers = 6;
         }
         this.createdAt = Calendar.getInstance().getTime();
-        this.isFinished = false;
-        this.isCurrentGame = false;
     }
 
     public UUID getId() {
@@ -188,23 +180,64 @@ public class Game implements Serializable {
         return roundScoreValues;
     }
 
-    public void addRound(Round round) {
+    /**
+     * Adds a round to the game. Returns false if the round can't be added due to the game being
+     * already over.
+     */
+    public boolean addRound(Round round) {
+        if (isFinished()) {
+            return false;
+        }
         this.rounds.add(round);
+        return true;
     }
 
     public boolean isFinished() {
-        return isFinished;
+        switch (numberOfPlayers) {
+            case 3:
+                if (rounds.size() == ROUNDS_TO_PLAY_WITH_3_PLAYERS) {
+                    return rounds.get(rounds.size() - 1).getMoves().get(0).isMoveCompleted();
+                }
+                break;
+            case 4:
+                if (rounds.size() == ROUNDS_TO_PLAY_WITH_4_PLAYERS) {
+                    return rounds.get(rounds.size() - 1).getMoves().get(0).isMoveCompleted();
+                }
+                break;
+            case 5:
+                if (rounds.size() == ROUNDS_TO_PLAY_WITH_5_PLAYERS) {
+                    return rounds.get(rounds.size() - 1).getMoves().get(0).isMoveCompleted();
+                }
+                break;
+            case 6:
+                if (rounds.size() == ROUNDS_TO_PLAY_WITH_6_PLAYERS) {
+                    return rounds.get(rounds.size() - 1).getMoves().get(0).isMoveCompleted();
+                }
+                break;
+        }
+        return false;
     }
 
-    public boolean isCurrentGame() {
-        return isCurrentGame;
-    }
+    public List<UUID> getWinner() {
+        if (!isFinished()) {
+            return null;
+        }
+        List<UUID> winnerIds = new ArrayList<>();
+        int currentHighestScore = Integer.MIN_VALUE;
 
-    public void setFinished(boolean isFinished) {
-        this.isFinished = isFinished;
-    }
+        for (int i = 0; i < numberOfPlayers; i++) {
+            int currentPlayerTotalScore = rounds.get(rounds.size() - 1).getMoves().get(i)
+                    .getTotalScore();
+            UUID currentPlayerId = rounds.get(rounds.size() - 1).getMoves().get(i).getPlayerId();
 
-    public void setCurrentGame(boolean isCurrentGame) {
-        this.isCurrentGame = isCurrentGame;
+            if (currentPlayerTotalScore > currentHighestScore) {
+                currentHighestScore = currentPlayerTotalScore;
+                winnerIds.clear();
+                winnerIds.add(currentPlayerId);
+            } else if (currentPlayerTotalScore == currentHighestScore) {
+                winnerIds.add(currentPlayerId);
+            }
+        }
+        return winnerIds;
     }
 }

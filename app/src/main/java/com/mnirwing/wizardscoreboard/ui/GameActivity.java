@@ -3,6 +3,7 @@ package com.mnirwing.wizardscoreboard.ui;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.Guideline;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -168,7 +170,12 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
             game.calculateTotalScores(roundIndex);
             if (!dialogWasInEditMode) {
                 adapter.notifyRoundTricksUpdated(roundIndex);
-                addEmptyRound();
+                if (!game.isFinished()) {
+                    addEmptyRound();
+                } else {
+                    adapter.notifyItemChanged(roundIndex);
+                    showWinDialog();
+                }
                 saveGame();
             } else {
                 adapter.notifyTotalScoresChangedAfterRound(roundIndex);
@@ -199,6 +206,33 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
         data.getGame().addRound(emptyRound);
         adapter.notifyRoundAdded();
         highlightCurrentTurnPlayerName();
+    }
+
+    private void showWinDialog() {
+        Log.d(TAG, "showWinDialog: PLAYERS: " + data.getPlayers());
+        Log.d(TAG, "showWinDialog: _____________________________________");
+        Log.d(TAG, "showWinDialog: WINNER: " + game.getWinner());
+        Log.d(TAG, "showWinDialog: _____________________________________");
+        Log.d(TAG, "showWinDialog: PLAYERS BY ID: " + data.getPlayersById(game.getWinner()));
+        Log.d(TAG, "showWinDialog: _____________________________________");
+        Log.d(TAG, "showWinDialog: PLAYER NAMES: " + data
+                .getPlayerNames(data.getPlayersById(game.getWinner())));
+        List<String> players = data.getPlayerNames(data.getPlayersById(game.getWinner()));
+        String winner = players.get(0);
+        if (players.size() > 1) {
+            for (int i = 1; i < players.size(); i++) {
+                winner = winner.concat(", " + players.get(i));
+            }
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getResources().getString(R.string.dialog_game_won, winner))
+                .setPositiveButton(R.string.okay, (dialog, id) -> {
+                })
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {
+                    // User cancelled the dialog
+                });
+        builder.create().show();
     }
 
     private void saveGame() {

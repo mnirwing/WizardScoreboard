@@ -58,6 +58,17 @@ public class DataHolder {
         return playersById;
     }
 
+    public List<String> getPlayerNames(List<Player> players) {
+        List<String> playerNames = new ArrayList<>();
+        if (players == null) {
+            return playerNames;
+        }
+        for (Player player : players) {
+            playerNames.add(player.getName());
+        }
+        return playerNames;
+    }
+
     public void addPlayer(Player player) {
         this.getPlayers().add(player);
     }

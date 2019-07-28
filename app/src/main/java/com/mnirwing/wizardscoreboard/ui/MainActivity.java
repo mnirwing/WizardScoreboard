@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         data = DataHolder.getInstance();
-
+        loadSampleData();
         if (!data.isLoaded()) {
             data.load(this);
 //            if (data.getPlayers().isEmpty() || data.getGames().isEmpty()) {
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         data.addPlayer(new Player("Friedhelm", "Friddi"));
 
         Game game = new Game(data.getPlayers());
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < 9; i++) {
             Round round = new Round();
             Move move1 = new Move(data.getPlayers().get(0).getId(), game.getId(),
                     (int) (Math.random() * 4));
@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         }
         game.calculateAllTotalScores();
         data.setGame(game);
+        data.save(this);
     }
 
     @Override

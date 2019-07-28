@@ -36,4 +36,5 @@
   <string name="edit">Edit</string>
   <string name="dialog_delete_player">The players statistics and the current game will be deleted if the player is involved. Are you sure?</string>
   <string name="create_game">Create Game</string>
+  <string name="dialog_game_won">%1$s have/has won the game!</string>
 </resources>

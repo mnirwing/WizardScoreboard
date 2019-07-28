@@ -12,7 +12,7 @@ public class Move {
 
     private int guess;
 
-    private int tricks;
+    private Integer tricks;
 
     private int score;
 
@@ -22,6 +22,7 @@ public class Move {
         this.playerId = playerId;
         this.gameId = gameId;
         this.guess = guess;
+        this.tricks = null;
     }
 
     public void setId(UUID id) {
@@ -37,8 +38,12 @@ public class Move {
         }
     }
 
-    public int getTricks() {
+    public Integer getTricks() {
         return tricks;
+    }
+
+    public boolean isMoveCompleted() {
+        return tricks != null;
     }
 
     public UUID getId() {

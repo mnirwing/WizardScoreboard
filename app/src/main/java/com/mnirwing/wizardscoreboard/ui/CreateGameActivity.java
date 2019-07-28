@@ -2,7 +2,6 @@ package com.mnirwing.wizardscoreboard.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -41,7 +40,8 @@ public class CreateGameActivity extends AppCompatActivity {
         listViewCreateGame = findViewById(R.id.listViewCreateGamePlayers);
 
         buttonCreateGame.setEnabled(enoughPlayersAdded());
-        adapter = new ArrayAdapter<>(this, R.layout.layout_listview, getPlayerNames());
+        adapter = new ArrayAdapter<>(this, R.layout.layout_listview,
+                this.data.getPlayerNames(playersInGame));
         listViewCreateGame.setAdapter(adapter);
 
         buttonAddPlayer.setOnClickListener(e -> {
@@ -71,21 +71,10 @@ public class CreateGameActivity extends AppCompatActivity {
         int playerPosition = (int) data.getExtras().get("position");
         this.playersInGame.add(this.data.getPlayers().get(playerPosition));
         adapter.clear();
-        adapter.addAll(getPlayerNames());
+        adapter.addAll(this.data.getPlayerNames(playersInGame));
         buttonCreateGame.setEnabled(enoughPlayersAdded());
     }
 
-    private List<String> getPlayerNames() {
-        Log.d(TAG, "getPlayerNames: ");
-        List<String> playerNames = new ArrayList<>();
-        if (playersInGame == null) {
-            return playerNames;
-        }
-        for (Player player : playersInGame) {
-            playerNames.add(player.getName());
-        }
-        return playerNames;
-    }
 
     private boolean enoughPlayersAdded() {
         return playersInGame.size() >= 3 && playersInGame.size() <= 6;
