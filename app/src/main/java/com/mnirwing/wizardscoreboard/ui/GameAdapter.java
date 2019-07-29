@@ -27,6 +27,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
     private List<Round> rounds;
 
     private boolean displayGuessesInCurrentRound;
+    private boolean finalRound;
 
     private OnRoundClickListener onRoundClickListener;
 
@@ -45,7 +46,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
     public GameHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: Players:  " + playersInGame.size());
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_game_6player_listitem, parent, false);
+                .inflate(R.layout.layout_game_listitem, parent, false);
 
         initializeGuidelines(itemView);
 
@@ -64,8 +65,8 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
                     (isPositionCurrentRound(position) && displayGuessesInCurrentRound)
                             || !isPositionCurrentRound(position) ?
                             Integer.toString(roundAtPosition.getMoves().get(i).getGuess()) : "-";
-            String totalScoreToDisplay = !isPositionCurrentRound(position) ? Integer
-                    .toString(roundAtPosition.getMoves().get(i).getTotalScore()) : "-";
+            String totalScoreToDisplay = !isPositionCurrentRound(position) || finalRound ?
+                    Integer.toString(roundAtPosition.getMoves().get(i).getTotalScore()) : "-";
             holder.textViewPlayerGuesses[i].setText(guessToDisplay);
             holder.textViewPlayerScores[i].setText(totalScoreToDisplay);
             holder.textViewPlayerScores[i]
@@ -114,6 +115,10 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
         displayGuessesInCurrentRound = false;
         Log.d(TAG, "notifyRoundAdded: Size:" + (rounds.size() - 1));
         notifyItemInserted(rounds.size() - 1);
+    }
+
+    public void notifyFinalRound() {
+        finalRound = true;
     }
 
     public void notifyTotalScoresChangedAfterRound(int roundIndex) {

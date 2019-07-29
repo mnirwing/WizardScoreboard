@@ -1,12 +1,9 @@
 package com.mnirwing.wizardscoreboard.data;
 
-import android.util.Log;
 import java.io.Serializable;
 import java.util.UUID;
 
 public class Player implements Serializable {
-
-    private static final String TAG = "Player";
 
     private UUID id;
 
@@ -15,7 +12,6 @@ public class Player implements Serializable {
     private String nickname;
 
     public Player(String name, String nickname) {
-        Log.d(TAG, "created Player: " + name);
         this.id = UUID.randomUUID();
         this.name = name;
         this.nickname = nickname;
@@ -43,5 +39,14 @@ public class Player implements Serializable {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", nickname='" + nickname + '\'' +
+                '}';
     }
 }

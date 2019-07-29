@@ -116,6 +116,10 @@ public class Game implements Serializable {
         return this.rounds.get(rounds.size() - 1);
     }
 
+    /**
+     * Calculates the total score of every round with equal or higher index than the specified start
+     * index.
+     */
     public void calculateTotalScores(int calculateRoundStartIndex) {
         if (this.rounds.size() == 0) {
             return;

@@ -12,7 +12,7 @@ public class DataHolderTest {
     private DataHolder data = DataHolder.getInstance();
 
     @Before
-    public void setup() {
+    public void setUp() {
         data.addPlayer(new Player("Test1", "t1"));
         data.addPlayer(new Player("Test2", "t2"));
         data.addPlayer(new Player("Test3", "t3"));
@@ -54,24 +54,24 @@ public class DataHolderTest {
                 Arrays.asList(data.getPlayers().get(0).getId(), data.getPlayers().get(1).getId(),
                         data.getPlayers().get(2).getId(), data.getPlayers().get(3).getId(),
                         data.getPlayers().get(4).getId(), data.getPlayers().get(5).getId()));
-        assertEquals(null, players.get(0).getId().toString(),
+        assertEquals(players.get(0).getId().toString(),
                 data.getPlayers().get(0).getId().toString());
-        assertEquals(null, players.get(1).getId().toString(),
+        assertEquals(players.get(1).getId().toString(),
                 data.getPlayers().get(1).getId().toString());
-        assertEquals(null, players.get(2).getId().toString(),
+        assertEquals(players.get(2).getId().toString(),
                 data.getPlayers().get(2).getId().toString());
-        assertEquals(null, players.get(3).getId().toString(),
+        assertEquals(players.get(3).getId().toString(),
                 data.getPlayers().get(3).getId().toString());
-        assertEquals(null, players.get(4).getId().toString(),
+        assertEquals(players.get(4).getId().toString(),
                 data.getPlayers().get(4).getId().toString());
-        assertEquals(null, players.get(5).getId().toString(),
+        assertEquals(players.get(5).getId().toString(),
                 data.getPlayers().get(5).getId().toString());
     }
 
     @Test
-    public void getOnePlayersById() {
+    public void getOnePlayerById() {
         List<Player> player = data.getPlayersById(Arrays.asList(data.getPlayers().get(0).getId()));
-        assertEquals(null, player.get(0).getId().toString(),
+        assertEquals(player.get(0).getId().toString(),
                 data.getPlayers().get(0).getId().toString());
     }
 
@@ -79,13 +79,35 @@ public class DataHolderTest {
     public void getTwoPlayersById() {
         List<Player> players = data.getPlayersById(
                 Arrays.asList(data.getPlayers().get(2).getId(), data.getPlayers().get(4).getId()));
-        assertEquals(null, players.get(0).getId().toString(),
+        assertEquals(players.get(0).getId().toString(),
                 data.getPlayers().get(2).getId().toString());
-        assertEquals(null, players.get(1).getId().toString(),
+        assertEquals(players.get(1).getId().toString(),
                 data.getPlayers().get(4).getId().toString());
     }
 
     @Test
     public void getPlayerNames() {
+        List<String> playerNames = data.getPlayerNames(
+                Arrays.asList(data.getPlayers().get(3), data.getPlayers().get(1),
+                        data.getPlayers().get(4)));
+        assertEquals(playerNames.get(0), "Test4");
+        assertEquals(playerNames.get(1), "Test2");
+        assertEquals(playerNames.get(2), "Test5");
+    }
+
+    @Test
+    public void getPlayerName() {
+        List<String> playerNames = data.getPlayerNames(Arrays.asList(data.getPlayers().get(3)));
+        assertEquals(playerNames.get(0), "Test4");
+    }
+
+    @Test
+    public void getPlayerNamesByPlayersById() {
+        List<String> playerNames = data.getPlayerNames(data.getPlayersById(
+                Arrays.asList(data.getPlayers().get(1).getId(), data.getPlayers().get(5).getId(),
+                        data.getPlayers().get(2).getId())));
+        assertEquals(playerNames.get(0), "Test2");
+        assertEquals(playerNames.get(1), "Test6");
+        assertEquals(playerNames.get(2), "Test3");
     }
 }

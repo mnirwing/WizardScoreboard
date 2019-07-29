@@ -16,7 +16,7 @@ public class Move {
 
     private int score;
 
-    private int totalScore;
+    private Integer totalScore;
 
     public Move(UUID playerId, UUID gameId, int guess) {
         this.playerId = playerId;
@@ -70,7 +70,7 @@ public class Move {
         return score;
     }
 
-    public int getTotalScore() {
+    public Integer getTotalScore() {
         return totalScore;
     }
 

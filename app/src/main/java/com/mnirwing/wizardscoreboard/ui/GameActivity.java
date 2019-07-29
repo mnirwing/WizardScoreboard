@@ -3,7 +3,6 @@ package com.mnirwing.wizardscoreboard.ui;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -173,13 +172,13 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
                 if (!game.isFinished()) {
                     addEmptyRound();
                 } else {
-                    adapter.notifyItemChanged(roundIndex);
+                    adapter.notifyFinalRound();
                     showWinDialog();
                 }
-                saveGame();
             } else {
                 adapter.notifyTotalScoresChangedAfterRound(roundIndex);
             }
+            saveGame();
         }
     }
 
@@ -201,7 +200,7 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     private void addEmptyRound() {
         Round emptyRound = new Round();
         for (int i = 0; i < playersInGame.size(); i++) {
-            emptyRound.addMoves(new Move(playersInGame.get(0).getId(), game.getId(), 0));
+            emptyRound.addMoves(new Move(playersInGame.get(i).getId(), game.getId(), 0));
         }
         data.getGame().addRound(emptyRound);
         adapter.notifyRoundAdded();
@@ -209,19 +208,11 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     }
 
     private void showWinDialog() {
-        Log.d(TAG, "showWinDialog: PLAYERS: " + data.getPlayers());
-        Log.d(TAG, "showWinDialog: _____________________________________");
-        Log.d(TAG, "showWinDialog: WINNER: " + game.getWinner());
-        Log.d(TAG, "showWinDialog: _____________________________________");
-        Log.d(TAG, "showWinDialog: PLAYERS BY ID: " + data.getPlayersById(game.getWinner()));
-        Log.d(TAG, "showWinDialog: _____________________________________");
-        Log.d(TAG, "showWinDialog: PLAYER NAMES: " + data
-                .getPlayerNames(data.getPlayersById(game.getWinner())));
-        List<String> players = data.getPlayerNames(data.getPlayersById(game.getWinner()));
-        String winner = players.get(0);
-        if (players.size() > 1) {
-            for (int i = 1; i < players.size(); i++) {
-                winner = winner.concat(", " + players.get(i));
+        List<String> playerNames = data.getPlayerNames(data.getPlayersById(game.getWinner()));
+        String winner = playerNames.get(0);
+        if (playerNames.size() > 1) {
+            for (int i = 1; i < playerNames.size(); i++) {
+                winner = winner.concat(", " + playerNames.get(i));
             }
         }
 
