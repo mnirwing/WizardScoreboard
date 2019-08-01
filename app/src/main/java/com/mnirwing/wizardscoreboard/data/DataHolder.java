@@ -80,6 +80,9 @@ public class DataHolder {
     }
 
     public void deleteGameIfPlayerIsInvolved(Player involvedPlayer) {
+        if (game == null) {
+            return;
+        }
         if (game.getPlayerIds().contains(involvedPlayer.getId())) {
             this.game = null;
         }
