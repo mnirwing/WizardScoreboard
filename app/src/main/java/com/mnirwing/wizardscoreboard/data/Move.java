@@ -2,6 +2,10 @@ package com.mnirwing.wizardscoreboard.data;
 
 import java.util.UUID;
 
+/**
+ * A move is linked to a player and game via UUID. It contains the amount of guesses, tricks, the
+ * score of the move itself and the total score which is calculated in {@link Game}.
+ */
 public class Move {
 
     private UUID id;

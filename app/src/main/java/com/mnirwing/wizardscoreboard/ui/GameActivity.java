@@ -116,13 +116,13 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     }
 
     @Override
-    public boolean onRoundClick(int position, boolean selected) {
-        if (position != game.getRounds().size() - 1 && selected) {
+    public boolean onRoundClick(int position, boolean rowAlreadySelected) {
+        if (position != game.getRounds().size() - 1 && rowAlreadySelected) {
             currentlyHighlightedRound = position;
         } else {
             currentlyHighlightedRound = -1;
         }
-        editAction.setVisible(selected);
+        editAction.setVisible(rowAlreadySelected);
         return false;
     }
 
@@ -144,42 +144,43 @@ public class GameActivity extends AppCompatActivity implements BidOrTrickDialogL
     }
 
     @Override
-    public void applyBidsOrTricks(boolean dialogWasInBidMode, boolean dialogWasInEditMode,
+    public void applyBids(boolean dialogWasInEditMode,
             int roundIndex, List<Integer> values) {
-        if (dialogWasInBidMode) {
-            isBiddingPhaseDone = true;
-            buttonGameTricks.setEnabled(true);
+        isBiddingPhaseDone = true;
+        buttonGameTricks.setEnabled(true);
 
-            for (int i = 0; i < game.getRounds().get(roundIndex).getMoves().size(); i++) {
-                game.getRounds().get(roundIndex).getMoves().get(i).setGuess(values.get(i));
-            }
-            adapter.notifyRoundGuessUpdated(roundIndex);
-            if (showTrickDialogAfterBidDialogIsDone) {
-                showTrickDialogWithValues(true, game.getRoundTrickValues(editedRoundIndex),
-                        editedRoundIndex);
-                showTrickDialogAfterBidDialogIsDone = false;
+        for (int i = 0; i < game.getRounds().get(roundIndex).getMoves().size(); i++) {
+            game.getRounds().get(roundIndex).getMoves().get(i).setGuess(values.get(i));
+        }
+        adapter.notifyRoundGuessUpdated(roundIndex);
+        if (showTrickDialogAfterBidDialogIsDone) {
+            showTrickDialogWithValues(true, game.getRoundTrickValues(editedRoundIndex),
+                    editedRoundIndex);
+            showTrickDialogAfterBidDialogIsDone = false;
+        }
+    }
+
+    @Override
+    public void applyTricks(boolean dialogWasInEditMode, int roundIndex, List<Integer> values) {
+        isBiddingPhaseDone = false;
+        buttonGameTricks.setEnabled(false);
+        for (int i = 0; i < game.getRounds().get(roundIndex).getMoves().size(); i++) {
+            game.getRounds().get(roundIndex).getMoves().get(i)
+                    .setTricksAndCalculateScore(values.get(i));
+        }
+        game.calculateTotalScores(roundIndex);
+        if (!dialogWasInEditMode) {
+            adapter.notifyRoundTricksUpdated(roundIndex);
+            if (!game.isFinished()) {
+                addEmptyRound();
+            } else {
+                adapter.notifyFinalRound();
+                showWinDialog();
             }
         } else {
-            isBiddingPhaseDone = false;
-            buttonGameTricks.setEnabled(false);
-            for (int i = 0; i < game.getRounds().get(roundIndex).getMoves().size(); i++) {
-                game.getRounds().get(roundIndex).getMoves().get(i)
-                        .setTricksAndCalculateScore(values.get(i));
-            }
-            game.calculateTotalScores(roundIndex);
-            if (!dialogWasInEditMode) {
-                adapter.notifyRoundTricksUpdated(roundIndex);
-                if (!game.isFinished()) {
-                    addEmptyRound();
-                } else {
-                    adapter.notifyFinalRound();
-                    showWinDialog();
-                }
-            } else {
-                adapter.notifyTotalScoresChangedAfterRound(roundIndex);
-            }
-            saveGame();
+            adapter.notifyTotalScoresChangedAfterRound(roundIndex);
         }
+        saveGame();
     }
 
     private void showBidDialogWithValues(List<Integer> roundBidValues, int roundIndex) {

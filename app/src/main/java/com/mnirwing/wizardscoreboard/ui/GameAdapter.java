@@ -207,7 +207,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameHolder> {
 
         boolean onRoundLongClick(int position);
 
-        boolean onRoundClick(int position, boolean selected);
+        boolean onRoundClick(int position, boolean rowAlreadySelected);
 
     }
 

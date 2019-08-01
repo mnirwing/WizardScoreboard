@@ -30,12 +30,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         data = DataHolder.getInstance();
-        loadSampleData();
         if (!data.isLoaded()) {
             data.load(this);
-//            if (data.getPlayers().isEmpty() || data.getGames().isEmpty()) {
-//                loadSampleData();
-//            }
             data.setInitialLoad(true);
         }
 
@@ -98,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
             move5.setTricksAndCalculateScore((int) (Math.random() * 4));
             move6.setTricksAndCalculateScore((int) (Math.random() * 4));
             round.addMoves(move1, move2, move3, move4, move5, move6);
-//            round.addMoves(move1, move2, move3, move4);
             game.addRound(round);
         }
         game.calculateAllTotalScores();

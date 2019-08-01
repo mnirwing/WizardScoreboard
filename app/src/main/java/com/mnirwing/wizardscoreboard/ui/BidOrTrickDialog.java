@@ -15,6 +15,11 @@ import com.shawnlin.numberpicker.NumberPicker;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This dialog is used for adding the bids and tricks to a given round, which is passed in the
+ * constructor. Existing rounds can also be edited by setting the dialogInEditMode flag in the
+ * constructor and passing some values to be preset.
+ */
 public class BidOrTrickDialog extends DialogFragment {
 
     private static final String TAG = "BidOrTrickDialog";
@@ -30,6 +35,13 @@ public class BidOrTrickDialog extends DialogFragment {
     private int roundIndex;
     private List<Integer> editValues;
 
+    /**
+     * Constructor used to add bids or tricks to a new round, depending on the flag, with no
+     * presets.
+     *
+     * @param dialogInBidMode If true, add bids. If false, add tricks.
+     * @param playersInGame The players of the game.
+     */
     public BidOrTrickDialog(boolean dialogInBidMode, int roundIndex, List<Player> playersInGame) {
         this.dialogInBidMode = dialogInBidMode;
         this.roundIndex = roundIndex;
@@ -37,9 +49,16 @@ public class BidOrTrickDialog extends DialogFragment {
         this.playersInGame = playersInGame;
     }
 
+    /**
+     * Constructor used to add or edit bids or tricks depending on the flags. Presets values.
+     * @param dialogInBidMode If true, add/edit bids. If false, add/edit tricks.
+     * @param dialogInEditMode If true, edit bids/tricks.
+     * @param roundIndex The edited round.
+     * @param playersInGame The players of the game.
+     * @param editValues The values that should be preset.
+     */
     public BidOrTrickDialog(boolean dialogInBidMode, boolean dialogInEditMode, int roundIndex,
-            List<Player> playersInGame,
-            List<Integer> editValues) {
+            List<Player> playersInGame, List<Integer> editValues) {
         this.dialogInBidMode = dialogInBidMode;
         this.roundIndex = roundIndex;
         this.dialogInEditMode = dialogInEditMode;
@@ -55,6 +74,7 @@ public class BidOrTrickDialog extends DialogFragment {
         // Pass null as the parent view because its going in the dialog layout
         View view = inflater.inflate(R.layout.dialog_tricks, null);
         String title;
+
         if (dialogInEditMode) {
             title = dialogInBidMode ? getString(R.string.dialog_edit_bid_title)
                     : getString(R.string.dialog_edit_tricks_title);
@@ -63,6 +83,7 @@ public class BidOrTrickDialog extends DialogFragment {
             title = dialogInBidMode ? getString(R.string.dialog_add_bid_title)
                     : getString(R.string.dialog_add_tricks_title);
         }
+
         builder.setView(view)
                 .setTitle(title)
                 .setPositiveButton(android.R.string.yes, (dialog, id) -> {
@@ -70,8 +91,12 @@ public class BidOrTrickDialog extends DialogFragment {
                     for (NumberPicker np : numberPickers) {
                         values.add(np.getValue());
                     }
-                    listener.applyBidsOrTricks(dialogInBidMode, dialogInEditMode, roundIndex,
-                            values);
+                    if (dialogInBidMode) {
+                        listener.applyBids(dialogInEditMode, roundIndex, values);
+                    } else {
+                        listener.applyTricks(dialogInEditMode, roundIndex, values);
+
+                    }
                 })
                 .setNegativeButton(android.R.string.cancel,
                         (dialog, id) -> BidOrTrickDialog.this.getDialog().cancel());
@@ -128,7 +153,9 @@ public class BidOrTrickDialog extends DialogFragment {
 
     public interface BidOrTrickDialogListener {
 
-        void applyBidsOrTricks(boolean dialogWasInBidMode, boolean dialogWasInEditMode,
+        void applyBids(boolean dialogWasInEditMode,
                 int roundIndex, List<Integer> values);
+
+        void applyTricks(boolean dialogWasInEditMode, int roundIndex, List<Integer> values);
     }
 }

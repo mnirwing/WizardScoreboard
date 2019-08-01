@@ -10,6 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The {@link DataHolder} is a Singleton which is used by the entire app to fetch data. All other
+ * classes that work with data that needs to be persisted only work with references to the objects
+ * held by {@link DataHolder}. This class is also responsible to save and load the data to shared
+ * preferences.
+ */
 public class DataHolder {
 
     private static DataHolder instance;

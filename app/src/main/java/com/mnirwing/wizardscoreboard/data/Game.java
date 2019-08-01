@@ -8,6 +8,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Every game consists of 3 to 6 players, using an UUID as reference. A game contains a list of
+ * {@link Round}. The game class is mainly responsible for calculating the total scores and
+ * determining the winner.
+ */
 public class Game implements Serializable {
 
     private static final String TAG = "Game";
